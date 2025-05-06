@@ -1,8 +1,9 @@
 import * as Font from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Colors from '../constants/Colors';
-import Fonts from '../constants/fonts';
+import Fonts from '../constants/Fonts';
 
 
 export default function Welcome() {
@@ -42,10 +43,36 @@ export default function Welcome() {
 
             <Text style={styles.text}>Esteja conectado com a sua saúde!</Text>
 
-            <View>
-                <TouchableOpacity></TouchableOpacity>
-                <TouchableOpacity></TouchableOpacity>
+            <View style={styles.containerBtns}>
+                <TouchableOpacity style={styles.btn}>
+
+                    <LinearGradient
+                        colors={['#005EB7', '#4697E4']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={styles.btnGradient}
+                    >
+                        <Text style={styles.btnText}>Login</Text>
+                    </LinearGradient>
+
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btn}>
+                    <LinearGradient
+                        colors={['#005EB7', '#4697E4']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={styles.btnGradient}
+                    >
+                        <Text style={styles.btnText}>Cadastro</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
             </View>
+
+            <Image
+                source={require('../assets/images/bgWelcome.png')}
+                style={styles.logoFooter}
+            />
         </View>
     )
 }
@@ -75,8 +102,42 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'Poppins-Regular',
         textAlign: 'center',
-        color:  Colors.light.bluePrimary,
+        color: Colors.light.bluePrimary,
         fontSize: 30,
-        width: '80%',  
+        width: '80%',
+        marginBottom: 110
+    },
+    containerBtns: {
+        gap: 30,
+    },
+    btn: {
+        width: 280,
+        height: 80,
+        borderRadius: 50,
+        overflow: 'hidden',
+    },
+    btnText: {
+        color: Colors.light.textWhite,
+        fontFamily: 'Poppins-Medium',
+        fontSize: 25,
+        // zIndex: 1,
+    },
+    btnGradient: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+    },
+    logoFooter: {
+        position: 'absolute',
+        bottom: 0,
+        top: '20%',
+        // zIndex: -1,
+        resizeMode: 'contain',
+        left: 0,
+        right: 0,
+        opacity: 0.7,
+        height: '100%',
+        width: '100%'
     }
-})
+});

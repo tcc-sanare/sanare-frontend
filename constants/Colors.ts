@@ -9,7 +9,8 @@
 const Colors = {
   light: {
     background: '#F5F5F5',
-    bluePrimary: '#005EB7'
+    bluePrimary: '#005EB7',
+    textWhite: '#FFF',
   },
   dark: {
     background: '#333333',

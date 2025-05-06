@@ -20,12 +20,10 @@ export default function Index() {
     <View style={styles.container}>
       <Image
         source={require('../assets/images/splash.png')}
-        // style={styles.splashLogo}
       />
 
       <Image
         source={require('../assets/images/sanare.png')}
-        // style={styles.sanare}
       />
     </View>
   );
@@ -37,8 +35,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.light.background,
-    gap:'5%'
+    gap: '5%'
   }
-  // splashLogo:{},
-  // sanare:{}
 });
