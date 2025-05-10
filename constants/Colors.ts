@@ -25,8 +25,9 @@ const Colors = {
     background: '#F5F5F5',
     bluePrimary: '#005EB7',
     bluePrimaryOpacity: '#005EB799',
-    textWhite: '#FFF',
+    white: '#FFF',
     gray: '#D3D3D3',
+    grayOpacityBorder: '#6D6D6D66'
   },
   dark: {
     background: '#333333',

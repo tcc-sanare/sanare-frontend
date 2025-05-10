@@ -1,7 +1,7 @@
 import MaskedView from '@react-native-masked-view/masked-view';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Colors from '../constants/Colors';
@@ -29,68 +29,65 @@ export default function Welcome() {
     }
 
     return (
-        <>
-            <Stack.Screen options={{ headerShown: false }} />
 
-            <View style={styles.container}>
+        <View style={styles.container}>
+            <Image
+                source={require('../assets/images/bgWelcome.png')}
+                style={styles.logoFooter}
+            />
+
+            <View style={styles.logoContainer}>
                 <Image
-                    source={require('../assets/images/bgWelcome.png')}
-                    style={styles.logoFooter}
+                    source={require('../assets/images/logo.png')}
+                    style={styles.logo}
                 />
-
-                <View style={styles.logoContainer}>
-                    <Image
-                        source={require('../assets/images/logo.png')}
-                        style={styles.logo}
-                    />
-                    <Image
-                        source={require('../assets/images/sanare.png')}
-                        style={styles.sanare}
-                    />
-                </View>
-
-                <View style={styles.viewText}>
-                    <Text style={styles.text}>Esteja</Text>
-
-                    <MaskedView
-                        maskElement={<Text style={[styles.text, styles.gradientText]}>conectado</Text>}>
-                        <LinearGradient
-                            colors={['#005EB7', '#64AEEA']}
-                            start={{ x: 0, y: 0 }}
-                            end={{ x: 1, y: 0 }}>
-                            <Text style={[styles.text, styles.gradientText, { opacity: 0 }]}>  conectado</Text>
-                        </LinearGradient>
-                    </MaskedView>
-
-                    <Text style={styles.text}> com a sua saúde!</Text>
-                </View>
-
-                <View style={styles.containerBtns}>
-
-                    <TouchableOpacity style={styles.btn} onPress={() => router.push('./login/login')}>
-                        <LinearGradient
-                            colors={['#005EB7', '#4697E4']}
-                            start={{ x: 0, y: 0 }}
-                            end={{ x: 1, y: 0.5 }}
-                            style={styles.btnGradient}
-                        >
-                            <Text style={styles.btnText}>Login</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.btn} onPress={() => router.push('./cadastro/cadastro')}>
-                        <LinearGradient
-                            colors={['#005EB7', '#4697E4']}
-                            start={{ x: 0, y: 0 }}
-                            end={{ x: 1, y: 0.5 }}
-                            style={styles.btnGradient}
-                        >
-                            <Text style={styles.btnText}>Cadastro</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                </View>
+                <Image
+                    source={require('../assets/images/sanare.png')}
+                    style={styles.sanare}
+                />
             </View>
-        </>
+
+            <View style={styles.viewText}>
+                <Text style={styles.text}>Esteja</Text>
+
+                <MaskedView
+                    maskElement={<Text style={[styles.text, styles.gradientText]}>conectado</Text>}>
+                    <LinearGradient
+                        colors={['#005EB7', '#64AEEA']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}>
+                        <Text style={[styles.text, styles.gradientText, { opacity: 0 }]}>  conectado</Text>
+                    </LinearGradient>
+                </MaskedView>
+
+                <Text style={styles.text}> com a sua saúde!</Text>
+            </View>
+
+            <View style={styles.containerBtns}>
+
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('./login/login')}>
+                    <LinearGradient
+                        colors={['#005EB7', '#4697E4']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={styles.btnGradient}
+                    >
+                        <Text style={styles.btnText}>Login</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('./cadastro/cadastro')}>
+                    <LinearGradient
+                        colors={['#005EB7', '#4697E4']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={styles.btnGradient}
+                    >
+                        <Text style={styles.btnText}>Cadastro</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+            </View>
+        </View>
     )
 }
 
@@ -140,7 +137,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     btnText: {
-        color: Colors.light.textWhite,
+        color: Colors.light.white,
         fontFamily: 'Poppins-Medium',
         fontSize: 25,
     },

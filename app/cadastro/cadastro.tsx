@@ -29,6 +29,7 @@ export default function Cadastro() {
     }
 
     return (
+
         <View style={styles.container}>
             <Image
                 source={require('../../assets/images/bgSanare.png')}
