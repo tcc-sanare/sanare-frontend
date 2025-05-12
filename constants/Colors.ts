@@ -27,7 +27,8 @@ const Colors = {
     bluePrimaryOpacity: '#005EB799',
     white: '#FFF',
     gray: '#D3D3D3',
-    grayOpacityBorder: '#6D6D6D66'
+    grayOpacityBorder: '#6D6D6D66',
+    backgroundOpacity: '#0000004D'
   },
   dark: {
     background: '#333333',

@@ -3,18 +3,24 @@ import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Modalize } from 'react-native-modalize';
 import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
+import CustomModal from './modal';
 
-export default function login() {
-    const router = useRouter();
+export default function recuperarSenha() {
     const [isFocused, setIsFocused] = useState(false);
-    const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+    const modalRef = useRef<Modalize>(null);
+    const router = useRouter();
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
+
+    const openModal = () => {
+        modalRef.current?.open();
+    };
 
     useEffect(() => {
         async function loadFonts() {
@@ -34,7 +40,6 @@ export default function login() {
     }
 
     return (
-
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
@@ -58,13 +63,12 @@ export default function login() {
                         />
                     </TouchableOpacity>
 
-                    <View style={styles.viewText}>
-                        <Text style={styles.textlogin}>Login</Text>
+                    <View style={styles.body}>
 
-                        <Text style={styles.text}>Preencha as credenciais abaixo para logar em sua conta.</Text>
-                    </View>
-
-                    <View style={styles.viewLogin}>
+                        <View style={styles.viewText}>
+                            <Text style={styles.titulo}>Esqueceu sua senha?</Text>
+                            <Text style={styles.text}>Digite seu e-mail para redefini-la.</Text>
+                        </View>
 
                         <View style={styles.view}>
                             <Text style={styles.label}>Email</Text>
@@ -87,48 +91,25 @@ export default function login() {
                             </View>
                         </View>
 
-                        <View style={styles.view}>
-                            <Text style={styles.label}>Senha</Text>
+                        <View style={styles.viewBtn}>
 
-                            <View style={[styles.input, isFocusedPassword && styles.inputFocused]}>
-                                <TextInput
-                                    style={styles.textInput}
-                                    placeholder='Digite sua senha'
-                                    placeholderTextColor={Colors.light.grayOpacityBorder}
-                                    secureTextEntry={!senhaVisivel}
-                                    onFocus={() => setIsFocusedPassword(true)}
-                                    onBlur={() => setIsFocusedPassword(false)}
-                                />
-
-                                <TouchableOpacity style={styles.icon} onPress={() => setSenhaVisivel(!senhaVisivel)}>
-                                    <Ionicons
-                                        name={senhaVisivel ? 'eye' : 'eye-off'}
-                                        size={28}
-                                        color={Colors.light.bluePrimary}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-
-                        <View style={styles.viewForgotPassword}>
-                            <TouchableOpacity onPress={() => router.push('../password/recuperarSenha')}>
-                                <Text style={styles.textForgotPassword}>Esqueceu sua senha?</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <View style={styles.viewBtn}>
-                        <TouchableOpacity style={styles.btn} onPress={() => router.push('./')}>
-                            <LinearGradient
-                                colors={['#005EB7', '#4697E4']}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 0.5 }}
-                                style={styles.btnGradient}
+                            <TouchableOpacity
+                                style={styles.btn}
+                                onPress={openModal}
                             >
-                                <Text style={styles.btnText}>Continuar</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
+                                <LinearGradient
+                                    colors={['#005EB7', '#4697E4']}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0.5 }}
+                                    style={styles.btnGradient}
+                                >
+                                    <Text style={styles.btnText}>Continuar</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+
+                        </View>
                     </View>
+                    <CustomModal ref={modalRef} />
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -154,29 +135,30 @@ const styles = StyleSheet.create({
     seta: {
         margin: 45,
         resizeMode: 'contain',
-        marginBottom: '15%'
+        marginBottom: '30%'
+    },
+    body: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     viewText: {
         justifyContent: "center",
         alignItems: "center",
-        gap: 25,
+        width: '65%',
+        gap: 10,
         marginBottom: '25%'
     },
-    textlogin: {
+    titulo: {
         color: Colors.light.bluePrimary,
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 35,
+        textAlign: 'center',
+        fontSize: 40,
+        fontFamily: 'Poppins-SemiBold'
     },
     text: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 18,
         textAlign: 'center',
-        width: 300
-    },
-    viewLogin: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 20,
+        width: '80%',
+        fontSize: 18,
+        fontFamily: 'Poppins-Regular',
     },
     label: {
         fontFamily: 'Poppins-SemiBold',
@@ -184,6 +166,7 @@ const styles = StyleSheet.create({
         color: Colors.light.bluePrimary,
     },
     view: {
+        marginBottom: 100,
         justifyContent: "center",
     },
     input: {
@@ -193,8 +176,8 @@ const styles = StyleSheet.create({
         borderColor: Colors.light.grayOpacityBorder,
         borderRadius: 15,
         marginTop: 10,
-        paddingRight: 15,
         paddingLeft: 20,
+        paddingRight: 15,
         backgroundColor: Colors.light.white,
         flexDirection: 'row',
         alignItems: 'center',
@@ -211,17 +194,6 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginLeft: 10,
-    },
-    viewForgotPassword: {
-        width: '80%',
-        alignItems: 'flex-end',
-        marginBottom: '20%',
-    },
-    textForgotPassword: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 18,
-        color: Colors.light.bluePrimary,
-        textDecorationLine: 'underline',
     },
     viewBtn: {
         justifyContent: 'center',
