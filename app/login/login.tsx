@@ -118,7 +118,7 @@ export default function login() {
                     </View>
 
                     <View style={styles.viewBtn}>
-                        <TouchableOpacity style={styles.btn} onPress={() => router.push('./')}>
+                        <TouchableOpacity style={styles.btn} onPress={() => router.push('../logado/home')}>
                             <LinearGradient
                                 colors={['#005EB7', '#CEECF5']}
                                 start={{ x: 0, y: 0 }}

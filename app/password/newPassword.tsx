@@ -12,8 +12,12 @@ export default function newPassword() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
+    const [ConfirmsenhaVisivel, setConfirmSenhaVisivel] = useState(false);
+    const [senha, setSenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [erroSenha, setErroSenha] = useState('');
     const router = useRouter();
-    const [isFocused, setIsFocused] = useState(false);
+    const [isFocusedPasswordConfirm, setIsFocusedPasswordConfirm] = useState(false);
     const [isFocusedPassword, setIsFocusedPassword] = useState(false);
 
     useEffect(() => {
@@ -57,6 +61,8 @@ export default function newPassword() {
                             secureTextEntry={!senhaVisivel}
                             onFocus={() => setIsFocusedPassword(true)}
                             onBlur={() => setIsFocusedPassword(false)}
+                            value={senha}
+                            onChangeText={setSenha}
                         />
 
                         <TouchableOpacity style={styles.icon} onPress={() => setSenhaVisivel(!senhaVisivel)}>
@@ -72,30 +78,47 @@ export default function newPassword() {
                 <View>
                     <Text style={styles.label}>Confirmar senha</Text>
 
-                    <View style={[styles.input, isFocusedPassword && styles.inputFocused]}>
+                    <View style={[styles.input, isFocusedPasswordConfirm && styles.inputFocused]}>
 
                         <TextInput
                             style={styles.textInput}
                             placeholder='Confirme sua senha'
                             placeholderTextColor={Colors.light.grayOpacityBorder}
-                            secureTextEntry={!senhaVisivel}
-                            onFocus={() => setIsFocusedPassword(true)}
-                            onBlur={() => setIsFocusedPassword(false)}
+                            secureTextEntry={!ConfirmsenhaVisivel}
+                            onFocus={() => setIsFocusedPasswordConfirm(true)}
+                            onBlur={() => setIsFocusedPasswordConfirm(false)}
+                            value={confirmarSenha}
+                            onChangeText={setConfirmarSenha}
                         />
 
-                        <TouchableOpacity style={styles.icon} onPress={() => setSenhaVisivel(!senhaVisivel)}>
+                        <TouchableOpacity style={styles.icon} onPress={() => setConfirmSenhaVisivel(!ConfirmsenhaVisivel)}>
                             <Ionicons
-                                name={senhaVisivel ? 'eye' : 'eye-off'}
+                                name={ConfirmsenhaVisivel ? 'eye' : 'eye-off'}
                                 size={28}
                                 color={Colors.light.bluePrimary}
                             />
                         </TouchableOpacity>
                     </View>
                 </View>
+                {erroSenha !== '' && (
+                    <Text style={styles.errorText}>
+                        {erroSenha}
+                    </Text>
+                )}
+
             </View>
 
             <View style={styles.viewBtn}>
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('../login/login')}>
+                <TouchableOpacity style={styles.btn} onPress={() => {
+                    if (!senha || !confirmarSenha) {
+                        setErroSenha('Preencha os dois campos.');
+                    } else if (senha !== confirmarSenha) {
+                        setErroSenha('As senhas inseridas devem ser iguais.');
+                    } else {
+                        setErroSenha('');
+                        router.push('../login/login');
+                    }
+                }}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}
@@ -174,6 +197,13 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginLeft: 10,
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
+        marginTop: 5,
+        marginLeft: 5,
     },
     viewBtn: {
         justifyContent: 'center',
