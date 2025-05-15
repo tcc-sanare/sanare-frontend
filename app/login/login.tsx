@@ -120,9 +120,9 @@ export default function login() {
                     <View style={styles.viewBtn}>
                         <TouchableOpacity style={styles.btn} onPress={() => router.push('./')}>
                             <LinearGradient
-                                colors={['#005EB7', '#4697E4']}
+                                colors={['#005EB7', '#CEECF5']}
                                 start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 0.5 }}
+                                end={{ x: 1, y: 3.8 }}
                                 style={styles.btnGradient}
                             >
                                 <Text style={styles.btnText}>Continuar</Text>

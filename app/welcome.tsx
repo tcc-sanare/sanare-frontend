@@ -67,9 +67,9 @@ export default function Welcome() {
 
                 <TouchableOpacity style={styles.btn} onPress={() => router.push('./login/login')}>
                     <LinearGradient
-                        colors={['#005EB7', '#4697E4']}
+                        colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0.5 }}
+                        end={{ x: 1, y: 3.8 }}
                         style={styles.btnGradient}
                     >
                         <Text style={styles.btnText}>Login</Text>
@@ -78,9 +78,9 @@ export default function Welcome() {
 
                 <TouchableOpacity style={styles.btn} onPress={() => router.push('./cadastro/cadastro')}>
                     <LinearGradient
-                        colors={['#005EB7', '#4697E4']}
+                        colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0.5 }}
+                        end={{ x: 1, y: 3.8 }}
                         style={styles.btnGradient}
                     >
                         <Text style={styles.btnText}>Cadastro</Text>

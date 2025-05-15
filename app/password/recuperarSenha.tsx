@@ -4,7 +4,7 @@ import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
@@ -15,6 +15,8 @@ export default function recuperarSenha() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
     const navigation = useNavigation();
+    const [emailError, setEmailError] = useState('');
+    const [email, setEmail] = useState('');
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
 
@@ -38,6 +40,12 @@ export default function recuperarSenha() {
             </View>
         );
     }
+
+    const isValidEmail = (email: string): boolean => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
 
     return (
         <KeyboardAvoidingView
@@ -80,6 +88,8 @@ export default function recuperarSenha() {
                                     placeholderTextColor={Colors.light.grayOpacityBorder}
                                     onFocus={() => setIsFocused(true)}
                                     onBlur={() => setIsFocused(false)}
+                                    value={email}
+                                    onChangeText={setEmail}
                                 />
 
                                 <Ionicons
@@ -89,18 +99,36 @@ export default function recuperarSenha() {
                                     color={Colors.light.bluePrimary}
                                 />
                             </View>
+                            {emailError ? (
+                                <Text style={styles.errorText}>{emailError}</Text>
+                            ) : null}
+
                         </View>
 
                         <View style={styles.viewBtn}>
 
                             <TouchableOpacity
                                 style={styles.btn}
-                                onPress={openModal}
+                                onPress={() => {
+                                    Keyboard.dismiss();
+                                    if (!email.trim()) {
+                                        setEmailError('Por favor, preencha o campo de e-mail.');
+                                        return;
+                                    }
+
+                                    if (!isValidEmail(email)) {
+                                        setEmailError('Digite um e-mail válido.');
+                                        return;
+                                    }
+
+                                    setEmailError('');
+                                    openModal();
+                                }}
                             >
                                 <LinearGradient
-                                    colors={['#005EB7', '#4697E4']}
+                                    colors={['#005EB7', '#CEECF5']}
                                     start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0.5 }}
+                                    end={{ x: 1, y: 3.8 }}
                                     style={styles.btnGradient}
                                 >
                                     <Text style={styles.btnText}>Continuar</Text>
@@ -109,7 +137,7 @@ export default function recuperarSenha() {
 
                         </View>
                     </View>
-                    <CustomModal ref={modalRef} />
+                    <CustomModal ref={modalRef} email={email} />
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -194,6 +222,13 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginLeft: 10,
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
+        marginTop: 5,
+        marginLeft: 5,
     },
     viewBtn: {
         justifyContent: 'center',
