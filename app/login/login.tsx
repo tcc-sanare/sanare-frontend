@@ -51,7 +51,7 @@ export default function login() {
                         style={styles.logoFooter}
                     />
 
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <TouchableOpacity  onPress={() => router.push('../welcome')}>
                         <Image
                             source={require('../../assets/images/seta.png')}
                             style={styles.seta}
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         gap: 25,
-        marginBottom: '25%'
+        marginBottom: '20%'
     },
     textlogin: {
         color: Colors.light.bluePrimary,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     viewForgotPassword: {
         width: '80%',
         alignItems: 'flex-end',
-        marginBottom: '20%',
+        marginBottom: '15%',
     },
     textForgotPassword: {
         fontFamily: 'Poppins-Regular',

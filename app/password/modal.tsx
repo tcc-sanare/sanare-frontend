@@ -86,7 +86,7 @@ const CustomModal = forwardRef<Modalize, CustomModalProps>(({ email }, ref) => {
                     </View>
 
                     <View style={styles.viewBtn}>
-                        <TouchableOpacity style={styles.btn} onPress={() => router.push('./')}>
+                        <TouchableOpacity style={styles.btn} onPress={() => router.push('./newPassword')}>
                             <LinearGradient
                                 colors={['#005EB7', '#CEECF5']}
                                 start={{ x: 0, y: 0 }}
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         paddingHorizontal: 10,
         width: '100%',
-        marginBottom: '20%',
+        marginBottom: '10%',
 
     },
     codeInput: {
