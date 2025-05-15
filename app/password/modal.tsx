@@ -56,7 +56,7 @@ const CustomModal = forwardRef<Modalize, CustomModalProps>(({ email }, ref) => {
     return (
         <Modalize
             ref={ref}
-            modalHeight={screenHeight * 0.65}
+            modalHeight={screenHeight * 0.60}
             overlayStyle={styles.overlay}
             modalStyle={styles.modal}
             keyboardAvoidingBehavior="padding" avoidKeyboardLikeIOS
@@ -97,6 +97,9 @@ const CustomModal = forwardRef<Modalize, CustomModalProps>(({ email }, ref) => {
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
+
+
+                    <Text style={styles.resend}>Não recebeu o código? <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline', }}>Reenviar(10)</Text></Text>
                 </View>
             </KeyboardAvoidingView>
 
@@ -161,6 +164,7 @@ const styles = StyleSheet.create({
     viewBtn: {
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 30,
 
     },
     btn: {
@@ -180,5 +184,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 50,
     },
+    resend: {
+        fontFamily: 'Poppins-Regular',
+        fontSize: 16
+    }
 
 });
