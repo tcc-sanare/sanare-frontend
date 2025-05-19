@@ -5,16 +5,16 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
-import StepBar from './StepBar';
+// import StepBar from './StepBar';
 
-type UserRole = 'dependente' | 'responsavel' | 'responsavelNao' | 'comum';
+// type UserRole = 'dependente' | 'responsavel' | 'responsavelNao' | 'comum';
 
-const stepCountByRole: Record<UserRole, number> = {
-    dependente: 5,
-    responsavel: 6,
-    responsavelNao: 5,
-    comum: 5,
-};
+// const stepCountByRole: Record<UserRole, number> = {
+//     dependente: 5,
+//     responsavel: 6,
+//     responsavelNao: 5,
+//     comum: 5,
+// };
 
 export default function Cadastro() {
     const router = useRouter();
@@ -56,7 +56,8 @@ export default function Cadastro() {
             <View style={styles.body}>
                 <View style={styles.cadastroContainer}>
                     <Text style={styles.textCadastro}>Cadastro</Text>
-                    <StepBar totalSteps={5} currentStep={1} />
+                    <Text>StepBar forms</Text>
+                    {/* <StepBar totalSteps={5} currentStep={1} /> */}
                 </View>
 
                 <View style={styles.viewText}>
