@@ -66,7 +66,7 @@ export default function Cadastro() {
 
                 <View style={styles.viewBtn}>
                     <Pressable
-                        onPress={() => router.push('./responsavelCadastro')}
+                        onPress={() => router.push('./credentialsResponsavel')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado
@@ -76,7 +76,7 @@ export default function Cadastro() {
                     </Pressable>
 
                     <Pressable
-                        onPress={() => router.push('./dependenteCadastro')}
+                        onPress={() => router.push('./credentialsDependente')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado
@@ -86,7 +86,7 @@ export default function Cadastro() {
                     </Pressable>
 
                     <Pressable
-                        onPress={() => router.push('./userCadastro')}
+                        onPress={() => router.push('./credentialsUser')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado

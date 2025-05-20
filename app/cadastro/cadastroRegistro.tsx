@@ -1,14 +1,14 @@
 import Colors from '@/constants/Colors';
 import Fonts from '@/constants/Fonts';
 import * as Font from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function ResponsavelCadastro() {
+export default function cadastroRegistro() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const router = useRouter();
-
 
     useEffect(() => {
         async function loadFonts() {
@@ -26,7 +26,7 @@ export default function ResponsavelCadastro() {
             </View>
         );
     }
-
+    
     return (
         <View style={styles.container}>
             <Image
@@ -42,33 +42,25 @@ export default function ResponsavelCadastro() {
                 </View>
 
                 <View style={styles.textView}>
-                    <Text style={styles.text}>Deseja usar o Sanare para monitorar a sua saúde também?</Text>
+                    <Text style={styles.text}>Selecione oque você deseja monitorar:</Text>
                 </View>
 
-                <View style={styles.viewBtn}>
-                    <Pressable
-                        onPress={() => router.push('./doencasCadastro')}
-                        style={({ pressed }) => [
-                            styles.btn,
-                            pressed && styles.botaoPressionado
-                        ]}
-                    >
-                        <Text style={styles.textBtn}>Sim, vamos lá</Text>
-                    </Pressable>
-
-                    <Pressable
-                        onPress={() => router.push('./responsavelCadastroConcluido')}
-                        style={({ pressed }) => [
-                            styles.btn,
-                            pressed && styles.botaoPressionado
-                        ]}
-                    >
-                        <Text style={styles.textBtn}>Não, obrigado</Text>
-                    </Pressable>
+                <View style={styles.containerRegistros}>
+                    {/* ALERGIAS AQUI */}
                 </View>
+
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('./responsavelCadastroConcluido')}>
+                    <LinearGradient
+                        colors={['#005EB7', '#CEECF5']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 3.8 }}
+                        style={styles.btnGradient}
+                    >
+                        <Text style={styles.btnText}>Continuar</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
             </View>
         </View>
-
     );
 }
 
@@ -114,24 +106,24 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Poppins-Regular',
     },
-    viewBtn: {
-        gap: 30
+    containerRegistros: {
+
     },
     btn: {
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 5,
-        borderColor: Colors.light.gray,
-        backgroundColor: Colors.light.background,
-        width: 330,
-        borderRadius: 25,
+        width: 280,
         height: 70,
+        borderRadius: 50,
+        overflow: 'hidden',
     },
-    botaoPressionado: {
-        borderColor: Colors.light.bluePrimaryOpacity,
+    btnText: {
+        color: Colors.light.white,
+        fontFamily: 'Poppins-Medium',
+        fontSize: 25,
     },
-    textBtn: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 17,
-    }
+    btnGradient: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+    },
 })

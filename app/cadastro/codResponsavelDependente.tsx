@@ -32,17 +32,8 @@ export default function DependenteCadastro() {
                 style={styles.logoFooter}
             />
 
-            <View style={styles.body}>
-                <View style={styles.cadastroContainer}>
-                    <Text style={styles.textCadastro}>Cadastro</Text>
-                    <Text>StepBar forms</Text>
-                    {/* <StepBar totalSteps={5} currentStep={1} /> */}
-                </View>
-
-                <View style={styles.textView}>
-                    <Text style={styles.text}>Selecione oque você deseja monitorar:</Text>
-                </View>
-            </View>
+            <Text>Vincular responsavel-dependente screen</Text>
+            <View style={styles.body}></View>
         </View>
     );
 }
@@ -66,27 +57,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: '32%'
-    },
-    cadastroContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '20%',
-        gap: 20
-    },
-    textCadastro: {
-        color: Colors.light.bluePrimary,
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 35
-    },
-    textView: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '20%',
-        width: '85%'
-    },
-    text: {
-        textAlign: 'center',
-        fontSize: 18,
-        fontFamily: 'Poppins-Regular',
-    },
+    }
 })

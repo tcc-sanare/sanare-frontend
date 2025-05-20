@@ -46,14 +46,14 @@ export default function responsavelCadastroConcluido() {
                 </View>
 
                 {/* PAREI AQUI!! */}
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('./login/login')}>
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/home')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 3.8 }}
                         style={styles.btnGradient}
                     >
-                        <Text style={styles.btnText}>Login</Text>
+                        <Text style={styles.btnText}>Prosseguir</Text>
                     </LinearGradient>
                 </TouchableOpacity>
             </View>
@@ -107,9 +107,10 @@ const styles = StyleSheet.create({
     },
     btn: {
         width: 280,
-        height: 80,
+        height: 70,
         borderRadius: 50,
         overflow: 'hidden',
+        marginTop: '25%'
     },
     btnText: {
         color: Colors.light.white,
