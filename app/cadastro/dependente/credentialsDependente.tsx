@@ -1,17 +1,17 @@
+import Colors from '@/constants/Colors';
+import Fonts from '@/constants/Fonts';
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Colors from '../../constants/Colors';
-import Fonts from '../../constants/Fonts';
 
-export default function credentialsResponsavel() {
+export default function credentialsDependente() {
     const router = useRouter();
     const [isFocused, setIsFocused] = useState(false);
-    const [ConfirmsenhaVisivel, setConfirmSenhaVisivel] = useState(false);
     const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+    const [ConfirmsenhaVisivel, setConfirmSenhaVisivel] = useState(false);
     const [isFocusedPasswordConfirm, setIsFocusedPasswordConfirm] = useState(false);
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
@@ -47,7 +47,7 @@ export default function credentialsResponsavel() {
 
                 <View style={styles.container}>
                     <Image
-                        source={require('../../assets/images/bgSanare.png')}
+                        source={require('../../../assets/images/bgSanare.png')}
                         style={styles.logoFooter}
                     />
 
@@ -108,13 +108,15 @@ export default function credentialsResponsavel() {
                                 <Text style={styles.label}>Confirme sua senha</Text>
 
                                 <View style={[styles.input, isFocusedPasswordConfirm && styles.inputFocused]}>
-                                <TextInput
+                                    <TextInput
                                         style={styles.textInput}
                                         placeholder='Confirme sua senha'
                                         placeholderTextColor={Colors.light.grayOpacityBorder}
                                         secureTextEntry={!ConfirmsenhaVisivel}
                                         onFocus={() => setIsFocusedPasswordConfirm(true)}
                                         onBlur={() => setIsFocusedPasswordConfirm(false)}
+                                    // value={confirmarSenha}
+                                    // onChangeText={setConfirmarSenha}
                                     />
 
                                     <TouchableOpacity style={styles.icon} onPress={() => setConfirmSenhaVisivel(!ConfirmsenhaVisivel)}>
@@ -129,7 +131,7 @@ export default function credentialsResponsavel() {
                         </View>
 
                         <View style={styles.viewBtn}>
-                            <TouchableOpacity style={styles.btn} onPress={() => router.push('./responsavelCadastro')}>
+                            <TouchableOpacity style={styles.btn} onPress={() => router.push('./codResponsavelDependente')}>
                                 <LinearGradient
                                     colors={['#005EB7', '#CEECF5']}
                                     start={{ x: 0, y: 0 }}

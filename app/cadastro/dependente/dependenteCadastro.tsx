@@ -28,7 +28,7 @@ export default function DependenteCadastro() {
     return (
         <View style={styles.container}>
             <Image
-                source={require('../../assets/images/bgSanare.png')}
+                source={require('../../../assets/images/bgSanare.png')}
                 style={styles.logoFooter}
             />
 

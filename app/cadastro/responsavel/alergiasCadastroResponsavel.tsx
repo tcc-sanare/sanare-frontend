@@ -6,7 +6,7 @@ import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function alergiasCadastro() {
+export default function alergiasCadastroResponsavel() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const router = useRouter();
 
@@ -32,7 +32,7 @@ export default function alergiasCadastro() {
     return (
         <View style={styles.container}>
             <Image
-                source={require('../../assets/images/bgSanare.png')}
+                source={require('../../../assets/images/bgSanare.png')}
                 style={styles.logoFooter}
             />
 
@@ -51,7 +51,7 @@ export default function alergiasCadastro() {
                     {/* ALERGIAS AQUI */}
                 </View>
 
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('./cadastroRegistro')}>
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('./cadastroRegistroResponsavel')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}

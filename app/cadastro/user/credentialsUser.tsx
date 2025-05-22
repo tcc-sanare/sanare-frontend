@@ -3,18 +3,22 @@ import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Colors from '../../constants/Colors';
-import Fonts from '../../constants/Fonts';
+import { ActivityIndicator, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Colors from '../../../constants/Colors';
+import Fonts from '../../../constants/Fonts';
 
-export default function credentialsDependente() {
+export default function credentialsUser() {
     const router = useRouter();
     const [isFocused, setIsFocused] = useState(false);
-    const [isFocusedPassword, setIsFocusedPassword] = useState(false);
     const [ConfirmsenhaVisivel, setConfirmSenhaVisivel] = useState(false);
+    const [isFocusedPassword, setIsFocusedPassword] = useState(false);
     const [isFocusedPasswordConfirm, setIsFocusedPasswordConfirm] = useState(false);
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
+    const [senha, setSenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [error, setError] = useState('');
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         async function loadFonts() {
@@ -33,6 +37,11 @@ export default function credentialsDependente() {
         );
     }
 
+    const isValidEmail = (email: string): boolean => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
     return (
 
         <KeyboardAvoidingView
@@ -44,10 +53,9 @@ export default function credentialsDependente() {
                 contentContainerStyle={{ flexGrow: 1 }}
                 keyboardShouldPersistTaps="handled"
             >
-
                 <View style={styles.container}>
                     <Image
-                        source={require('../../assets/images/bgSanare.png')}
+                        source={require('../../../assets/images/bgSanare.png')}
                         style={styles.logoFooter}
                     />
 
@@ -70,6 +78,8 @@ export default function credentialsDependente() {
                                         placeholderTextColor={Colors.light.grayOpacityBorder}
                                         onFocus={() => setIsFocused(true)}
                                         onBlur={() => setIsFocused(false)}
+                                        value={email}
+                                        onChangeText={setEmail}
                                     />
 
                                     <Ionicons
@@ -92,6 +102,8 @@ export default function credentialsDependente() {
                                         secureTextEntry={!senhaVisivel}
                                         onFocus={() => setIsFocusedPassword(true)}
                                         onBlur={() => setIsFocusedPassword(false)}
+                                        value={senha}
+                                        onChangeText={setSenha}
                                     />
 
                                     <TouchableOpacity style={styles.icon} onPress={() => setSenhaVisivel(!senhaVisivel)}>
@@ -115,8 +127,8 @@ export default function credentialsDependente() {
                                         secureTextEntry={!ConfirmsenhaVisivel}
                                         onFocus={() => setIsFocusedPasswordConfirm(true)}
                                         onBlur={() => setIsFocusedPasswordConfirm(false)}
-                                    // value={confirmarSenha}
-                                    // onChangeText={setConfirmarSenha}
+                                        value={confirmarSenha}
+                                        onChangeText={setConfirmarSenha}
                                     />
 
                                     <TouchableOpacity style={styles.icon} onPress={() => setConfirmSenhaVisivel(!ConfirmsenhaVisivel)}>
@@ -128,10 +140,31 @@ export default function credentialsDependente() {
                                     </TouchableOpacity>
                                 </View>
                             </View>
+                            {error !== '' && (
+                                <Text style={styles.errorText}>
+                                    {error}
+                                </Text>
+                            )}
                         </View>
 
                         <View style={styles.viewBtn}>
-                            <TouchableOpacity style={styles.btn} onPress={() => router.push('./codResponsavelDependente')}>
+                            <TouchableOpacity style={styles.btn} onPress={() => {
+                                Keyboard.dismiss();
+                                if (!senha || !confirmarSenha || !email) {
+                                    setError('Preencha todos os campos.');
+                                } else if (senha !== confirmarSenha) {
+                                    setError('As senhas inseridas devem ser iguais.');
+                                } else if (!email.trim()) {
+                                    setError('Por favor, preencha o campo de e-mail.');
+                                    return;
+                                } else if (!isValidEmail(email)) {
+                                    setError('Digite um e-mail válido.');
+                                    return;
+                                } else {
+                                    setError('');
+                                    router.push('./doencasCadastro')
+                                }
+                            }}>
                                 <LinearGradient
                                     colors={['#005EB7', '#CEECF5']}
                                     start={{ x: 0, y: 0 }}
@@ -191,7 +224,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 20,
-        marginBottom: '20%'
+        marginBottom: '10%'
     },
     label: {
         fontFamily: 'Poppins-SemiBold',
@@ -227,10 +260,16 @@ const styles = StyleSheet.create({
     icon: {
         marginLeft: 10,
     },
+    errorText: {
+        color: 'red',
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
+        marginTop: 5,
+        marginLeft: 5,
+    },
     viewBtn: {
         justifyContent: 'center',
         alignItems: 'center',
-
     },
     btn: {
         width: 280,

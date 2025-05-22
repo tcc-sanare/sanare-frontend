@@ -30,7 +30,7 @@ export default function ResponsavelCadastro() {
     return (
         <View style={styles.container}>
             <Image
-                source={require('../../assets/images/bgSanare.png')}
+                source={require('../../../assets/images/bgSanare.png')}
                 style={styles.logoFooter}
             />
 
@@ -47,7 +47,7 @@ export default function ResponsavelCadastro() {
 
                 <View style={styles.viewBtn}>
                     <Pressable
-                        onPress={() => router.push('./doencasCadastro')}
+                        onPress={() => router.push('./doencasCadastroResponsavel')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado

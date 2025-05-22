@@ -6,9 +6,10 @@ import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function cadastroRegistro() {
+export default function doencasCadastroDependente() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const router = useRouter();
+
 
     useEffect(() => {
         async function loadFonts() {
@@ -26,11 +27,12 @@ export default function cadastroRegistro() {
             </View>
         );
     }
-    
+
+
     return (
         <View style={styles.container}>
             <Image
-                source={require('../../assets/images/bgSanare.png')}
+                source={require('../../../assets/images/bgSanare.png')}
                 style={styles.logoFooter}
             />
 
@@ -42,14 +44,14 @@ export default function cadastroRegistro() {
                 </View>
 
                 <View style={styles.textView}>
-                    <Text style={styles.text}>Selecione oque você deseja monitorar:</Text>
+                    <Text style={styles.text}>Selecione as doenças crônicas que possui.</Text>
                 </View>
 
-                <View style={styles.containerRegistros}>
-                    {/* ALERGIAS AQUI */}
+                <View style={styles.containerDoencas}>
+                    {/* DOENÇAS AQUI */}
                 </View>
 
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('./responsavelCadastroConcluido')}>
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('./alergiasCadastroDependente')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Poppins-Regular',
     },
-    containerRegistros: {
+    containerDoencas: {
 
     },
     btn: {

@@ -39,16 +39,15 @@ export default function Cadastro() {
     }
 
     return (
-
         <View style={styles.container}>
             <Image
-                source={require('../../assets/images/bgSanare.png')}
+                source={require('./../../assets/images/bgSanare.png')}
                 style={styles.logoFooter}
             />
 
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Image
-                    source={require('../../assets/images/seta.png')}
+                    source={require('./../../assets/images/seta.png')}
                     style={styles.seta}
                 />
             </TouchableOpacity>
@@ -66,7 +65,7 @@ export default function Cadastro() {
 
                 <View style={styles.viewBtn}>
                     <Pressable
-                        onPress={() => router.push('./credentialsResponsavel')}
+                        onPress={() => router.push('./responsavel/credentialsResponsavel')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado
@@ -76,7 +75,7 @@ export default function Cadastro() {
                     </Pressable>
 
                     <Pressable
-                        onPress={() => router.push('./credentialsDependente')}
+                        onPress={() => router.push('./dependente/credentialsDependente')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado
@@ -86,7 +85,7 @@ export default function Cadastro() {
                     </Pressable>
 
                     <Pressable
-                        onPress={() => router.push('./credentialsUser')}
+                        onPress={() => router.push('./user/credentialsUser')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado
