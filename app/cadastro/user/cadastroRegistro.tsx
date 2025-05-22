@@ -47,22 +47,20 @@ export default function cadastroRegistro() {
                     <Text style={styles.text}>Selecione oque você deseja monitorar:</Text>
                 </View>
 
-                <View>
-                    <View style={{ padding: 16 }}>
-                        <DropdownListRegistro
-                            title=""
-                            items={[
-                                'Humor',
-                                'Sintomas',
-                                'IMC',
-                                'Hidratação',
-                                'Pressão Arterial',
-                                'Glicemia',
-                            ]}
-                            selected={monitoramentosSelecionados}
-                            setSelected={setMonitoramentosSelecionados}
-                        />
-                    </View>
+                <View style={styles.viewRegistro}>
+                    <DropdownListRegistro
+                        title=""
+                        items={[
+                            'Humor',
+                            'Sintomas',
+                            'IMC',
+                            'Hidratação',
+                            'Pressão Arterial',
+                            'Glicemia',
+                        ]}
+                        selected={monitoramentosSelecionados}
+                        setSelected={setMonitoramentosSelecionados}
+                    />
                 </View>
 
                 <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/home')}>
@@ -121,6 +119,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         fontFamily: 'Poppins-Regular',
+    },
+    viewRegistro: {
+        marginLeft: '25%',
+        width: '100%'
     },
     btn: {
         width: 280,

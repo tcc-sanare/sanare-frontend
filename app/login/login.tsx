@@ -51,7 +51,7 @@ export default function login() {
                         style={styles.logoFooter}
                     />
 
-                    <TouchableOpacity  onPress={() => router.push('../welcome')}>
+                    <TouchableOpacity onPress={() => router.push('../welcome')}>
                         <Image
                             source={require('../../assets/images/seta.png')}
                             style={styles.seta}

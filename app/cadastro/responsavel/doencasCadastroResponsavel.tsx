@@ -110,7 +110,7 @@ export default function doencasCadastroResponsavel() {
                     </View>
 
                     <View style={styles.containerDoencas}>
-                    {doencasData.map(doenca => (
+                        {doencasData.map(doenca => (
                             <DoencaItem
                                 key={doenca.name}
                                 name={doenca.name}

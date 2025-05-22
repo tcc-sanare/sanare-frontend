@@ -120,9 +120,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Poppins-Regular',
     },
-    viewRegistro:{
-        // backgroundColor: 'red',
-        marginLeft: '25%',      
+    viewRegistro: {
+        marginLeft: '25%',
         width: '100%'
     },
     btn: {
