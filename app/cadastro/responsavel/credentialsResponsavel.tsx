@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 20,
-        marginBottom: '20%'
+        marginBottom: '10%'
     },
     label: {
         fontFamily: 'Poppins-SemiBold',

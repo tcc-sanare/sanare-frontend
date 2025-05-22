@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
     seta: {
         margin: 45,
         resizeMode: 'contain',
-        marginBottom: '15%'
+        marginBottom: '15%',
+        marginTop: '20%',
     },
     body: {
         justifyContent: "center",

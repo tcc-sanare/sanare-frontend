@@ -1,12 +1,12 @@
+import Colors from '@/constants/Colors';
+import Fonts from '@/constants/Fonts';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Colors from '../../constants/Colors';
-import Fonts from '../../constants/Fonts';
+import { ActivityIndicator, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function login() {
     const router = useRouter();
@@ -15,6 +15,9 @@ export default function login() {
     const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
+    const [senha, setSenha] = useState('');
 
     useEffect(() => {
         async function loadFonts() {
@@ -32,6 +35,11 @@ export default function login() {
             </View>
         );
     }
+
+    const isValidEmail = (email: string): boolean => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
 
     return (
 
@@ -76,6 +84,8 @@ export default function login() {
                                     placeholderTextColor={Colors.light.grayOpacityBorder}
                                     onFocus={() => setIsFocused(true)}
                                     onBlur={() => setIsFocused(false)}
+                                    value={email}
+                                    onChangeText={setEmail}
                                 />
 
                                 <Ionicons
@@ -98,6 +108,8 @@ export default function login() {
                                     secureTextEntry={!senhaVisivel}
                                     onFocus={() => setIsFocusedPassword(true)}
                                     onBlur={() => setIsFocusedPassword(false)}
+                                    value={senha}
+                                    onChangeText={setSenha}
                                 />
 
                                 <TouchableOpacity style={styles.icon} onPress={() => setSenhaVisivel(!senhaVisivel)}>
@@ -115,10 +127,27 @@ export default function login() {
                                 <Text style={styles.textForgotPassword}>Esqueceu sua senha?</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
 
+                        {error !== '' && (
+                            <Text style={styles.errorText}>
+                                {error}
+                            </Text>
+                        )}
+                    </View>
+                    {/* ../../logado/home */}
                     <View style={styles.viewBtn}>
-                        <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/home')}>
+                        <TouchableOpacity style={styles.btn} onPress={() => {
+                            Keyboard.dismiss();
+                            if (!senha || !email) {
+                                setError('Preencha todos os campos.');
+                            } else if (!isValidEmail(email)) {
+                                setError('Digite um e-mail válido.');
+                                return;
+                            } else {
+                                setError('');
+                                router.push('./doencasCadastro')
+                            }
+                        }}>
                             <LinearGradient
                                 colors={['#005EB7', '#CEECF5']}
                                 start={{ x: 0, y: 0 }}
@@ -212,10 +241,18 @@ const styles = StyleSheet.create({
     icon: {
         marginLeft: 10,
     },
+    errorText: {
+        color: 'red',
+        fontSize: 14,
+        fontFamily: 'Poppins-Regular',
+        marginTop: 5,
+        marginLeft: 5,
+        marginBottom: 20,
+    },
     viewForgotPassword: {
         width: '80%',
         alignItems: 'flex-end',
-        marginBottom: '15%',
+        marginBottom: 20,
     },
     textForgotPassword: {
         fontFamily: 'Poppins-Regular',
