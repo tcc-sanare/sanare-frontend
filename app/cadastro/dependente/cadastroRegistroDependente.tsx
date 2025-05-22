@@ -1,3 +1,4 @@
+import DropdownListRegistro from '@/components/DropdownListRegistro';
 import Colors from '@/constants/Colors';
 import Fonts from '@/constants/Fonts';
 import * as Font from 'expo-font';
@@ -9,6 +10,7 @@ import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } fr
 export default function cadastroRegistroDependente() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const router = useRouter();
+    const [monitoramentosSelecionados, setMonitoramentosSelecionados] = useState<string[]>([]);
 
     useEffect(() => {
         async function loadFonts() {
@@ -45,8 +47,22 @@ export default function cadastroRegistroDependente() {
                     <Text style={styles.text}>Selecione oque você deseja monitorar:</Text>
                 </View>
 
-                <View style={styles.containerRegistros}>
-                    {/* ALERGIAS AQUI */}
+                <View>
+                    <View style={{ padding: 16 }}>
+                        <DropdownListRegistro
+                            title=""
+                            items={[
+                                'Humor',
+                                'Sintomas',
+                                'IMC',
+                                'Hidratação',
+                                'Pressão Arterial',
+                                'Glicemia',
+                            ]}
+                            selected={monitoramentosSelecionados}
+                            setSelected={setMonitoramentosSelecionados}
+                        />
+                    </View>
                 </View>
 
                 <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/home')}>
@@ -87,7 +103,7 @@ const styles = StyleSheet.create({
     cadastroContainer: {
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: '20%',
+        marginBottom: '15%',
         gap: 20
     },
     textCadastro: {
@@ -98,16 +114,13 @@ const styles = StyleSheet.create({
     textView: {
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: '20%',
+        marginBottom: '10%',
         width: '85%'
     },
     text: {
         textAlign: 'center',
         fontSize: 18,
         fontFamily: 'Poppins-Regular',
-    },
-    containerRegistros: {
-
     },
     btn: {
         width: 280,

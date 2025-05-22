@@ -63,8 +63,8 @@ export default function VincularResponsavelCadastro() {
                             <TextInput style={styles.textInput} />
                         </View>
 
+                        {/* btn enviar */}
                         <Text style={styles.status}>Aguardando confirmação do responsável</Text>
-
                         <Text onPress={() => router.push('./doencasCadastroDependente')}>Animação aqui!</Text>
                     </View>
                 </View>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-SemiBold',
         fontSize: 30
     },
-    status:{
+    status: {
         fontFamily: 'Poppins-Medium',
         fontSize: 16,
         marginBottom: 30

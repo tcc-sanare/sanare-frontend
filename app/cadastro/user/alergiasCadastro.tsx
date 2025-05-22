@@ -84,8 +84,8 @@ export default function alergiasCadastro() {
                             <DropdownList
                                 title="Anticonvulsivantes"
                                 items={['Fenitoína', 'Carbamazepina', 'Lamotrigina', 'Ácido Valproico', 'Fenobarbital']}
-                                selected={analgesicos}
-                                setSelected={setAnalgesicos}
+                                selected={anticonvulsivantes}
+                                setSelected={setAnticonvulsivantes}
                             />
                         </View>
 

@@ -4,7 +4,7 @@ import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 export default function responsavelCadastroConcluido() {
@@ -30,6 +30,10 @@ export default function responsavelCadastroConcluido() {
 
     return (
         <View style={styles.container}>
+            <Image
+                source={require('../../../assets/images/bgSanare.png')}
+                style={styles.logoFooter}
+            />
 
             <View style={styles.body}>
                 <View style={styles.CadastrotextView}>
@@ -67,6 +71,16 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.light.background,
         justifyContent: 'center',
         alignItems: "center",
+    },
+    logoFooter: {
+        position: 'absolute',
+        bottom: 0,
+        top: '31%',
+        resizeMode: 'contain',
+        left: 0,
+        right: 0,
+        height: '100%',
+        width: '100%'
     },
     body: {
         justifyContent: 'center',
