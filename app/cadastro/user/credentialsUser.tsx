@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import * as Progress from 'react-native-progress';
 import Colors from '../../../constants/Colors';
 import Fonts from '../../../constants/Fonts';
 
@@ -62,8 +63,7 @@ export default function credentialsUser() {
                     <View style={styles.body}>
                         <View style={styles.cadastroContainer}>
                             <Text style={styles.textCadastro}>Cadastro</Text>
-                            <Text>StepBar forms</Text>
-                            {/* <StepBar totalSteps={5} currentStep={1} /> */}
+                            <Progress.Bar progress={0.3} width={250} color={Colors.light.bluePrimary} />
                         </View>
 
                         <View style={styles.viewCadastro}>

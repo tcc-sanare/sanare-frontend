@@ -3,18 +3,9 @@ import * as Font from 'expo-font';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as Progress from 'react-native-progress';
 import Colors from '../../constants/Colors';
 import Fonts from '../../constants/Fonts';
-// import StepBar from './StepBar';
-
-// type UserRole = 'dependente' | 'responsavel' | 'responsavelNao' | 'comum';
-
-// const stepCountByRole: Record<UserRole, number> = {
-//     dependente: 5,
-//     responsavel: 6,
-//     responsavelNao: 5,
-//     comum: 5,
-// };
 
 export default function Cadastro() {
     const router = useRouter();
@@ -39,6 +30,8 @@ export default function Cadastro() {
     }
 
     return (
+
+
         <View style={styles.container}>
             <Image
                 source={require('./../../assets/images/bgSanare.png')}
@@ -55,8 +48,7 @@ export default function Cadastro() {
             <View style={styles.body}>
                 <View style={styles.cadastroContainer}>
                     <Text style={styles.textCadastro}>Cadastro</Text>
-                    <Text>StepBar forms</Text>
-                    {/* <StepBar totalSteps={5} currentStep={1} /> */}
+                    <Progress.Bar progress={0.1} width={250} color={Colors.light.bluePrimary} />
                 </View>
 
                 <View style={styles.viewText}>
@@ -119,7 +111,7 @@ const styles = StyleSheet.create({
         margin: 45,
         resizeMode: 'contain',
         marginBottom: '15%',
-        marginTop: '20%',
+        // marginTop: '20%',
     },
     body: {
         justifyContent: "center",

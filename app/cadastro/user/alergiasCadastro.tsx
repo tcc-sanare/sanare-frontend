@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as Progress from 'react-native-progress';
 
 export default function alergiasCadastro() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -51,7 +52,7 @@ export default function alergiasCadastro() {
                     <View style={styles.body}>
                         <View style={styles.cadastroContainer}>
                             <Text style={styles.textCadastro}>Cadastro</Text>
-                            <Text>StepBar forms</Text>
+                            <Progress.Bar progress={0.7} width={250} color={Colors.light.bluePrimary} />
                         </View>
 
                         <View style={styles.textView}>

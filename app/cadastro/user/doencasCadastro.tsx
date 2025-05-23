@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as Progress from 'react-native-progress';
 
 const doencasData = [
     {
@@ -100,8 +101,7 @@ export default function doencasCadastro() {
                 <View style={styles.body}>
                     <View style={styles.cadastroContainer}>
                         <Text style={styles.textCadastro}>Cadastro</Text>
-                        <Text>StepBar forms</Text>
-                        {/* <StepBar totalSteps={5} currentStep={1} /> */}
+                        <Progress.Bar progress={0.5} width={250} color={Colors.light.bluePrimary} />
                     </View>
 
                     <View style={styles.textView}>

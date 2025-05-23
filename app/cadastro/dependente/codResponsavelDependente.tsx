@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import * as Progress from 'react-native-progress';
 
 export default function VincularResponsavelCadastro() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -65,8 +66,7 @@ export default function VincularResponsavelCadastro() {
                     <View style={styles.body}>
                         <View style={styles.cadastroContainer}>
                             <Text style={styles.textCadastro}>Cadastro</Text>
-                            <Text>StepBar forms</Text>
-                            {/* <StepBar totalSteps={5} currentStep={1} /> */}
+                            <Progress.Bar progress={0.4} width={250} color={Colors.light.bluePrimary} />
                         </View>
 
                         <View style={styles.textView}>
