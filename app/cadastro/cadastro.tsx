@@ -1,92 +1,195 @@
-import { useNavigation } from '@react-navigation/native';
-import * as Font from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { JSX, useEffect, useRef, useState } from 'react';
+import { Animated, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress';
 import Colors from '../../constants/Colors';
-import Fonts from '../../constants/Fonts';
+import TipoUser from './tipoUser';
+
+// RESPONSÁVEL
+import AlergiasCadastroResponsavel from './responsavel/alergiasCadastroResponsavel';
+import RegistroCadastroResponsavel from './responsavel/cadastroRegistroResponsavel';
+import CadastroResponsavel from './responsavel/credentialsResponsavel';
+import DoencasCadastroResponsavel from './responsavel/doencasCadastroResponsavel';
+import ResponsavelCadastro from './responsavel/responsavelCadastro';
+
+// DEPENDENTE
+import AlergiasCadastroDependente from './dependente/alergiasCadastroDependente';
+import RegistroCadastroDependente from './dependente/cadastroRegistroDependente';
+import CodigoResponsavel from './dependente/codResponsavelDependente';
+import CadastroDependente from './dependente/credentialsDependente';
+import DoencasCadastroDependente from './dependente/doencasCadastroDependente';
+
+// COMUM
+import AlergiasCadastroUser from './user/alergiasCadastro';
+import RegistroCadastroUser from './user/cadastroRegistro';
+import CadastroUser from './user/credentialsUser';
+import DoencasCadastroUser from './user/doencasCadastro';
 
 export default function Cadastro() {
+    const [stepIndex, setStepIndex] = useState(0);
+    const [steps, setSteps] = useState<JSX.Element[]>([]);
+    const fadeAnim = useRef(new Animated.Value(1)).current;
     const router = useRouter();
-    const navigation = useNavigation();
-    const [fontsLoaded, setFontsLoaded] = useState(false);
+    const currentStepKey = steps[stepIndex]?.key;
+    const [stepsReady, setStepsReady] = useState(true);
+    const stepsRef = useRef<JSX.Element[]>([]);
 
     useEffect(() => {
-        async function loadFonts() {
-            await Font.loadAsync(Fonts);
-            setFontsLoaded(true);
-        }
-
-        loadFonts();
+        setSteps([
+            <TipoUser key="tipo" onEscolha={handleTipoEscolhido} />,
+        ]);
     }, []);
 
-    if (!fontsLoaded) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
-    }
+    const handleRespostaCadastroResponsavel = (resposta: "sim" | "nao") => {
+        if (resposta === "sim") {
+            setStepIndex((prev) => prev + 1);
+        } else {
+            router.push("./responsavel/responsavelCadastroConcluido");
+        }
+    };
+
+    const handleTipoEscolhido = (tipo: 'responsavel' | 'dependente' | 'comum') => {
+
+        const newSteps = {
+            'responsavel': [
+                <TipoUser key="tipo" onEscolha={handleTipoEscolhido} />,
+                <CadastroResponsavel key="r1" />,
+                <ResponsavelCadastro key="r2" onEscolha={handleRespostaCadastroResponsavel} />,
+                <DoencasCadastroResponsavel key="r3" />,
+                <AlergiasCadastroResponsavel key="r4" />,
+                <RegistroCadastroResponsavel key="r5" />,
+            ],
+            'dependente': [
+                <TipoUser key="tipo" onEscolha={handleTipoEscolhido} />,
+                <CadastroDependente key="d1" />,
+                <CodigoResponsavel key="d2" onCodigoValidado={(idx: any) => nextStepWithWait(3)} />,
+                <DoencasCadastroDependente key="d3" />,
+                <AlergiasCadastroDependente key="d4" />,
+                <RegistroCadastroDependente key="d5" />,
+            ],
+            'comum': [
+                <TipoUser key="tipo" onEscolha={handleTipoEscolhido} />,
+                <CadastroUser key="u1" />,
+                <DoencasCadastroUser key="u2" />,
+                <AlergiasCadastroUser key="u3" />,
+                <RegistroCadastroUser key="u4" />,
+            ]
+        }[tipo];
+
+        stepsRef.current = newSteps;
+        setSteps(newSteps);
+        setStepIndex(1);
+        setStepsReady(true);
+    };
+
+    const nextStep = () => {
+        if (stepsRef.current.length === 0) {
+            return;
+        }
+
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => {
+            const newIndex = Math.min(stepIndex + 1, stepsRef.current.length - 1);
+
+            if (newIndex >= 0 && newIndex < stepsRef.current.length) {
+                setStepIndex(newIndex);
+                Animated.timing(fadeAnim, {
+                    toValue: 1,
+                    duration: 300,
+                    useNativeDriver: true,
+                }).start();
+            } else {
+                console.log("Índice inválido, não atualizando");
+            }
+        });
+    };
+
+    const nextStepWithWait = (targetIndex?: number) => {
+        const nextIndex = targetIndex !== undefined ? targetIndex : stepIndex + 1;
+
+        if (stepsRef.current.length === 0) {
+            const waitForSteps = setInterval(() => {
+                if (stepsRef.current.length > 0) {
+                    clearInterval(waitForSteps);
+                    goToStep(nextIndex);
+                }
+            }, 100);
+            return;
+        }
+        goToStep(nextIndex);
+    };
+
+    const goToStep = (index: number) => {
+        const safeIndex = Math.max(0, Math.min(index, stepsRef.current.length - 1));
+
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => {
+            setStepIndex(safeIndex);
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        });
+    };
 
     return (
-
-
         <View style={styles.container}>
             <Image
-                source={require('./../../assets/images/bgSanare.png')}
+                source={require('../../assets/images/bgSanare.png')}
                 style={styles.logoFooter}
             />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
+            >
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    keyboardShouldPersistTaps="handled"
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={styles.mainContainer}>
+                        <Text style={styles.header}>Cadastro</Text>
+                        <Progress.Bar
+                            progress={steps.length > 1 ? (stepIndex + 1) / steps.length : 0.1}
+                            width={250}
+                            color={Colors.light.bluePrimary}
+                            borderRadius={10}
+                            animated
+                        />
+                    </View>
 
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image
-                    source={require('./../../assets/images/seta.png')}
-                    style={styles.seta}
-                />
-            </TouchableOpacity>
+                    <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
+                        {steps[stepIndex]}
+                    </Animated.View>
 
-            <View style={styles.body}>
-                <View style={styles.cadastroContainer}>
-                    <Text style={styles.textCadastro}>Cadastro</Text>
-                    <Progress.Bar progress={0.1} width={250} color={Colors.light.bluePrimary} />
-                </View>
-
-                <View style={styles.viewText}>
-                    <Text style={styles.text}>Escolha sua jornada no Sanare.</Text>
-                </View>
-
-                <View style={styles.viewBtn}>
-                    <Pressable
-                        onPress={() => router.push('./responsavel/credentialsResponsavel')}
-                        style={({ pressed }) => [
-                            styles.btn,
-                            pressed && styles.botaoPressionado
-                        ]}
-                    >
-                        <Text style={styles.textBtn}>Acompanhar outra pessoa</Text>
-                    </Pressable>
-
-                    <Pressable
-                        onPress={() => router.push('./dependente/credentialsDependente')}
-                        style={({ pressed }) => [
-                            styles.btn,
-                            pressed && styles.botaoPressionado
-                        ]}
-                    >
-                        <Text style={styles.textBtn}>Ser acompanhado</Text>
-                    </Pressable>
-
-                    <Pressable
-                        onPress={() => router.push('./user/credentialsUser')}
-                        style={({ pressed }) => [
-                            styles.btn,
-                            pressed && styles.botaoPressionado
-                        ]}
-                    >
-                        <Text style={styles.textBtn}>Apenas para meu autocuidado</Text>
-                    </Pressable>
-                </View>
-            </View>
+                    <View style={styles.viewBtn}>
+                        {stepIndex !== 0 &&
+                            stepIndex < steps.length - 1 &&
+                            currentStepKey !== "d2" &&
+                            currentStepKey !== "r2" &&
+                            currentStepKey !== "r5" && (
+                                <TouchableOpacity style={styles.btn} onPress={() => { nextStep(); Keyboard.dismiss(); }}>
+                                    <LinearGradient
+                                        colors={['#005EB7', '#CEECF5']}
+                                        start={{ x: 0, y: 0 }}
+                                        end={{ x: 1, y: 3.8 }}
+                                        style={styles.btnGradient}
+                                    >
+                                        <Text style={styles.btnText}>Continuar</Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+                            )}
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </View>
     );
 }
@@ -94,7 +197,8 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 20,
         backgroundColor: Colors.light.background,
     },
     logoFooter: {
@@ -105,58 +209,41 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         height: '100%',
-        width: '100%'
+        width: '100%',
     },
-    seta: {
-        margin: 45,
-        resizeMode: 'contain',
-        marginBottom: '15%',
-        // marginTop: '20%',
-    },
-    body: {
+    mainContainer: {
         justifyContent: "center",
         alignItems: "center",
     },
-    cadastroContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '20%',
-        gap: 20
-    },
-    textCadastro: {
+    header: {
+        marginTop: '30%',
         color: Colors.light.bluePrimary,
         fontFamily: 'Poppins-SemiBold',
-        fontSize: 35
+        fontSize: 35,
     },
-    viewText: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '20%'
-    },
-    text: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 18
+    content: {
+        justifyContent: 'center',
     },
     viewBtn: {
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: '10%',
     },
     btn: {
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 5,
-        borderColor: Colors.light.gray,
-        backgroundColor: Colors.light.background,
-        width: 330,
-        borderRadius: 25,
-        height: 70,
+        width: 280,
+        height: 80,
+        borderRadius: 50,
+        overflow: 'hidden',
     },
-    botaoPressionado: {
-        borderColor: Colors.light.bluePrimaryOpacity,
+    btnText: {
+        color: Colors.light.white,
+        fontFamily: 'Poppins-Medium',
+        fontSize: 25,
     },
-    textBtn: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 17,
-    }
-})
+    btnGradient: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+    },
+});

@@ -1,15 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import * as Progress from 'react-native-progress';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Colors from '../../../constants/Colors';
 import Fonts from '../../../constants/Fonts';
 
 export default function credentialsUser() {
-    const router = useRouter();
     const [isFocused, setIsFocused] = useState(false);
     const [ConfirmsenhaVisivel, setConfirmSenhaVisivel] = useState(false);
     const [isFocusedPassword, setIsFocusedPassword] = useState(false);
@@ -49,25 +45,13 @@ export default function credentialsUser() {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
-
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 keyboardShouldPersistTaps="handled"
             >
                 <View style={styles.container}>
-                    <Image
-                        source={require('../../../assets/images/bgSanare.png')}
-                        style={styles.logoFooter}
-                    />
-
                     <View style={styles.body}>
-                        <View style={styles.cadastroContainer}>
-                            <Text style={styles.textCadastro}>Cadastro</Text>
-                            <Progress.Bar progress={0.3} width={250} color={Colors.light.bluePrimary} />
-                        </View>
-
                         <View style={styles.viewCadastro}>
-
                             <View style={styles.view}>
                                 <Text style={styles.label}>Email</Text>
 
@@ -146,35 +130,6 @@ export default function credentialsUser() {
                                 </Text>
                             )}
                         </View>
-
-                        <View style={styles.viewBtn}>
-                            <TouchableOpacity style={styles.btn} onPress={() => {
-                                Keyboard.dismiss();
-                                if (!senha || !confirmarSenha || !email) {
-                                    setError('Preencha todos os campos.');
-                                } else if (senha !== confirmarSenha) {
-                                    setError('As senhas inseridas devem ser iguais.');
-                                } else if (!email.trim()) {
-                                    setError('Por favor, preencha o campo de e-mail.');
-                                    return;
-                                } else if (!isValidEmail(email)) {
-                                    setError('Digite um e-mail válido.');
-                                    return;
-                                } else {
-                                    setError('');
-                                    router.push('./doencasCadastro')
-                                }
-                            }}>
-                                <LinearGradient
-                                    colors={['#005EB7', '#CEECF5']}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 3.8 }}
-                                    style={styles.btnGradient}
-                                >
-                                    <Text style={styles.btnText}>Continuar</Text>
-                                </LinearGradient>
-                            </TouchableOpacity>
-                        </View>
                     </View>
                 </View>
             </ScrollView>
@@ -186,33 +141,11 @@ export default function credentialsUser() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.light.background,
-    },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
     },
     body: {
         justifyContent: "center",
         alignItems: "center",
         marginTop: '32%'
-    },
-    cadastroContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '20%',
-        gap: 20
-    },
-    textCadastro: {
-        color: Colors.light.bluePrimary,
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 35
     },
     text: {
         fontFamily: 'Poppins-Regular',
@@ -224,7 +157,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 20,
-        marginBottom: '10%'
+        marginBottom: '20%'
     },
     label: {
         fontFamily: 'Poppins-SemiBold',
@@ -266,26 +199,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Regular',
         marginTop: 5,
         marginLeft: 5,
-    },
-    viewBtn: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    btn: {
-        width: 280,
-        height: 80,
-        borderRadius: 50,
-        overflow: 'hidden',
-    },
-    btnText: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Medium',
-        fontSize: 25,
-    },
-    btnGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-    },
+    }
 })

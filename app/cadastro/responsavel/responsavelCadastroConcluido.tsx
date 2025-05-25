@@ -49,7 +49,6 @@ export default function responsavelCadastroConcluido() {
                     <Text style={styles.codigo}>SANARE-123</Text>
                 </View>
 
-                {/* PAREI AQUI!! */}
                 <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/home')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
@@ -68,7 +67,6 @@ export default function responsavelCadastroConcluido() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.light.background,
         justifyContent: 'center',
         alignItems: "center",
     },
@@ -106,9 +104,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Poppins-Regular',
     },
-    // viewCodResponsavel: {
-
-    // },
     textCod: {
         fontFamily: 'Poppins-SemiBold',
         fontSize: 20

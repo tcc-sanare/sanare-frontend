@@ -4,7 +4,11 @@ import * as Font from 'expo-font';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
-export default function ResponsavelCadastro({ onEscolha }: { onEscolha: (resposta: "sim" | "nao") => void }) {
+interface TipoUserProps {
+    onEscolha: (tipo: 'responsavel' | 'dependente' | 'comum') => void;
+}
+
+export default function TipoUser({ onEscolha }: TipoUserProps) {
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
     useEffect(() => {
@@ -27,60 +31,71 @@ export default function ResponsavelCadastro({ onEscolha }: { onEscolha: (respost
     return (
         <View style={styles.container}>
             <View style={styles.body}>
-                <View style={styles.textView}>
-                    <Text style={styles.text}>Deseja usar o Sanare para monitorar a sua saúde também?</Text>
+
+                <View style={styles.viewText}>
+                    <Text style={styles.text}>Escolha sua jornada no Sanare.</Text>
                 </View>
 
                 <View style={styles.viewBtn}>
                     <Pressable
-                        onPress={() => onEscolha("sim")}
+                        onPress={() => onEscolha('responsavel')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado
                         ]}
                     >
-                        <Text style={styles.textBtn}>Sim, vamos lá</Text>
+                        <Text style={styles.textBtn}>Acompanhar outra pessoa</Text>
                     </Pressable>
 
                     <Pressable
-                        onPress={() => onEscolha("nao")}
+                        onPress={() => onEscolha('dependente')}
                         style={({ pressed }) => [
                             styles.btn,
                             pressed && styles.botaoPressionado
                         ]}
                     >
-                        <Text style={styles.textBtn}>Não, obrigado</Text>
+                        <Text style={styles.textBtn}>Ser acompanhado</Text>
+                    </Pressable>
+
+                    <Pressable
+                        onPress={() => onEscolha('comum')}
+                        style={({ pressed }) => [
+                            styles.btn,
+                            pressed && styles.botaoPressionado
+                        ]}
+                    >
+                        <Text style={styles.textBtn}>Apenas para meu autocuidado</Text>
                     </Pressable>
                 </View>
             </View>
         </View>
-
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: 'column',
     },
     body: {
         justifyContent: "center",
         alignItems: "center",
-        marginTop: '32%'
     },
-    textView: {
+    viewText: {
         justifyContent: "center",
         alignItems: "center",
         marginBottom: '20%',
-        width: '85%'
+        marginTop: '20%'
     },
     text: {
-        textAlign: 'center',
-        fontSize: 18,
         fontFamily: 'Poppins-Regular',
+        fontSize: 18
     },
     viewBtn: {
+        marginTop: '20%',
+        justifyContent: "center",
+        alignItems: "center",
         gap: 30,
-        marginBottom: '20%',
     },
     btn: {
         justifyContent: "center",

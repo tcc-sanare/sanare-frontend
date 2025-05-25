@@ -5,13 +5,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import * as Progress from 'react-native-progress';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-export default function VincularResponsavelCadastro() {
+type Props = {
+    onCodigoValidado: (targetIndex?: number) => void;
+};
+
+export default function CodigoResponsavel({ onCodigoValidado }: Props) {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const router = useRouter();
-
     const [codigo, setCodigo] = useState('');
     const [enviado, setEnviado] = useState(false);
     const [carregando, setCarregando] = useState(false);
@@ -26,9 +28,9 @@ export default function VincularResponsavelCadastro() {
             setConfirmado(true);
 
             setTimeout(() => {
-                router.push('./doencasCadastroDependente');
+                onCodigoValidado(3);
             }, 2000);
-        }, 5000);
+        }, 3000);
     };
 
     useEffect(() => {
@@ -58,24 +60,14 @@ export default function VincularResponsavelCadastro() {
             >
 
                 <View style={styles.container}>
-                    <Image
-                        source={require('../../../assets/images/bgSanare.png')}
-                        style={styles.logoFooter}
-                    />
-
                     <View style={styles.body}>
-                        <View style={styles.cadastroContainer}>
-                            <Text style={styles.textCadastro}>Cadastro</Text>
-                            <Progress.Bar progress={0.4} width={250} color={Colors.light.bluePrimary} />
-                        </View>
-
                         <View style={styles.textView}>
                             <Text style={styles.titulo}>Insira o código de responsável:</Text>
 
                             <Text style={styles.text}>Ainda não tem um responsável cadastrado? Faça o {''}
                                 <Text
                                     style={{ color: Colors.light.bluePrimary, fontFamily: 'Poppins-Regular', textDecorationLine: 'underline' }}
-                                    onPress={() => router.push('../cadastro')}
+                                    onPress={() => router.push('../cadastro/cadastro')}
                                 >cadastro</Text> {''}
                                 antes de continuar!</Text>
                         </View>
@@ -137,40 +129,17 @@ export default function VincularResponsavelCadastro() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.light.background,
-    },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
     },
     body: {
         justifyContent: "center",
         alignItems: "center",
         marginTop: '32%'
     },
-    cadastroContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '20%',
-        gap: 20
-    },
-    textCadastro: {
-        color: Colors.light.bluePrimary,
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 35
-    },
     textView: {
         justifyContent: "center",
         alignItems: "center",
         gap: 40,
-        width: '80%',
-
+        width: '90%',
     },
     titulo: {
         fontFamily: 'Poppins-Medium',

@@ -47,7 +47,6 @@ export default function login() {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
-
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 keyboardShouldPersistTaps="handled"
@@ -87,7 +86,6 @@ export default function login() {
                                     value={email}
                                     onChangeText={setEmail}
                                 />
-
                                 <Ionicons
                                     style={styles.icon}
                                     name="mail"
@@ -127,14 +125,8 @@ export default function login() {
                                 <Text style={styles.textForgotPassword}>Esqueceu sua senha?</Text>
                             </TouchableOpacity>
                         </View>
-
-                        {error !== '' && (
-                            <Text style={styles.errorText}>
-                                {error}
-                            </Text>
-                        )}
                     </View>
-                    {/* ../../logado/home */}
+
                     <View style={styles.viewBtn}>
                         <TouchableOpacity style={styles.btn} onPress={() => {
                             Keyboard.dismiss();
@@ -145,7 +137,7 @@ export default function login() {
                                 return;
                             } else {
                                 setError('');
-                                router.push('./doencasCadastro')
+                                router.push('../../logado/home')
                             }
                         }}>
                             <LinearGradient
@@ -157,6 +149,12 @@ export default function login() {
                                 <Text style={styles.btnText}>Continuar</Text>
                             </LinearGradient>
                         </TouchableOpacity>
+
+                        {error !== '' && (
+                            <Text style={styles.errorText}>
+                                {error}
+                            </Text>
+                        )}
                     </View>
                 </View>
             </ScrollView>
@@ -245,14 +243,13 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: 14,
         fontFamily: 'Poppins-Regular',
-        marginTop: 5,
         marginLeft: 5,
-        marginBottom: 20,
+        marginTop: 20,
     },
     viewForgotPassword: {
         width: '80%',
         alignItems: 'flex-end',
-        marginBottom: 20,
+        marginBottom: '10%',
     },
     textForgotPassword: {
         fontFamily: 'Poppins-Regular',
@@ -263,7 +260,6 @@ const styles = StyleSheet.create({
     viewBtn: {
         justifyContent: 'center',
         alignItems: 'center',
-
     },
     btn: {
         width: 280,

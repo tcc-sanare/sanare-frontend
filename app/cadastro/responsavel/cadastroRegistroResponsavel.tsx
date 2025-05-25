@@ -5,8 +5,7 @@ import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import * as Progress from 'react-native-progress';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function cadastroRegistroResponsavel() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -32,17 +31,7 @@ export default function cadastroRegistroResponsavel() {
 
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../../../assets/images/bgSanare.png')}
-                style={styles.logoFooter}
-            />
-
             <View style={styles.body}>
-                <View style={styles.cadastroContainer}>
-                    <Text style={styles.textCadastro}>Cadastro</Text>
-                    <Progress.Bar progress={0.9} width={250} color={Colors.light.bluePrimary}/>
-                </View>
-
                 <View style={styles.textView}>
                     <Text style={styles.text}>Selecione oque você deseja monitorar:</Text>
                 </View>
@@ -63,7 +52,7 @@ export default function cadastroRegistroResponsavel() {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('./responsavelCadastroConcluido')}>
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('/cadastro/responsavel/responsavelCadastroConcluido')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}
@@ -81,33 +70,11 @@ export default function cadastroRegistroResponsavel() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.light.background,
-    },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
     },
     body: {
         justifyContent: "center",
         alignItems: "center",
         marginTop: '32%'
-    },
-    cadastroContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '15%',
-        gap: 20
-    },
-    textCadastro: {
-        color: Colors.light.bluePrimary,
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 35
     },
     textView: {
         justifyContent: "center",
