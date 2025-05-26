@@ -4,10 +4,16 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, Switch } from 'react-native-gesture-handler';
 
 export default function PerfilDependente() {
     const router = useRouter();
+    const [isDarkMode, setIsDarkMode] = React.useState(false);
+
+    const toggleDarkMode = () => {
+        setIsDarkMode(previousState => !previousState);
+
+    }
 
     return (
         <View style={styles.container}>
@@ -18,6 +24,7 @@ export default function PerfilDependente() {
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
             >
                 <TouchableOpacity onPress={() => router.push('../home')}>
                     <Image
@@ -42,8 +49,8 @@ export default function PerfilDependente() {
                         </View>
                     </View>
 
-                    <Text style={styles.username}>Nicolas Faustino</Text>
-                    <Text style={styles.email}>nicolasfaustino@gmail.com</Text>
+                    <Text style={styles.username}>Maria Santos</Text>
+                    <Text style={styles.email}>mariaSantos@gmail.com</Text>
                 </View>
 
                 <View style={styles.section}>
@@ -96,10 +103,23 @@ export default function PerfilDependente() {
                     <View style={styles.ConfigItem}>
                         <Text style={styles.textConfig}>Tema Escuro</Text>
 
+                        <Switch
+                            trackColor={{ false: Colors.light.grayOpacityBorder, true: Colors.light.bluePrimaryOpacity }}
+                            thumbColor={isDarkMode ? Colors.light.bluePrimary : Colors.light.gray}
+                            onValueChange={toggleDarkMode}
+                            value={isDarkMode}
+                        />
+
                     </View>
 
                     <View style={styles.ConfigItem}>
                         <Text style={styles.logOut}>Sair</Text>
+
+                        <MaterialIcons
+                            name='logout'
+                            size={30}
+                            color={Colors.light.bluePrimary}
+                        />
 
                     </View>
                 </View>
