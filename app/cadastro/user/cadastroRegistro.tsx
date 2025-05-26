@@ -52,7 +52,7 @@ export default function cadastroRegistro() {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/home')}>
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/user/home')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}

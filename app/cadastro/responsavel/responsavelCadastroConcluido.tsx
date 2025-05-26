@@ -49,7 +49,7 @@ export default function responsavelCadastroConcluido() {
                     <Text style={styles.codigo}>SANARE-123</Text>
                 </View>
 
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/home')}>
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/responsavel/home')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}

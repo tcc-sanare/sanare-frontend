@@ -137,7 +137,7 @@ export default function login() {
                                 return;
                             } else {
                                 setError('');
-                                router.push('../../logado/home')
+                                router.push('../../logado/dependente/home')
                             }
                         }}>
                             <LinearGradient
