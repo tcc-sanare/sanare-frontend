@@ -17,6 +17,7 @@ export default function HomeResponsavel() {
                     <Text onPress={() => router.push('./profile/profile')}>
                         Perfil Responsável
                     </Text>
+                    <Text>TESTEEE</Text>
                 </View>
             </View>
         </View>
