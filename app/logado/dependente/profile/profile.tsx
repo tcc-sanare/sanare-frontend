@@ -2,18 +2,25 @@ import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
-import React from 'react';
+import React, { useRef } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView, Switch } from 'react-native-gesture-handler';
+import { Modalize } from 'react-native-modalize';
+import CustomModal from './modal-edit-photo';
 
 export default function PerfilDependente() {
+    const modalRef = useRef<Modalize>(null);
     const router = useRouter();
+
     const [isDarkMode, setIsDarkMode] = React.useState(false);
 
     const toggleDarkMode = () => {
         setIsDarkMode(previousState => !previousState);
-
     }
+
+    const openModal = () => {
+        modalRef.current?.open();
+    };
 
     return (
         <View style={styles.container}>
@@ -40,13 +47,22 @@ export default function PerfilDependente() {
                             style={styles.profilePhoto}
                         />
 
-                        <View style={styles.EditPhotoContainer}>
+                        <TouchableOpacity
+                            style={styles.EditPhotoContainer}
+                            onPress={() => {
+                                openModal();
+                            }}
+                        >
                             <Ionicons
                                 name='pencil'
                                 color={Colors.light.white}
                                 size={30}
                             />
-                        </View>
+
+                        </TouchableOpacity>
+
+                        {/* <View style={styles.EditPhotoContainer}>
+                        </View> */}
                     </View>
 
                     <Text style={styles.username}>Maria Santos</Text>
@@ -123,6 +139,7 @@ export default function PerfilDependente() {
 
                     </View>
                 </View>
+                <CustomModal />
             </ScrollView>
         </View>
     );

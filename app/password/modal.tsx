@@ -1,11 +1,11 @@
+import Colors from '@/constants/Colors';
+import Fonts from '@/constants/Fonts';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
-import Colors from '../../constants/Colors';
-import Fonts from '../../constants/Fonts';
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -97,7 +97,6 @@ const CustomModal = forwardRef<Modalize, CustomModalProps>(({ email }, ref) => {
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
-
 
                     <Text style={styles.resend}>Não recebeu o código? <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline', }}>Reenviar(10)</Text></Text>
                 </View>
