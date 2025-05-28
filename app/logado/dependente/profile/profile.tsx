@@ -4,7 +4,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
 import React, { useRef } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView, Switch } from 'react-native-gesture-handler';
+import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 import CustomModal from './modal-edit-photo';
 
@@ -21,6 +21,10 @@ export default function PerfilDependente() {
     const openModal = () => {
         modalRef.current?.open();
     };
+
+    const handleLogout = () => {
+        router.replace('../../../welcome')
+    }
 
     return (
         <View style={styles.container}>
@@ -60,9 +64,6 @@ export default function PerfilDependente() {
                             />
 
                         </TouchableOpacity>
-
-                        {/* <View style={styles.EditPhotoContainer}>
-                        </View> */}
                     </View>
 
                     <Text style={styles.username}>Maria Santos</Text>
@@ -98,14 +99,18 @@ export default function PerfilDependente() {
                 </View>
 
                 <View style={styles.sectionConfig}>
-                    <View style={styles.ConfigItem}>
+                    <Pressable 
+                    style={styles.ConfigItem}
+                        onPress={() => router.replace('./edit-dados')}
+
+                    >
                         <Text style={styles.textConfig}>Editar Dados</Text>
 
                         <MaterialIcons
                             name='arrow-forward-ios'
                             size={24}
                         />
-                    </View>
+                    </Pressable>
 
                     <View style={styles.ConfigItem}>
                         <Text style={styles.textConfig}>Configurações</Text>
@@ -128,19 +133,21 @@ export default function PerfilDependente() {
 
                     </View>
 
-                    <View style={styles.ConfigItem}>
+                    <Pressable
+                        style={styles.ConfigItem}
+                        onPress={() => router.replace('/welcome')}
+                    >
                         <Text style={styles.logOut}>Sair</Text>
-
                         <MaterialIcons
                             name='logout'
                             size={30}
                             color={Colors.light.bluePrimary}
                         />
+                    </Pressable>
 
-                    </View>
                 </View>
-                <CustomModal />
             </ScrollView>
+            <CustomModal ref={modalRef} />
         </View>
     );
 }
@@ -163,7 +170,8 @@ const styles = StyleSheet.create({
     seta: {
         margin: 45,
         resizeMode: 'contain',
-        marginBottom: '15%'
+        marginBottom: '15%',
+        marginTop: '20%'
     },
     body: {
         justifyContent: 'center',
