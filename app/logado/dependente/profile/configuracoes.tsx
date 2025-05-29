@@ -1,19 +1,9 @@
 import Colors from '@/constants/Colors';
 import { useRouter } from "expo-router";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// import React, { useState } from 'react';
-// import { Dropdown } from 'react-native-element-dropdown';
-
-const userTypes = [
-    { label: 'Responsável', value: 'Responsável' },
-    { label: 'Dependente', value: 'Dependente' },
-    { label: 'Usuário comum', value: 'Usuário comum' },
-];
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ConfigDependente() {
     const router = useRouter();
-    // const [selectedUserType, setSelectedUserType] = React.useState('Dependente');
-
 
     return (
         <View style={styles.container}>
@@ -34,9 +24,36 @@ export default function ConfigDependente() {
                     />
                 </TouchableOpacity>
 
-                <View style={styles.tipoUser}>
-                    <Text style={styles.text}>Perfil:</Text>
+                <View style={styles.body}>
+                    <View style={styles.tipoUser}>
+                        <Text style={styles.text}>Perfil:</Text>
+
+                        <View style={styles.typeUser}>
+                            <Text style={styles.sectionTypeUser}> Responsável</Text>
+                        </View>
+
+                    </View>
+                    <Pressable
+                        onPress={() => router.replace('./edit-tipo-user')}
+
+                    >
+                        <Text style={styles.textTypeUser}>Alterar tipo de usuário</Text>
+                    </Pressable>
+
+                    <View style={styles.sectionCod}>
+                        <Text style={styles.text}>Código de responsável:</Text>
+
+                        <View style={styles.codView}>
+                            <Text style={styles.cod}>SANARE-123</Text>
+                        </View>
+                    </View>
                 </View>
+                       
+                        <View style={styles.dependenteView}>
+                            <Text style={styles.text}>Dependentes:</Text>
+                        </View>
+
+
 
             </ScrollView>
         </View>
@@ -66,10 +83,69 @@ const styles = StyleSheet.create({
         marginBottom: '15%',
         marginTop: '20%'
     },
+    body: {
+        marginHorizontal: 25,
+        justifyContent: 'center',
+        alignItems: 'center'
+        
+    },
     tipoUser: {
-
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 20,
+        marginHorizontal: 25,
+        marginBottom: 40
     },
     text: {
-
+        fontFamily: 'Poppins-Medium',
+        fontSize: 24
     },
+    typeUser: {
+        width: '80%',
+        backgroundColor: Colors.light.white,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15,
+        elevation: 3,
+    },
+    sectionTypeUser: {
+        fontFamily: 'Poppins-Regular',
+        fontSize: 18
+    },
+    
+    textTypeUser: {
+        fontFamily: 'Poppins-Regular',
+        fontSize: 20,
+        color: Colors.light.bluePrimary
+    },
+    sectionCod: {
+        marginTop: 50,
+        marginBottom: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 30,
+        width: '100%',
+    },
+    codView: {
+        width: '85%',
+        borderRadius: 20,
+        borderWidth: 3,
+        borderColor: Colors.light.bluePrimary,
+        height: 65,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.light.white
+        
+    },
+    cod: {
+        fontFamily: 'Poppins-Medium',
+        fontSize: 32,
+        color: Colors.light.bluePrimary
+    },
+    dependenteView: {
+        marginHorizontal: 25,
+        
+    }
 })
