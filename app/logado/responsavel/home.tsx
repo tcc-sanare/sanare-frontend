@@ -17,8 +17,9 @@ export default function HomeResponsavel() {
             {/* TOPO */}
             <View style={styles.header}>
                 <Image
-                    source={require('@/assets/images/detalhe.png')}
                     style={styles.detalhe}
+                    // source={require('../../../../assets/images/detalhe.png')}
+                    source={require('../../../assets/images/detalhe.svg')}
                     resizeMode="cover"
                 />
 
@@ -30,7 +31,7 @@ export default function HomeResponsavel() {
 
                     <TouchableOpacity onPress={() => console.log('Notificações')}>
                         <Image
-                            source={require('@/assets/images/sino.png')}
+                            source={require('../../../assets/images/sino.svg')}
                             style={styles.sino}
                             resizeMode="contain"
                         />
@@ -47,33 +48,33 @@ export default function HomeResponsavel() {
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.servicosContainer}
                 >
-                    <TouchableOpacity onPress={() => router.push('/saude')}>
+                    <TouchableOpacity onPress={() => router.push('./saude')}>
                         <Image
-                            source={require('@/assets/images/Saude.png')}
+                            source={require('../../../assets/images/Saude.svg')}
                             style={styles.servicoCard}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => router.push('/dependentes')}>
+                    <TouchableOpacity onPress={() => router.push('./dependentes')}>
                         <Image
-                            source={require('@/assets/images/Dependentes.png')}
+                            source={require('../../../assets/images/Dependentes.svg')}
                             style={styles.servicoCard}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => router.push('/relatorios')}>
+                    <TouchableOpacity onPress={() => router.push('./relatorios')}>
                         <Image
-                            source={require('@/assets/images/Relatorios.png')}
+                            source={require('../../../assets/images/Relatorios.svg')}
                             style={styles.servicoCard}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => router.push('/lembretes')}>
+                    <TouchableOpacity onPress={() => router.push('./lembretes')}>
                         <Image
-                            source={require('@/assets/images/Lembretes.png')}
+                            source={require('../../../assets/images/Lembretes.svg')}
                             style={styles.servicoCard}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => router.push('/dicas')}>
+                    <TouchableOpacity onPress={() => router.push('./dicas')}>
                         <Image
-                            source={require('@/assets/images/Dicas.png')}
+                            source={require('@/assets/images/Dicas.svg')}
                             style={styles.servicoCard}
                         />
                     </TouchableOpacity>

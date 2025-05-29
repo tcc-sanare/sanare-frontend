@@ -112,15 +112,19 @@ export default function PerfilDependente() {
                         />
                     </Pressable>
 
-                    <View style={styles.ConfigItem}>
+                    <Pressable 
+                    style={styles.ConfigItem}
+                        onPress={() => router.replace('./configuracoes')}
+
+                    >
                         <Text style={styles.textConfig}>Configurações</Text>
 
                         <MaterialIcons
                             name='arrow-forward-ios'
                             size={24}
                         />
-                    </View>
-
+                    </Pressable>
+                    
                     <View style={styles.ConfigItem}>
                         <Text style={styles.textConfig}>Tema Escuro</Text>
 
