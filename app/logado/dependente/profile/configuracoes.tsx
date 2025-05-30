@@ -29,7 +29,7 @@ export default function ConfigDependente() {
                         <Text style={styles.text}>Perfil:</Text>
 
                         <View style={styles.typeUser}>
-                            <Text style={styles.sectionTypeUser}> Responsável</Text>
+                            <Text style={styles.sectionTypeUser}> Dependente</Text>
                         </View>
 
                     </View>
@@ -40,18 +40,27 @@ export default function ConfigDependente() {
                         <Text style={styles.textTypeUser}>Alterar tipo de usuário</Text>
                     </Pressable>
 
-                    <View style={styles.sectionCod}>
+                    {/* <View style={styles.sectionCod}>
                         <Text style={styles.text}>Código de responsável:</Text>
 
                         <View style={styles.codView}>
                             <Text style={styles.cod}>SANARE-123</Text>
                         </View>
-                    </View>
+                    </View> */}
                 </View>
-                       
-                        <View style={styles.dependenteView}>
-                            <Text style={styles.text}>Dependentes:</Text>
-                        </View>
+
+                <View style={styles.dependenteView}>
+                    <Text style={styles.text}>Dependentes:</Text>
+
+                    <View style={styles.cardView}>
+                        <Image
+                            source={require('../../../../assets/images/responsavel-photo.jpg')}
+                            style={styles.photo}
+                        />
+                        <Text style={styles.name}>Nicolas Faustino</Text>
+                    </View>
+                    <Text style={styles.desvincular}>Desvincular</Text>
+                </View>
 
 
 
@@ -87,7 +96,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 25,
         justifyContent: 'center',
         alignItems: 'center'
-        
+
     },
     tipoUser: {
         flexDirection: 'row',
@@ -114,7 +123,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Regular',
         fontSize: 18
     },
-    
+
     textTypeUser: {
         fontFamily: 'Poppins-Regular',
         fontSize: 20,
@@ -137,7 +146,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.light.white
-        
+
     },
     cod: {
         fontFamily: 'Poppins-Medium',
@@ -145,7 +154,23 @@ const styles = StyleSheet.create({
         color: Colors.light.bluePrimary
     },
     dependenteView: {
+        marginTop: 50,
         marginHorizontal: 25,
-        
-    }
+
+    },
+    cardView: {
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    photo: {
+        width: 60,
+        height: 60,
+        borderRadius: 100,
+        // borderColor: Colors.light.bluePrimary,
+        // borderWidth: 8,
+        resizeMode: 'cover'
+    },
+    name: {},
+    desvincular: {}
 })
