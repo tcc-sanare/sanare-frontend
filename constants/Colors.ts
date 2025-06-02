@@ -24,13 +24,15 @@ const Colors = {
   light: {
     background: '#F5F5F5',
     bluePrimary: '#005EB7',
-    bluePrimaryOpacity: '#005EB799',
+    bluePrimaryOpacity: '#005EB7B3',
     white: '#FFF',
     gray: '#D3D3D3',
+    grayOpacity: '#E9E8E8',
     grayOpacityBorder: '#6D6D6D66',
     backgroundOpacity: '#0000004D',
     blueDark: '#01148A',
     blackOpacity: '#00000080',
+    black: '#000'
   },
   dark: {
     background: '#333333',

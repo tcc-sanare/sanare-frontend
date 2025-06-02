@@ -28,10 +28,7 @@ export default function PerfilDependente() {
 
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../../../../assets/images/bgSanare.png')}
-                style={styles.logoFooter}
-            />
+           
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 keyboardShouldPersistTaps="handled"
@@ -160,16 +157,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.light.background
-    },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
     },
     seta: {
         margin: 45,
