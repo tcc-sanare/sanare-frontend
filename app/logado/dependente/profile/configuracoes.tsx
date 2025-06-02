@@ -6,6 +6,7 @@ import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity
 export default function ConfigDependente() {
     const router = useRouter();
     const [modalVisible, setModalVisible] = useState(false);
+    const [secondModalVisible, setSecondModalVisible] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -89,6 +90,7 @@ export default function ConfigDependente() {
 
                         <TouchableOpacity style={styles.primaryBtn} onPress={() => {
                             setModalVisible(false);
+                            setSecondModalVisible(true);
                         }}>
                             <Text style={styles.primaryText}>Prosseguir</Text>
                         </TouchableOpacity>
@@ -99,6 +101,47 @@ export default function ConfigDependente() {
                     </View>
                 </View>
             </Modal>
+
+            <Modal
+                transparent={true}
+                animationType="fade"
+                visible={secondModalVisible}
+                onRequestClose={() => setSecondModalVisible(false)}
+            >
+                <View style={styles.modalBackground}>
+                    <View style={styles.modalBox}>
+                        <Text style={styles.modalTitle}>
+                            Deseja adicionar um novo responsável?
+                        </Text>
+
+                        <Text style={styles.modalMessage}>
+                            Caso escolha por não adicionar um responsável seu perfil se tornará para uso pessoal.
+                        </Text>
+
+                        <TouchableOpacity
+                            style={styles.primaryBtn}
+                            onPress={() => {
+                                setSecondModalVisible(false);
+                                 router.push('./codResponsavelCadastro');
+                                }}
+                                >
+                            <Text style={styles.primaryText}>Sim</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.cancelBtn}
+                            onPress={() => {
+                                setSecondModalVisible(false);
+                                // router.push('../../user/profile/configuracoes');
+
+                            }}
+                        >
+                            <Text style={styles.cancelText}>Não</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
         </View>
     );
 }
@@ -113,7 +156,7 @@ const styles = StyleSheet.create({
     seta: {
         margin: 45,
         resizeMode: 'contain',
-        marginBottom: '15%',
+        marginBottom: '25%',
         marginTop: '20%'
     },
     body: {

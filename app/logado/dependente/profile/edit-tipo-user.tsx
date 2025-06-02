@@ -2,12 +2,13 @@ import Colors from '@/constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import { useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function EditTipoUser() {
     const router = useRouter();
     const [selectedBtn, setSelectedBtn] = useState<string | null>(null);
     const opcoes = ['Responsável', 'Uso pessoal'];
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -53,9 +54,7 @@ export default function EditTipoUser() {
                     </View>
                     <View style={styles.viewBtn}>
                         <TouchableOpacity style={styles.btn}
-                            onPress={() => {
-                                router.push('./configuracoes')
-                            }}
+                            onPress={() => setModalVisible(true)}
                         >
                             <LinearGradient
                                 colors={['#005EB7', '#CEECF5']}
@@ -70,6 +69,34 @@ export default function EditTipoUser() {
 
                 </View>
             </ScrollView>
+            <Modal
+                transparent={true}
+                animationType="fade"
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalBackground}>
+                    <View style={styles.modalBox}>
+                        <Text style={styles.modalTitle}>
+                            Tem certeza de que deseja alterar seu tipo de usuário para <Text style={styles.typeUserText}> {selectedBtn}</Text> ?
+                        </Text>
+
+                        <Text style={styles.modalMessage}>
+                            Ao alterar seu tipo de perfil, você deixará de ter acesso a funcionalidades específicas do perfil atual. 
+                        </Text>
+
+                        <TouchableOpacity style={styles.primaryBtn} onPress={() => {
+                            setModalVisible(false);
+                        }}>
+                            <Text style={styles.primaryText}>Prosseguir</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.cancelBtn} onPress={() => setModalVisible(false)}>
+                            <Text style={styles.cancelText}>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -160,5 +187,64 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 50,
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: Colors.light.backgroundOpacity,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalBox: {
+        backgroundColor: Colors.light.background,
+        padding: 25,
+        borderRadius: 12,
+        width: '85%',
+        // height: 360,
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 18,
+        fontFamily: 'Poppins-Medium',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    typeUserText: {
+        color: Colors.light.bluePrimary,
+        fontFamily: 'Poppins-Regular',
+    },
+    modalMessage: {
+        fontSize: 14,
+        marginBottom: 40,
+        fontFamily: 'Poppins-Regular',
+        textAlign: 'justify',
+        width: '90%'
+    },
+    primaryBtn: {
+        backgroundColor: Colors.light.bluePrimaryOpacity,
+        borderRadius: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        marginBottom: 10,
+        width: '90%',
+        alignItems: 'center',
+    },
+    primaryText: {
+        color: Colors.light.white,
+        fontFamily: 'Poppins-Regular',
+        fontSize: 18,
+    },
+    cancelBtn: {
+        backgroundColor: Colors.light.grayOpacity,
+        borderRadius: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        marginBottom: 10,
+        width: '90%',
+        alignItems: 'center',
+    },
+    cancelText: {
+        fontSize: 18,
+        fontFamily: 'Poppins-Medium',
+
     },
 })

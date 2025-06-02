@@ -170,18 +170,18 @@ const styles = StyleSheet.create({
     },
     profilePhotoContainer: {
         position: 'relative',
-        width: 200,
-        height: 200,
+        width: 180,
+        height: 180,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 40,
     },
     profilePhoto: {
-        width: 200,
-        height: 200,
+        width: 180,
+        height: 180,
         borderRadius: 100,
         borderColor: Colors.light.bluePrimary,
-        borderWidth: 8,
+        borderWidth: 5,
         resizeMode: 'cover'
     },
     EditPhotoContainer: {
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     },
     username: {
         fontFamily: 'Poppins-Medium',
-        fontSize: 30,
+        fontSize: 25,
     },
     email: {
         fontFamily: 'Poppins-Regular',
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     },
     tittle: {
         fontFamily: 'Poppins-Regular',
-        fontSize: 25,
+        fontSize: 20,
         color: Colors.light.bluePrimary,
         marginBottom: 20
     },

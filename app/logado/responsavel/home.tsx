@@ -368,10 +368,13 @@ const styles = StyleSheet.create({
     },
     servicosContainer: {
         paddingRight: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 15
     },
     servicoCard: {
-        width: 89,
-        height: 100,
+        width: 100,
+        height: 120,
         marginRight: 0,
         resizeMode: 'contain',
     },
@@ -380,15 +383,15 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Medium',
         color: Colors.light.black,
         position: 'absolute',
-        top: 67,
+        top: 80,
         left: 29,
     },
     cardTextt: {
-        fontSize: 11,
+        fontSize: 10,
         fontFamily: 'Poppins-Medium',
         color: Colors.light.black,
         position: 'absolute',
-        top: 67,
+        top: 80,
         left: 14,
         right: 0,
     },
@@ -397,7 +400,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Medium',
         color: Colors.light.black,
         position: 'absolute',
-        top: 67,
+        top: 80,
         left: 20,
     },
     hojeContainer: {
