@@ -6,7 +6,7 @@ import React, { useRef } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
-// import CustomModal from './modal-edit-photo';
+import CustomModal from './modal-edit-photo';
 
 export default function PerfilDependente() {
     const modalRef = useRef<Modalize>(null);
@@ -148,7 +148,7 @@ export default function PerfilDependente() {
 
                 </View>
             </ScrollView>
-            {/* <CustomModal ref={modalRef} /> */}
+            <CustomModal ref={modalRef} />
         </View>
     );
 }

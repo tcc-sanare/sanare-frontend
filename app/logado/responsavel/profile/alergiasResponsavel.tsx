@@ -1,0 +1,161 @@
+import DropdownList from '@/components/DropdownList';
+import Colors from '@/constants/Colors';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from "expo-router";
+import { useState } from 'react';
+import { Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+export default function AlergiasResponsavel() {
+    const router = useRouter();
+
+    const [antiInflamatorios, setAntiInflamatorios] = useState<string[]>([]);
+    const [analgesicos, setAnalgesicos] = useState<string[]>([]);
+    const [antibioticos, setAntibioticos] = useState<string[]>([]);
+    const [anticonvulsivantes, setAnticonvulsivantes] = useState<string[]>([]);
+
+    return (
+        <View style={styles.container}>
+            <Image
+                source={require('../../../../assets/images/bgSanare.png')}
+                style={styles.logoFooter}
+            />
+
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
+            >
+                <ScrollView
+                    contentContainerStyle={styles.scrollContainer}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <TouchableOpacity onPress={() => router.push('./edit-dados')}>
+                        <Image
+                            source={require('../../../../assets/images/seta.png')}
+                            style={styles.seta}
+                        />
+                    </TouchableOpacity>
+                    <View style={styles.body}>
+
+                        <View style={styles.textView}>
+                            <Text style={styles.text}>Selecione as alergias que possui.</Text>
+                        </View>
+
+                        <View style={{justifyContent:'center'}}>
+                            <DropdownList
+                                title="Antibióticos"
+                                items={['Penicilina', 'Amoxilina', 'Ampicilina', 'Cefalexina', 'Ceftriaxona', 'Eritromicina', 'Azitromicina', 'Sulfonamida']}
+                                selected={antibioticos}
+                                setSelected={setAntibioticos}
+                            />
+
+                            <DropdownList
+                                title="Anti-inflamatórios"
+                                items={['Ibuprofeno', 'Dipirona', 'Nimesulida', 'Naproxeno', 'Diclofenaco',
+                                    'Aspirina (AAS)', 'Indometacina', 'Piroxicam', 'Meloxicam', 'Etodolaco', 'Ketoprofeno']}
+                                selected={antiInflamatorios}
+                                setSelected={setAntiInflamatorios}
+                            />
+
+                            <DropdownList
+                                title="Analgésicos"
+                                items={['Paracetamol', 'Codeína', 'Tramadol', 'Morfina']}
+                                selected={analgesicos}
+                                setSelected={setAnalgesicos}
+                            />
+
+                            <DropdownList
+                                title="Anticonvulsivantes"
+                                items={['Fenitoína', 'Carbamazepina', 'Lamotrigina', 'Ácido Valproico', 'Fenobarbital']}
+                                selected={anticonvulsivantes}
+                                setSelected={setAnticonvulsivantes}
+                            />
+                        </View>
+                    </View>
+                    <View style={styles.viewBtn}>
+                        <TouchableOpacity style={styles.btn}
+                            onPress={() => {
+                                Keyboard.dismiss();
+                                router.push('./edit-dados')
+                            }}
+                        >
+                            <LinearGradient
+                                colors={['#005EB7', '#CEECF5']}
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 1, y: 3.8 }}
+                                style={styles.btnGradient}
+                            >
+                                <Text style={styles.btnText}>Salvar</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: '10%',
+    },
+    logoFooter: {
+        position: 'absolute',
+        bottom: 0,
+        top: '31%',
+        resizeMode: 'contain',
+        left: 0,
+        right: 0,
+        height: '100%',
+        width: '100%'
+    },
+    scrollContainer: {
+        paddingBottom: 50,
+        paddingHorizontal: 20,
+
+    },
+    seta: {
+        margin: 45,
+        resizeMode: 'contain',
+        marginBottom: '15%'
+    },
+
+    body: {
+        // alignItems: 'center',
+        justifyContent: "center",
+        marginBottom: '10%'
+    },
+    textView: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: '20%',
+        width: '85%'
+    },
+    text: {
+        textAlign: 'center',
+        fontSize: 18,
+        fontFamily: 'Poppins-Regular',
+    },
+    viewBtn: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: '10%'
+    },
+    btn: {
+        width: 280,
+        height: 80,
+        borderRadius: 50,
+        overflow: 'hidden',
+    },
+    btnText: {
+        color: Colors.light.white,
+        fontFamily: 'Poppins-Medium',
+        fontSize: 25,
+    },
+    btnGradient: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+    },
+})
