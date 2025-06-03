@@ -28,7 +28,8 @@ export default function AlergiasResponsavel() {
                     contentContainerStyle={styles.scrollContainer}
                     showsVerticalScrollIndicator={false}
                 >
-                    <TouchableOpacity onPress={() => router.push('./edit-dados')}>
+                    <TouchableOpacity 
+                    onPress={() => router.push('./edit-dados')}>
                         <Image
                             source={require('../../../../assets/images/seta.png')}
                             style={styles.seta}
@@ -40,7 +41,7 @@ export default function AlergiasResponsavel() {
                             <Text style={styles.text}>Selecione as alergias que possui.</Text>
                         </View>
 
-                        <View style={{justifyContent:'center'}}>
+                        <View>
                             <DropdownList
                                 title="Antibióticos"
                                 items={['Penicilina', 'Amoxilina', 'Ampicilina', 'Cefalexina', 'Ceftriaxona', 'Eritromicina', 'Azitromicina', 'Sulfonamida']}
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
         paddingBottom: 50,
         paddingHorizontal: 20,
 
+        // alignItems: 'center',
     },
     seta: {
         margin: 45,
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     },
 
     body: {
-        // alignItems: 'center',
+        marginHorizontal:'10%',
         justifyContent: "center",
         marginBottom: '10%'
     },
