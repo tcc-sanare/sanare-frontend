@@ -3,7 +3,7 @@ import Fonts from '@/constants/Fonts';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
@@ -69,6 +69,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: "center",
+        backgroundColor: Colors.light.background
+
     },
     logoFooter: {
         position: 'absolute',

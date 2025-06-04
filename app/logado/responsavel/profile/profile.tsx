@@ -8,7 +8,7 @@ import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 import CustomModal from './modal-edit-photo';
 
-export default function PerfilDependente() {
+export default function PerfilResponsavel() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
 
@@ -44,7 +44,7 @@ export default function PerfilDependente() {
 
                     <View style={styles.profilePhotoContainer}>
                         <Image
-                            source={require('../../../../assets/images/profile-photo.jpg')}
+                            source={require('../../../../assets/images/responsavel-photo.jpg')}
                             style={styles.profilePhoto}
                         />
 
@@ -63,8 +63,8 @@ export default function PerfilDependente() {
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.username}>Maria Santos</Text>
-                    <Text style={styles.email}>mariaSantos@gmail.com</Text>
+                    <Text style={styles.username}>Nicolas Faustino</Text>
+                    <Text style={styles.email}>nicolasFaustino@gmail.com</Text>
                 </View>
 
                 <View style={styles.section}>

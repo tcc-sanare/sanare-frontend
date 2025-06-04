@@ -2,25 +2,33 @@ import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
-import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useRef } from 'react';
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView, Switch } from 'react-native-gesture-handler';
+import { Modalize } from 'react-native-modalize';
+import CustomModal from './modal-edit-photo';
 
 export default function PerfilUser() {
+     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
+
     const [isDarkMode, setIsDarkMode] = React.useState(false);
 
     const toggleDarkMode = () => {
         setIsDarkMode(previousState => !previousState);
+    }
 
+    const openModal = () => {
+        modalRef.current?.open();
+    };
+
+    const handleLogout = () => {
+        router.replace('../../../welcome')
     }
 
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../../../../assets/images/bgSanare.png')}
-                style={styles.logoFooter}
-            />
+           
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 keyboardShouldPersistTaps="handled"
@@ -36,21 +44,27 @@ export default function PerfilUser() {
 
                     <View style={styles.profilePhotoContainer}>
                         <Image
-                            source={require('../../../../assets/images/profile-photo.jpg')}
+                            source={require('../../../../assets/images/user-photo.jpg')}
                             style={styles.profilePhoto}
                         />
 
-                        <View style={styles.EditPhotoContainer}>
+                        <TouchableOpacity
+                            style={styles.EditPhotoContainer}
+                            onPress={() => {
+                                openModal();
+                            }}
+                        >
                             <Ionicons
                                 name='pencil'
                                 color={Colors.light.white}
                                 size={30}
                             />
-                        </View>
+
+                        </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.username}>Maria Santos</Text>
-                    <Text style={styles.email}>mariaSantos@gmail.com</Text>
+                    <Text style={styles.username}>José Silva Correa</Text>
+                    <Text style={styles.email}>joseCorrea12@gmail.com</Text>
                 </View>
 
                 <View style={styles.section}>
@@ -82,24 +96,32 @@ export default function PerfilUser() {
                 </View>
 
                 <View style={styles.sectionConfig}>
-                    <View style={styles.ConfigItem}>
+                    <Pressable 
+                    style={styles.ConfigItem}
+                        onPress={() => router.replace('./edit-dados')}
+
+                    >
                         <Text style={styles.textConfig}>Editar Dados</Text>
 
                         <MaterialIcons
                             name='arrow-forward-ios'
                             size={24}
                         />
-                    </View>
+                    </Pressable>
 
-                    <View style={styles.ConfigItem}>
+                    <Pressable 
+                    style={styles.ConfigItem}
+                        onPress={() => router.replace('./configuracoes')}
+
+                    >
                         <Text style={styles.textConfig}>Configurações</Text>
 
                         <MaterialIcons
                             name='arrow-forward-ios'
                             size={24}
                         />
-                    </View>
-
+                    </Pressable>
+                    
                     <View style={styles.ConfigItem}>
                         <Text style={styles.textConfig}>Tema Escuro</Text>
 
@@ -112,18 +134,21 @@ export default function PerfilUser() {
 
                     </View>
 
-                    <View style={styles.ConfigItem}>
+                    <Pressable
+                        style={styles.ConfigItem}
+                        onPress={() => router.replace('/welcome')}
+                    >
                         <Text style={styles.logOut}>Sair</Text>
-
                         <MaterialIcons
                             name='logout'
                             size={30}
                             color={Colors.light.bluePrimary}
                         />
+                    </Pressable>
 
-                    </View>
                 </View>
             </ScrollView>
+            <CustomModal ref={modalRef} />
         </View>
     );
 }
@@ -133,20 +158,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.light.background
     },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
-    },
     seta: {
         margin: 45,
         resizeMode: 'contain',
-        marginBottom: '15%'
+        marginBottom: '15%',
+        marginTop: '20%'
     },
     body: {
         justifyContent: 'center',
@@ -154,18 +170,18 @@ const styles = StyleSheet.create({
     },
     profilePhotoContainer: {
         position: 'relative',
-        width: 200,
-        height: 200,
+        width: 180,
+        height: 180,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 40,
     },
     profilePhoto: {
-        width: 200,
-        height: 200,
+        width: 180,
+        height: 180,
         borderRadius: 100,
         borderColor: Colors.light.bluePrimary,
-        borderWidth: 8,
+        borderWidth: 5,
         resizeMode: 'cover'
     },
     EditPhotoContainer: {
@@ -183,7 +199,7 @@ const styles = StyleSheet.create({
     },
     username: {
         fontFamily: 'Poppins-Medium',
-        fontSize: 30,
+        fontSize: 25,
     },
     email: {
         fontFamily: 'Poppins-Regular',
@@ -200,7 +216,7 @@ const styles = StyleSheet.create({
     },
     tittle: {
         fontFamily: 'Poppins-Regular',
-        fontSize: 25,
+        fontSize: 20,
         color: Colors.light.bluePrimary,
         marginBottom: 20
     },

@@ -116,13 +116,6 @@ export default function HomeUser() {
                                 />
                                 <Text style={styles.cardText}>Saúde</Text>
                             </TouchableOpacity>
-                            {/* <TouchableOpacity onPress={() => router.push('./dependentes')}>
-                                <Image
-                                    source={require('../../../assets/images/Dependentes.png')}
-                                    style={styles.servicoCard}
-                                />
-                                <Text style={styles.cardTextt}>Dependentes</Text>
-                            </TouchableOpacity> */}
                             <TouchableOpacity onPress={() => router.push('./relatorios')}>
                                 <Image
                                     source={require('../../../assets/images/Relatorios.png')}

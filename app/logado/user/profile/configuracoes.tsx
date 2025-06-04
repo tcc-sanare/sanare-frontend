@@ -4,10 +4,10 @@ import { useRouter } from "expo-router";
 import { useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function EditTipoUser() {
-    const router = useRouter();
+export default function ConfigUser() {
+   const router = useRouter();
     const [selectedBtn, setSelectedBtn] = useState<string | null>(null);
-    const opcoes = ['Responsável', 'Uso pessoal'];
+    const opcoes = ['Dependente', 'Responsável'];
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -30,7 +30,7 @@ export default function EditTipoUser() {
                         <Text style={styles.text}>Perfil:</Text>
 
                         <View style={styles.typeUser}>
-                            <Text style={styles.sectionTypeUser}> Dependente</Text>
+                            <Text style={styles.sectionTypeUser}>Uso Pessoal</Text>
                         </View>
 
                     </View>
@@ -84,12 +84,17 @@ export default function EditTipoUser() {
                             Ao alterar seu tipo de perfil, você deixará de ter acesso a funcionalidades específicas do perfil atual.
                         </Text>
 
-                        <TouchableOpacity style={styles.primaryBtn} onPress={() => {
-                            setModalVisible(false);
-                            if (selectedBtn === 'Responsável') {
-                                router.push('./codResponsavel')
-                            }
-                        }}>
+                        <TouchableOpacity
+                            style={styles.primaryBtn}
+                            onPress={() => {
+                                setModalVisible(false);
+                                if (selectedBtn === 'Dependente') {
+                                    router.push('../../dependente/profile/codResponsavelCadastro')
+                                }
+                                if (selectedBtn === 'Responsável') {
+                                    router.push('./codResponsavel')
+                                }
+                            }}>
                             <Text style={styles.primaryText}>Prosseguir</Text>
                         </TouchableOpacity>
 

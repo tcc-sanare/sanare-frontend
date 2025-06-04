@@ -6,7 +6,7 @@ import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity
 export default function ConfigDependente() {
     const router = useRouter();
     const [modalVisible, setModalVisible] = useState(false);
-    const [secondModalVisible, setSecondModalVisible] = useState(false);
+    const [selectedDependente, setSelectedDependente] = useState<string | null>(null);
 
     return (
         <View style={styles.container}>
@@ -27,7 +27,7 @@ export default function ConfigDependente() {
                         <Text style={styles.text}>Perfil:</Text>
 
                         <View style={styles.typeUser}>
-                            <Text style={styles.sectionTypeUser}> Dependente</Text>
+                            <Text style={styles.sectionTypeUser}>Responsável</Text>
                         </View>
 
                     </View>
@@ -37,24 +37,54 @@ export default function ConfigDependente() {
                     >
                         <Text style={styles.textTypeUser}>Alterar tipo de usuário</Text>
                     </Pressable>
+
+                    <View style={styles.sectionCod}>
+                        <Text style={styles.text}>Código de responsável:</Text>
+
+                        <View style={styles.codView}>
+                            <Text style={styles.cod}>SANARE-123</Text>
+                        </View>
+                    </View>
                 </View>
 
                 <View style={styles.SectionView}>
-                    <Text style={styles.text}>Responsável:</Text>
+                    <Text style={styles.text}>Dependentes:</Text>
 
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
 
                         <View style={styles.containerView}>
                             <View style={styles.cardView}>
                                 <Image
-                                    source={require('../../../../assets/images/responsavel-photo.jpg')}
+                                    source={require('../../../../assets/images/profile-photo.jpg')}
                                     style={styles.photo}
                                 />
-                                <Text style={styles.name}>Nicolas Faustino</Text>
+                                <Text style={styles.name}>Maria Santos</Text>
                             </View>
 
                             <TouchableOpacity
-                                onPress={() => setModalVisible(true)}
+                                onPress={() => {
+                                    setSelectedDependente("Maria Santos")
+                                    setModalVisible(true)
+                                }}
+                                style={{ justifyContent: 'center', alignItems: 'center' }}
+                            >
+                                <Text style={styles.desvincular}>Desvincular</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.containerView}>
+                            <View style={styles.cardView}>
+                                <Image
+                                    source={require('../../../../assets/images/photo-dependente.jpg')}
+                                    style={styles.photo}
+                                />
+                                <Text style={styles.name}>Joice Soares de Almeida</Text>
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setSelectedDependente("Joice Soares de Almeida")
+                                    setModalVisible(true)
+                                }}
                                 style={{ justifyContent: 'center', alignItems: 'center' }}
                             >
                                 <Text style={styles.desvincular}>Desvincular</Text>
@@ -62,7 +92,7 @@ export default function ConfigDependente() {
                         </View>
                     </View>
                 </View>
-            </ScrollView>
+            </ScrollView >
 
             <Modal
                 transparent={true}
@@ -73,16 +103,15 @@ export default function ConfigDependente() {
                 <View style={styles.modalBackground}>
                     <View style={styles.modalBox}>
                         <Text style={styles.modalTitle}>
-                            Tem certeza de que deseja remover <Text style={styles.nameResponsavel}>Nicolas Faustino</Text> como responsável?
+                            Tem certeza de que deseja remover <Text style={styles.nameResponsavel}>{selectedDependente}</Text> como dependente?
                         </Text>
 
                         <Text style={styles.modalMessage}>
-                            Ao remover seu responsável, ele perderá acesso ao seu acompanhamento de saúde.
+                            Ao remover um dependente, você perderá o acesso ao acompanhamento de sua saúde.
                         </Text>
 
                         <TouchableOpacity style={styles.primaryBtn} onPress={() => {
                             setModalVisible(false);
-                            setSecondModalVisible(true);
                         }}>
                             <Text style={styles.primaryText}>Prosseguir</Text>
                         </TouchableOpacity>
@@ -93,48 +122,7 @@ export default function ConfigDependente() {
                     </View>
                 </View>
             </Modal>
-
-            <Modal
-                transparent={true}
-                animationType="fade"
-                visible={secondModalVisible}
-                onRequestClose={() => setSecondModalVisible(false)}
-            >
-                <View style={styles.modalBackground}>
-                    <View style={styles.modalBox}>
-                        <Text style={styles.modalTitle}>
-                            Deseja adicionar um novo responsável?
-                        </Text>
-
-                        <Text style={styles.modalMessage}>
-                            Caso escolha por não adicionar um responsável seu perfil se tornará para uso pessoal.
-                        </Text>
-
-                        <TouchableOpacity
-                            style={styles.primaryBtn}
-                            onPress={() => {
-                                setSecondModalVisible(false);
-                                 router.push('./codResponsavelCadastro');
-                                }}
-                                >
-                            <Text style={styles.primaryText}>Sim</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.cancelBtn}
-                            onPress={() => {
-                                setSecondModalVisible(false);
-                                // router.push('../../user/profile/configuracoes');
-
-                            }}
-                        >
-                            <Text style={styles.cancelText}>Não</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
-
-        </View>
+        </View >
     );
 }
 
@@ -187,21 +175,42 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: Colors.light.bluePrimary
     },
+    sectionCod: {
+        marginTop: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 30,
+        width: '100%',
+    },
     containerView: {
         justifyContent: 'center',
-        // alignItems: 'center',
         width: '90%',
         height: 160,
         backgroundColor: Colors.light.white,
         elevation: 4,
         borderRadius: 25,
-        gap: 15
+        gap: 15,
+        marginBottom: 40
+    },
+    codView: {
+        width: '85%',
+        borderRadius: 20,
+        borderWidth: 3,
+        borderColor: Colors.light.bluePrimary,
+        height: 65,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '10%'
+    },
+    cod: {
+        fontFamily: 'Poppins-Medium',
+        fontSize: 32,
+        color: Colors.light.bluePrimary
     },
     SectionView: {
         marginTop: 80,
         marginHorizontal: 25,
         gap: 25
-
     },
     cardView: {
         flexDirection: 'row',

@@ -112,15 +112,14 @@ const styles = StyleSheet.create({
     scrollContainer: {
         paddingBottom: 50,
         paddingHorizontal: 20,
-
     },
     seta: {
         margin: 45,
         resizeMode: 'contain',
-        marginBottom: '15%'
+        marginBottom: '20%'
     },
-
     body: {
+        marginHorizontal: '10%',
         alignItems: 'center',
         justifyContent: "center",
         marginBottom: '10%'

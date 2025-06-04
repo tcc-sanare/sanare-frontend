@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 import { useState } from 'react';
 import { Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function AlergiasResponsavel() {
+export default function AlergiasUser() {
     const router = useRouter();
 
     const [antiInflamatorios, setAntiInflamatorios] = useState<string[]>([]);
