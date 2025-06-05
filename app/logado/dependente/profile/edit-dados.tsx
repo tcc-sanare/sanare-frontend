@@ -50,6 +50,7 @@ export default function editDadosDependente() {
                             <Text style={styles.text}>Nome</Text>
                             <View style={[styles.input, isFocusedName && styles.inputFocused]}>
                                 <TextInput
+                                    style={styles.textInput}
                                     onFocus={() => setIsFocusedName(true)}
                                     onBlur={() => setIsFocusedName(false)}
                                 />

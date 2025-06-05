@@ -65,7 +65,7 @@ export default function Welcome() {
 
             <View style={styles.containerBtns}>
 
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('./logado/user/profile/profile')}>
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('./logado/responsavel/dependentes/dependentes')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}

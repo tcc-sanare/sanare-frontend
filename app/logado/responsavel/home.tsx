@@ -125,7 +125,7 @@ export default function HomeResponsavel() {
                                 />
                                 <Text style={styles.cardText}>Saúde</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => router.push('./dependentes')}>
+                            <TouchableOpacity onPress={() => router.push('./dependentes/dependentes')}>
                                 <Image
                                     source={require('../../../assets/images/Dependentes.png')}
                                     style={styles.servicoCard}

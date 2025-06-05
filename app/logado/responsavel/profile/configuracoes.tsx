@@ -77,12 +77,12 @@ export default function ConfigDependente() {
                                     source={require('../../../../assets/images/photo-dependente.jpg')}
                                     style={styles.photo}
                                 />
-                                <Text style={styles.name}>Joice Soares de Almeida</Text>
+                                <Text style={styles.name}>Joice Soares</Text>
                             </View>
 
                             <TouchableOpacity
                                 onPress={() => {
-                                    setSelectedDependente("Joice Soares de Almeida")
+                                    setSelectedDependente("Joice Soares")
                                     setModalVisible(true)
                                 }}
                                 style={{ justifyContent: 'center', alignItems: 'center' }}
