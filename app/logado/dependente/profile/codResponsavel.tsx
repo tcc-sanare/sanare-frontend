@@ -1,18 +1,67 @@
 import Colors from "@/constants/Colors";
+import { useTheme } from '@/hooks/useTheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function CodResponsavelDependente() {
     const router = useRouter();
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: colors.background,
+            justifyContent: 'center',
+            alignItems: "center",
+        },
+        textView: {
+            marginBottom: '20%',
+            width: '85%'
+        },
+        text: {
+            textAlign: 'center',
+            fontSize: 18,
+            fontFamily: 'Poppins-Regular',
+            color: colors.black,
+        },
+        CadastrotextView: {
+            alignItems: "center",
+            gap: 35,
+        },
+        textCod: {
+            fontFamily: 'Poppins-SemiBold',
+            fontSize: 20,
+            color: colors.black,
+        },
+        codigo: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 36,
+            color: Colors.light.bluePrimary,
+            textDecorationLine: 'underline'
+        },
+        btn: {
+            width: 250,
+            height: 70,
+            borderRadius: 50,
+            overflow: 'hidden',
+            marginTop: '25%'
+        },
+        btnText: {
+            color: Colors.light.white,
+            fontFamily: 'Poppins-Medium',
+            fontSize: 25,
+        },
+        btnGradient: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+        },
+
+    })
 
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../../../../assets/images/bgSanare.png')}
-                style={styles.logoFooter}
-            />
-
             <View style={styles.textView}>
                 <Text style={styles.text}> Vincule-se a um dependente usando seu código de responsável.</Text>
             </View>
@@ -35,69 +84,3 @@ export default function CodResponsavelDependente() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.light.background,
-        justifyContent: 'center',
-        alignItems: "center",
-    },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
-    },
-    textView: {
-        marginBottom: '20%',
-        width: '85%'
-    },
-    text: {
-        textAlign: 'center',
-        fontSize: 18,
-        fontFamily: 'Poppins-Regular',
-    },
-    CadastrotextView: {
-        alignItems: "center",
-        gap: 35,
-    },
-    titulo: {
-        color: Colors.light.bluePrimary,
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 30
-    },
-    textCod: {
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 20
-    },
-    codigo: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 36,
-        color: Colors.light.bluePrimary,
-        textDecorationLine: 'underline'
-    },
-    btn: {
-        width: 280,
-        height: 70,
-        borderRadius: 50,
-        overflow: 'hidden',
-        marginTop: '25%'
-    },
-    btnText: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Medium',
-        fontSize: 25,
-    },
-    btnGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-    },
-
-})

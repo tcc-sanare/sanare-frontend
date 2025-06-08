@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -13,6 +14,8 @@ interface Props {
 const DropdownList: React.FC<Props> = ({ title, items, selected, setSelected }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [reactions, setReactions] = useState<{ [key: string]: string }>({});
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+
 
     const toggleItem = (item: string) => {
         if (selected.includes(item)) {
@@ -30,6 +33,48 @@ const DropdownList: React.FC<Props> = ({ title, items, selected, setSelected }) 
     const handleReactionChange = (item: string, text: string) => {
         setReactions(prev => ({ ...prev, [item]: text }));
     };
+
+    const styles = StyleSheet.create({
+        container: {
+            marginBottom: 16,
+        },
+        header: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 8,
+        },
+        title: {
+            fontFamily: 'Poppins-SemiBold',
+            color: Colors.light.bluePrimary,
+            fontSize: 24,
+            marginLeft: 6,
+        },
+        item: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: 6,
+            paddingLeft: 26,
+        },
+        itemText: {
+            fontSize: 18,
+            fontFamily: 'Poppins-Regular',
+            color: colors.black,
+        },
+        input: {
+            marginTop: 4,
+            marginLeft: 56,
+            marginRight: 16,
+            padding: 8,
+            maxWidth: '60%',
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: colors.gray,
+            backgroundColor: colors.inputDoencas,
+            color: colors.inputDoencasText,
+            fontFamily: 'Poppins-Regular',
+            fontSize: 14,
+        },
+    });
 
     return (
         <View style={styles.container}>
@@ -66,6 +111,7 @@ const DropdownList: React.FC<Props> = ({ title, items, selected, setSelected }) 
                                     onChangeText={(text) => handleReactionChange(item, text)}
                                     style={styles.input}
                                     multiline
+                                    placeholderTextColor={colors.dropdownPlaceholder}
                                 />
                             )}
                         </View>
@@ -78,42 +124,4 @@ const DropdownList: React.FC<Props> = ({ title, items, selected, setSelected }) 
 
 export default DropdownList;
 
-const styles = StyleSheet.create({
-    container: {
-        marginBottom: 16,
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 8,
-    },
-    title: {
-        fontFamily: 'Poppins-SemiBold',
-        color: Colors.light.bluePrimary,
-        fontSize: 24,
-        marginLeft: 6,
-    },
-    item: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 6,
-        paddingLeft: 26,
-    },
-    itemText: {
-        fontSize: 18,
-        fontFamily: 'Poppins-Regular',
-    },
-    input: {
-        marginTop: 4,
-        marginLeft: 56,
-        marginRight: 16,
-        padding: 8,
-        maxWidth: '60%',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: Colors.light.gray,
-        backgroundColor: Colors.light.white,
-        fontFamily: 'Poppins-Regular',
-        fontSize: 14,
-    },
-});
+

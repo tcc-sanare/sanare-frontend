@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -27,6 +28,131 @@ export default function editDadosUser() {
     const [isFocusedPasswordConfirm, setIsFocusedPasswordConfirm] = useState(false);
     const [ConfirmsenhaVisivel, setConfirmSenhaVisivel] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const [isFocusedDropdown, setIsFocusedDropdown] = useState(false);
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: colors.background
+        },
+        seta: {
+            margin: 45,
+            marginTop: '20%',
+            resizeMode: 'contain',
+            marginBottom: '15%'
+        },
+        inputSection: {
+            marginHorizontal: 40,
+            gap: 30
+        },
+        text: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 22,
+            color: colors.black
+        },
+        inputFocused: {
+            borderColor: colors.bluePrimaryOpacity,
+            borderWidth: 4,
+            borderRadius: 15,
+        },
+        input: {
+            width: '100%',
+            height: 58,
+            borderWidth: 4,
+            borderColor: colors.grayOpacityBorder,
+            borderRadius: 15,
+            marginTop: 10,
+            paddingRight: 15,
+            paddingLeft: 20,
+            backgroundColor: colors.input,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+        textInput: {
+            fontFamily: 'Poppins-Regular',
+            flex: 1,
+            color: colors.black
+        },
+        icon: {
+            marginLeft: 10,
+        },
+        sectionConfig: {
+            marginTop: 80,
+            marginBottom: 80,
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 20,
+        },
+        ConfigItem: {
+            width: '90%',
+            backgroundColor: colors.ConfigItemcolor,
+            height: 70,
+            paddingHorizontal: 20,
+            borderRadius: 15,
+            elevation: 4,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        textConfig: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 20,
+            color: colors.black
+        },
+        dropdown: {
+            height: 58,
+            borderRadius: 15,
+            paddingHorizontal: 20,
+            borderWidth: 4,
+            borderColor: colors.grayOpacityBorder,
+            backgroundColor: colors.input,
+            marginTop: 10,
+        },
+        placeholderStyle: {
+            color: colors.dropdownPlaceholder,
+            fontFamily: 'Poppins-Regular',
+        },
+        selectedTextStyle: {
+            fontFamily: 'Poppins-Medium',
+            backgroundColor: colors.dropdown,
+            color: colors.black
+        },
+        dropdownContainer: {
+            borderRadius: 10,
+            marginTop: 5,
+            backgroundColor: colors.background,
+            borderColor: colors.background,
+        },
+        itemTextStyle: {
+            fontFamily: 'Poppins-Regular',
+            backgroundColor: colors.background,
+            color: colors.black
+        },
+        viewBtn: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '10%'
+        },
+        btn: {
+            width: 250,
+            height: 70,
+            borderRadius: 50,
+            overflow: 'hidden',
+        },
+        btnText: {
+            color: colors.white,
+            fontFamily: 'Poppins-Medium',
+            fontSize: 25,
+        },
+        btnGradient: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+        },
+    })
 
     return (
         <KeyboardAvoidingView
@@ -125,11 +251,14 @@ export default function editDadosUser() {
                                 placeholder='Selecione'
                                 value={selectedBloodType}
                                 onChange={item => setSelectedBloodType(item.value)}
-                                style={styles.dropdown}
+                                style={[styles.dropdown, isFocusedDropdown && styles.inputFocused]}
                                 placeholderStyle={styles.placeholderStyle}
                                 selectedTextStyle={styles.selectedTextStyle}
                                 containerStyle={styles.dropdownContainer}
                                 itemTextStyle={styles.itemTextStyle}
+                                onFocus={() => setIsFocusedDropdown(true)}
+                                onBlur={() => setIsFocusedDropdown(false)}
+                                activeColor={colors.background}
                             />
                         </View>
                     </View>
@@ -144,6 +273,7 @@ export default function editDadosUser() {
                             <MaterialIcons
                                 name='arrow-forward-ios'
                                 size={24}
+                                color={colors.black}
                             />
                         </Pressable>
                         <Pressable
@@ -154,6 +284,7 @@ export default function editDadosUser() {
 
                             <MaterialIcons
                                 name='arrow-forward-ios'
+                                color={colors.black}
                                 size={24}
                             />
                         </Pressable>
@@ -181,117 +312,3 @@ export default function editDadosUser() {
         </KeyboardAvoidingView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.light.background
-    },
-    seta: {
-        margin: 45,
-        marginTop: '20%',
-        resizeMode: 'contain',
-        marginBottom: '15%'
-    },
-    inputSection: {
-        marginHorizontal: 40,
-        gap: 30
-    },
-    text: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 22
-
-    },
-    inputFocused: {
-        borderColor: Colors.light.bluePrimaryOpacity,
-        borderWidth: 4,
-        borderRadius: 15,
-    },
-    input: {
-        width: '100%',
-        height: 58,
-        borderWidth: 4,
-        borderColor: Colors.light.grayOpacityBorder,
-        borderRadius: 15,
-        marginTop: 10,
-        paddingRight: 15,
-        paddingLeft: 20,
-        backgroundColor: Colors.light.white,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    textInput: {
-        fontFamily: 'Poppins-Regular',
-        flex: 1,
-    },
-    icon: {
-        marginLeft: 10,
-    },
-    sectionConfig: {
-        marginTop: 80,
-        marginBottom: 80,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 20,
-    },
-    ConfigItem: {
-        width: '90%',
-        backgroundColor: Colors.light.white,
-        height: 70,
-        paddingHorizontal: 20,
-        borderRadius: 15,
-        elevation: 4,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    textConfig: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 20,
-    },
-    dropdown: {
-        backgroundColor: Colors.light.white,
-        borderRadius: 10,
-        padding: 16,
-        width: '100%',
-        elevation: 3,
-        marginTop: 10
-    },
-    placeholderStyle: {
-        color: Colors.light.gray,
-        fontFamily: 'Poppins-Regular',
-    },
-    selectedTextStyle: {
-        fontFamily: 'Poppins-Medium',
-    },
-    dropdownContainer: {
-        borderRadius: 10,
-        marginTop: 5,
-    },
-    itemTextStyle: {
-        fontFamily: 'Poppins-Regular',
-    },
-    viewBtn: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: '10%'
-    },
-    btn: {
-        width: 280,
-        height: 80,
-        borderRadius: 50,
-        overflow: 'hidden',
-    },
-    btnText: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Medium',
-        fontSize: 25,
-    },
-    btnGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-    },
-})

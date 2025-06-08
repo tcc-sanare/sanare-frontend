@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -40,6 +41,7 @@ export default function HomeDependente() {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollRef = useRef<ScrollView | null>(null);
     const [index, setIndex] = useState(0);
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -70,6 +72,272 @@ export default function HomeDependente() {
         ).start();
     }, []);
 
+    const getSaudacao = () => {
+        const horaAtual = new Date().getHours();
+
+        if (horaAtual >= 5 && horaAtual < 12) {
+            return 'Bom dia!';
+        } else if (horaAtual >= 12 && horaAtual < 19) {
+            return 'Boa tarde!';
+        } else {
+            return 'Boa noite!';
+        }
+    };
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: Colors.light.bluePrimary,
+        },
+        header: {
+            position: 'relative',
+            height: 118,
+            paddingHorizontal: 24,
+            justifyContent: 'flex-end',
+            paddingBottom: 20,
+        },
+        detalhe: {
+            position: 'absolute',
+            width: 417,
+            height: 155,
+            top: 0,
+            left: 0,
+        },
+        headerContent: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            zIndex: 2,
+        },
+        bomDia: {
+            color: Colors.light.white,
+            fontSize: 14,
+            fontFamily: 'Poppins-Regular',
+        },
+        nome: {
+            color: Colors.light.white,
+            fontSize: 18,
+            fontFamily: 'Poppins-Medium',
+        },
+        sino: {
+            width: 40,
+            height: 40,
+        },
+        body: {
+            flex: 1,
+            backgroundColor: colors.home,
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
+            paddingTop: 24,
+            paddingHorizontal: 20,
+            width: '100%',
+            height: '100%',
+        },
+        servicosTitle: {
+            fontSize: 18,
+            fontFamily: 'Poppins-Medium',
+            color: colors.black,
+            marginTop: 20,
+            marginBottom: 40,
+        },
+        servicosContainer: {
+            paddingRight: 12,
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 15
+        },
+        servicoCard: {
+            width: 100,
+            height: 120,
+            marginRight: 0,
+            resizeMode: 'contain',
+        },
+        cardText: {
+            fontSize: 11,
+            fontFamily: 'Poppins-Medium',
+            color: colors.description,
+            position: 'absolute',
+            top: 80,
+            left: 29,
+        },
+        cardTextt: {
+            fontSize: 11,
+            fontFamily: 'Poppins-Medium',
+            color: colors.description,
+            position: 'absolute',
+            top: 80,
+            left: 14,
+            right: 0,
+        },
+        cardTextj: {
+            fontSize: 11,
+            fontFamily: 'Poppins-Medium',
+            color: colors.description,
+            position: 'absolute',
+            top: 80,
+            left: 20,
+        },
+        hojeContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: 87,
+        },
+        hojeTitle: {
+            fontSize: 18,
+            fontFamily: 'Poppins-Medium',
+            color: colors.black,
+        },
+        verTitle: {
+            fontSize: 14,
+            fontFamily: 'Poppins-Medium',
+            color: Colors.light.bluePrimary,
+        },
+        cardContainer: {
+            width: width * 0.85,
+            marginRight: 16,
+        },
+        card: {
+            backgroundColor: colors.feed,
+            borderRadius: 16,
+            padding: 16,
+            height: 160,
+            justifyContent: 'space-between',
+        },
+        cardTop: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 12,
+        },
+        cardIcon: {
+            width: 40,
+            height: 40,
+            resizeMode: 'contain',
+        },
+        cardLabel: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 12,
+            color: colors.cardSubtittle,
+        },
+        cardTitle: {
+            fontFamily: 'Poppins-SemiBold',
+            fontSize: 15,
+            color: colors.black,
+        },
+        cardSubtitle: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 13,
+            color: colors.cardSubtittle,
+            left: 52,
+            top: -10,
+        },
+        cardButton: {
+            alignSelf: 'center',
+            width: 185,
+            backgroundColor: Colors.light.bluePrimary,
+            borderRadius: 50,
+            paddingVertical: 8,
+            paddingHorizontal: 24,
+            marginTop: 4,
+        },
+        cardButtonText: {
+            alignSelf: 'center',
+            fontFamily: 'Poppins-Medium',
+            fontSize: 14,
+            color: Colors.light.white,
+        },
+        indicatorContainer: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 40,
+            marginBottom: 2,
+        },
+        indicator: {
+            height: 3,
+            width: 24,
+            borderRadius: 3,
+            backgroundColor: Colors.light.grayOpacity,
+            marginHorizontal: 6,
+        },
+        destaques: {
+            marginTop: 67,
+            marginBottom: 35,
+        },
+        destaquesHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 16,
+        },
+        destaquesTitle: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 18,
+            color: colors.black,
+        },
+        destaquesVer: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 14,
+            color: Colors.light.bluePrimary
+        },
+        destaqueItem: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 16,
+            gap: 12,
+        },
+        destaqueIcon: {
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            padding: 8,
+            resizeMode: 'contain',
+        },
+        destaqueTitulo: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 14,
+            color: colors.black,
+        },
+        destaqueTexto: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 13,
+            color: colors.blackOpacity,
+        },
+        timeline: {
+            marginBottom: 16,
+        },
+        navBar: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            height: 95,
+            width: '100%',
+            backgroundColor: colors.background,
+            paddingBottom: 10,
+        },
+        navItem: {
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        navIcon: {
+            width: 33,
+            height: 38,
+            marginBottom: 4,
+        },
+        navIconActive: {
+            tintColor: Colors.light.bluePrimary,
+        },
+        navText: {
+            fontSize: 12,
+            fontFamily: 'Poppins-Regular',
+            color: colors.blackOpacity,
+        },
+        navTextActive: {
+            fontFamily: 'Poppins-Medium',
+            color: Colors.light.bluePrimary,
+        },
+    });
+
     return (
         <View style={styles.container}>
             {/* TOPO */}
@@ -82,8 +350,8 @@ export default function HomeDependente() {
 
                 <View style={styles.headerContent}>
                     <View>
-                        <Text style={styles.bomDia}>Bom dia!</Text>
-                        <Text style={styles.nome}>Nicolas Faustino</Text>
+                        <Text style={styles.bomDia}>{getSaudacao()}</Text>
+                        <Text style={styles.nome}>Maria Santos</Text>
                     </View>
 
                     <TouchableOpacity onPress={() => console.log('Notificações')}>
@@ -293,257 +561,3 @@ export default function HomeDependente() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.light.bluePrimary,
-    },
-    header: {
-        position: 'relative',
-        height: 118,
-        paddingHorizontal: 24,
-        justifyContent: 'flex-end',
-        paddingBottom: 20,
-    },
-    detalhe: {
-        position: 'absolute',
-        width: 417,
-        height: 155,
-        top: 0,
-        left: 0,
-    },
-    headerContent: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        zIndex: 2,
-    },
-    bomDia: {
-        color: Colors.light.white,
-        fontSize: 14,
-        fontFamily: 'Poppins-Regular',
-    },
-    nome: {
-        color: Colors.light.white,
-        fontSize: 18,
-        fontFamily: 'Poppins-Medium',
-    },
-    sino: {
-        width: 40,
-        height: 40,
-    },
-    body: {
-        flex: 1,
-        backgroundColor: Colors.light.white,
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
-        paddingTop: 24,
-        paddingHorizontal: 20,
-        width: '100%',
-        height: '100%',
-    },
-    servicosTitle: {
-        fontSize: 18,
-        fontFamily: 'Poppins-Medium',
-        color: Colors.light.black,
-        marginTop: 20,
-        marginBottom: 40,
-    },
-    servicosContainer: {
-        paddingRight: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 15
-    },
-    servicoCard: {
-        width: 100,
-        height: 120,
-        marginRight: 0,
-        resizeMode: 'contain',
-    },
-    cardText: {
-        fontSize: 11,
-        fontFamily: 'Poppins-Medium',
-        color: Colors.light.black,
-        position: 'absolute',
-        top: 80,
-        left: 29,
-    },
-    cardTextt: {
-        fontSize: 11,
-        fontFamily: 'Poppins-Medium',
-        color: Colors.light.black,
-        position: 'absolute',
-        top: 80,
-        left: 14,
-        right: 0,
-    },
-    cardTextj: {
-        fontSize: 11,
-        fontFamily: 'Poppins-Medium',
-        color: Colors.light.black,
-        position: 'absolute',
-        top: 80,
-        left: 20,
-    },
-    hojeContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop: 87,
-    },
-    hojeTitle: {
-        fontSize: 18,
-        fontFamily: 'Poppins-Medium',
-        color: Colors.light.black,
-    },
-    verTitle: {
-        fontSize: 14,
-        fontFamily: 'Poppins-Medium',
-        color: Colors.light.bluePrimary,
-    },
-    cardContainer: {
-        width: width * 0.85,
-        marginRight: 16,
-    },
-    card: {
-        backgroundColor: Colors.light.grayOpacity,
-        borderRadius: 16,
-        padding: 16,
-        height: 160,
-        justifyContent: 'space-between',
-    },
-    cardTop: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 12,
-    },
-    cardIcon: {
-        width: 40,
-        height: 40,
-        resizeMode: 'contain',
-    },
-    cardLabel: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 12,
-        color: Colors.light.blackOpacity,
-    },
-    cardTitle: {
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 15,
-        color: Colors.light.black,
-    },
-    cardSubtitle: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 13,
-        color: Colors.light.blackOpacity,
-        left: 52,
-        top: -10,
-    },
-    cardButton: {
-        alignSelf: 'center',
-        width: 185,
-        backgroundColor: Colors.light.bluePrimary,
-        borderRadius: 50,
-        paddingVertical: 8,
-        paddingHorizontal: 24,
-        marginTop: 4,
-    },
-    cardButtonText: {
-        alignSelf: 'center',
-        fontFamily: 'Poppins-Medium',
-        fontSize: 14,
-        color: Colors.light.white,
-    },
-    indicatorContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 40,
-        marginBottom: 2,
-    },
-    indicator: {
-        height: 3,
-        width: 24,
-        borderRadius: 3,
-        backgroundColor: Colors.light.grayOpacity,
-        marginHorizontal: 6,
-    },
-    destaques: {
-        marginTop: 67,
-        marginBottom: 35,
-    },
-    destaquesHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 16,
-    },
-    destaquesTitle: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 18,
-        color: Colors.light.black,
-    },
-    destaquesVer: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 14,
-        color: Colors.light.bluePrimary
-    },
-    destaqueItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 16,
-        gap: 12,
-    },
-    destaqueIcon: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        padding: 8,
-        resizeMode: 'contain',
-    },
-    destaqueTitulo: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 14,
-        color: Colors.light.black,
-    },
-    destaqueTexto: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 13,
-        color: Colors.light.blackOpacity,
-    },
-    timeline: {
-        marginBottom: 16,
-    },
-    navBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        height: 95,
-        width: '100%',
-        backgroundColor: Colors.light.grayOpacity,
-        paddingBottom: 10,
-    },
-    navItem: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    navIcon: {
-        width: 33,
-        height: 38,
-        marginBottom: 4,
-    },
-    navIconActive: {
-        tintColor: Colors.light.bluePrimary,
-    },
-    navText: {
-        fontSize: 12,
-        fontFamily: 'Poppins-Regular',
-        color: Colors.light.blackOpacity,
-    },
-    navTextActive: {
-        fontFamily: 'Poppins-Medium',
-        color: Colors.light.bluePrimary,
-    },
-});

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import Colors from '@/constants/Colors';
-import { View, StyleSheet, Text, ScrollView, Platform, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native';
-import LottieView from 'lottie-react-native';
+import { useTheme } from '@/hooks/useTheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import LottieView from 'lottie-react-native';
+import { useState } from 'react';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function codResponsavelCadastro() {
     const router = useRouter();
@@ -11,6 +12,7 @@ export default function codResponsavelCadastro() {
     const [enviado, setEnviado] = useState(false);
     const [carregando, setCarregando] = useState(false);
     const [confirmado, setConfirmado] = useState(false);
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
     const handleEnviar = () => {
         setEnviado(true);
@@ -26,23 +28,80 @@ export default function codResponsavelCadastro() {
         }, 3000);
     };
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: colors.background,
+            alignItems: 'center'
+        },
+        text: {
+            marginTop: '60%',
+            fontFamily: 'Poppins-Medium',
+            fontSize: 24,
+            width: '80%',
+            textAlign: 'center',
+            color: colors.black
+        },
+        input: {
+            marginTop: '15%',
+            width: '100%',
+            alignItems: 'center',
+            marginBottom: '30%',
+        },
+        textInput: {
+            height: 70,
+            width: '80%',
+            borderWidth: 3,
+            backgroundColor: colors.background,
+            borderColor: Colors.light.bluePrimaryOpacity,
+            color: Colors.light.bluePrimary,
+            borderRadius: 25,
+            textAlign: 'center',
+            alignItems: 'center',
+            fontFamily: 'Poppins-SemiBold',
+            fontSize: 30
+        },
+        animation: {
+            width: 150,
+            height: 150,
+        },
+        btn: {
+            width: 250,
+            height: 70,
+            borderRadius: 50,
+            overflow: 'hidden',
+        },
+        btnText: {
+            color: Colors.light.white,
+            fontFamily: 'Poppins-Medium',
+            fontSize: 22,
+        },
+        btnGradient: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+        },
+        status: {
+            fontSize: 16,
+            marginTop: 20,
+            marginBottom: 10,
+            fontFamily: 'Poppins-Regular',
+            color: colors.black
+        },
+    })
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}>
 
+
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 keyboardShouldPersistTaps="handled"
             >
-
                 <View style={styles.container}>
-                    <Image
-                        source={require('../../../../assets/images/bgSanare.png')}
-                        style={styles.logoFooter}
-                    />
-
-
                     <Text style={styles.text}>Insira o código de responsável:</Text>
 
                     <View style={styles.input}>
@@ -94,75 +153,3 @@ export default function codResponsavelCadastro() {
         </KeyboardAvoidingView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.light.background,
-        // justifyContent: 'center',
-        alignItems: 'center'
-    },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
-    },
-    text: {
-        marginTop: '60%',
-        fontFamily: 'Poppins-Medium',
-        fontSize: 24,
-        width: '80%',
-        textAlign: 'center'
-    },
-    input: {
-        marginTop: '15%',
-        width: '100%',
-        alignItems: 'center',
-        marginBottom: '30%',
-    },
-    textInput: {
-        height: 70,
-        width: '80%',
-        backgroundColor: Colors.light.background,
-        borderWidth: 3,
-        borderColor: Colors.light.bluePrimaryOpacity,
-        color: Colors.light.bluePrimary,
-        borderRadius: 25,
-        textAlign: 'center',
-        alignItems: 'center',
-        fontFamily: 'Poppins-SemiBold',
-        fontSize: 30
-    },
-    animation: {
-        width: 150,
-        height: 150,
-    },
-    btn: {
-        width: 250,
-        height: 70,
-        borderRadius: 50,
-        overflow: 'hidden',
-    },
-    btnText: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Medium',
-        fontSize: 22,
-    },
-    btnGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-    },
-    status: {
-        fontSize: 16,
-        marginTop: 20,
-        marginBottom: 10,
-        fontFamily: 'Poppins-Regular',
-    },
-})

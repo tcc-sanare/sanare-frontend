@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import { useState } from 'react';
@@ -9,6 +10,158 @@ export default function EditTipoUser() {
     const [selectedBtn, setSelectedBtn] = useState<string | null>(null);
     const opcoes = ['Dependente', 'Uso pessoal'];
     const [modalVisible, setModalVisible] = useState(false);
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: colors.background,
+            justifyContent: 'center',
+        },
+        seta: {
+            margin: 45,
+            resizeMode: 'contain',
+            marginBottom: '25%',
+            marginTop: '20%'
+        },
+        body: {
+            marginHorizontal: 25,
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 50
+        },
+        tipoUser: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 20,
+            marginHorizontal: 25,
+            marginBottom: 40
+        },
+        text: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 24,
+            color: colors.black
+        },
+        typeUser: {
+            width: '80%',
+            backgroundColor: colors.cards,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 15,
+            elevation: 3,
+        },
+        sectionTypeUser: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 18,
+            color: colors.black,
+        },
+        viewPresable: {
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 30,
+        },
+        pressable: {
+            justifyContent: "center",
+            alignItems: "center",
+            borderWidth: 5,
+            borderColor: Colors.light.gray,
+            backgroundColor: colors.background,
+            width: 330,
+            borderRadius: 25,
+            height: 70,
+        },
+        textPressable: {
+            fontFamily: 'Poppins-Regular',
+            color: colors.black,
+            fontSize: 17,
+        },
+        botaoSelecionado: {
+            borderColor: Colors.light.bluePrimaryOpacity,
+        },
+        viewBtn: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '10%'
+        },
+        btn: {
+            width: 250,
+            height: 70,
+            borderRadius: 50,
+            overflow: 'hidden',
+        },
+        btnText: {
+            color: Colors.light.white,
+            fontFamily: 'Poppins-Medium',
+            fontSize: 25,
+        },
+        btnGradient: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+        },
+        modalBackground: {
+            flex: 1,
+            backgroundColor: Colors.light.backgroundOpacity,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        modalBox: {
+            backgroundColor: colors.background,
+            padding: 25,
+            borderRadius: 12,
+            width: '85%',
+            alignItems: 'center',
+        },
+        modalTitle: {
+            fontSize: 18,
+            fontFamily: 'Poppins-Medium',
+            textAlign: 'center',
+            marginBottom: 20,
+            color: colors.black
+        },
+        typeUserText: {
+            color: Colors.light.bluePrimary,
+            fontFamily: 'Poppins-Regular',
+        },
+        modalMessage: {
+            fontSize: 14,
+            marginBottom: 40,
+            fontFamily: 'Poppins-Regular',
+            textAlign: 'justify',
+            width: '90%',
+            color: colors.description
+        },
+        primaryBtn: {
+            backgroundColor: Colors.light.bluePrimaryOpacity,
+            borderRadius: 15,
+            paddingVertical: 15,
+            paddingHorizontal: 30,
+            marginBottom: 10,
+            width: '90%',
+            alignItems: 'center',
+        },
+        primaryText: {
+            color: Colors.light.white,
+            fontFamily: 'Poppins-Regular',
+            fontSize: 18,
+        },
+        cancelBtn: {
+            backgroundColor: Colors.light.grayOpacity,
+            borderRadius: 15,
+            paddingVertical: 15,
+            paddingHorizontal: 30,
+            marginBottom: 10,
+            width: '90%',
+            alignItems: 'center',
+        },
+        cancelText: {
+            fontSize: 18,
+            fontFamily: 'Poppins-Medium',
+        },
+    })
 
     return (
         <View style={styles.container}>
@@ -104,151 +257,3 @@ export default function EditTipoUser() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.light.background,
-        justifyContent: 'center',
-    },
-    seta: {
-        margin: 45,
-        resizeMode: 'contain',
-        marginBottom: '25%',
-        marginTop: '20%'
-    },
-    body: {
-        marginHorizontal: 25,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 50
-    },
-    tipoUser: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 20,
-        marginHorizontal: 25,
-        marginBottom: 40
-    },
-    text: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 24
-    },
-    typeUser: {
-        width: '80%',
-        backgroundColor: Colors.light.white,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 15,
-        elevation: 3,
-    },
-    sectionTypeUser: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 18
-    },
-    viewPresable: {
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 30,
-    },
-    pressable: {
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 5,
-        borderColor: Colors.light.gray,
-        backgroundColor: Colors.light.background,
-        width: 330,
-        borderRadius: 25,
-        height: 70,
-    },
-    textPressable: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 17,
-    },
-    botaoSelecionado: {
-        borderColor: Colors.light.bluePrimaryOpacity,
-    },
-    viewBtn: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: '10%'
-    },
-    btn: {
-        width: 280,
-        height: 80,
-        borderRadius: 50,
-        overflow: 'hidden',
-    },
-    btnText: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Medium',
-        fontSize: 25,
-    },
-    btnGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-    },
-    modalBackground: {
-        flex: 1,
-        backgroundColor: Colors.light.backgroundOpacity,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    modalBox: {
-        backgroundColor: Colors.light.background,
-        padding: 25,
-        borderRadius: 12,
-        width: '85%',
-        // height: 360,
-        alignItems: 'center',
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontFamily: 'Poppins-Medium',
-        textAlign: 'center',
-        marginBottom: 20,
-    },
-    typeUserText: {
-        color: Colors.light.bluePrimary,
-        fontFamily: 'Poppins-Regular',
-    },
-    modalMessage: {
-        fontSize: 14,
-        marginBottom: 40,
-        fontFamily: 'Poppins-Regular',
-        textAlign: 'justify',
-        width: '90%'
-    },
-    primaryBtn: {
-        backgroundColor: Colors.light.bluePrimaryOpacity,
-        borderRadius: 15,
-        paddingVertical: 15,
-        paddingHorizontal: 30,
-        marginBottom: 10,
-        width: '90%',
-        alignItems: 'center',
-    },
-    primaryText: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Regular',
-        fontSize: 18,
-    },
-    cancelBtn: {
-        backgroundColor: Colors.light.grayOpacity,
-        borderRadius: 15,
-        paddingVertical: 15,
-        paddingHorizontal: 30,
-        marginBottom: 10,
-        width: '90%',
-        alignItems: 'center',
-    },
-    cancelText: {
-        fontSize: 18,
-        fontFamily: 'Poppins-Medium',
-
-    },
-})

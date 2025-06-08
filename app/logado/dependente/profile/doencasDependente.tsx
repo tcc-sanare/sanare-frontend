@@ -1,8 +1,9 @@
 import DoencaItem from '@/components/doencaItem';
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Image, Keyboard, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const doencasData = [
@@ -59,6 +60,7 @@ const doencasData = [
 export default function DoencasDependente() {
     const router = useRouter();
     const [selectedDoencas, setSelectedDoencas] = useState<string[]>([]);
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
     const toggleDoenca = (name: string) => {
         setSelectedDoencas(prev =>
@@ -68,12 +70,62 @@ export default function DoencasDependente() {
         );
     };
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            marginTop: '10%',
+            backgroundColor: colors.background
+        },
+        seta: {
+            margin: 45,
+            resizeMode: 'contain',
+            marginBottom: '15%'
+        },
+        body: {
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        textView: {
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: '20%',
+            width: '85%'
+        },
+        text: {
+            textAlign: 'center',
+            fontSize: 18,
+            fontFamily: 'Poppins-Regular',
+            color: colors.black
+        },
+        sectionDoenca: {
+            marginBottom: '10%'
+        },
+        viewBtn: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '10%'
+        },
+        btn: {
+            width: 280,
+            height: 70,
+            borderRadius: 50,
+            overflow: 'hidden',
+        },
+        btnText: {
+            color: Colors.light.white,
+            fontFamily: 'Poppins-Medium',
+            fontSize: 25,
+        },
+        btnGradient: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+        },
+    })
+
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../../../../assets/images/bgSanare.png')}
-                style={styles.logoFooter}
-            />
             <ScrollView>
                 <TouchableOpacity onPress={() => router.push('./edit-dados')}>
                     <Image
@@ -122,65 +174,3 @@ export default function DoencasDependente() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: '10%',
-    },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
-    },
-    seta: {
-        margin: 45,
-        resizeMode: 'contain',
-        marginBottom: '15%'
-    },
-    body: {
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    textView: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '20%',
-        width: '85%'
-    },
-    text: {
-        textAlign: 'center',
-        fontSize: 18,
-        fontFamily: 'Poppins-Regular',
-    },
-    sectionDoenca: {
-        marginBottom: '10%'
-    },
-    viewBtn: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: '10%'
-    },
-    btn: {
-        width: 280,
-        height: 80,
-        borderRadius: 50,
-        overflow: 'hidden',
-    },
-    btnText: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Medium',
-        fontSize: 25,
-    },
-    btnGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-    },
-})

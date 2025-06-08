@@ -1,5 +1,6 @@
 import DropdownList from '@/components/DropdownList';
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import { useState } from 'react';
@@ -7,19 +8,72 @@ import { Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet
 
 export default function AlergiasResponsavel() {
     const router = useRouter();
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
     const [antiInflamatorios, setAntiInflamatorios] = useState<string[]>([]);
     const [analgesicos, setAnalgesicos] = useState<string[]>([]);
     const [antibioticos, setAntibioticos] = useState<string[]>([]);
     const [anticonvulsivantes, setAnticonvulsivantes] = useState<string[]>([]);
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            marginTop: '10%',
+            backgroundColor: colors.background
+        },
+        scrollContainer: {
+            paddingBottom: 50,
+            paddingHorizontal: 20,
+        },
+        seta: {
+            margin: 35,
+            resizeMode: 'contain',
+            marginBottom: '20%'
+        },
+        body: {
+            marginHorizontal: '10%',
+            alignItems: 'center',
+            justifyContent: "center",
+            marginBottom: '10%'
+        },
+        textView: {
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: '20%',
+            width: '85%'
+        },
+        text: {
+            textAlign: 'center',
+            fontSize: 18,
+            fontFamily: 'Poppins-Regular',
+            color: colors.black
+        },
+        viewBtn: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '10%'
+        },
+        btn: {
+            width: 250,
+            height: 70,
+            borderRadius: 50,
+            overflow: 'hidden',
+        },
+        btnText: {
+            color: Colors.light.white,
+            fontFamily: 'Poppins-Medium',
+            fontSize: 25,
+        },
+        btnGradient: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+        },
+    })
+
     return (
         <View style={styles.container}>
-            <Image
-                source={require('../../../../assets/images/bgSanare.png')}
-                style={styles.logoFooter}
-            />
-
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={{ flex: 1 }}
@@ -94,68 +148,3 @@ export default function AlergiasResponsavel() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: '10%',
-    },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
-    },
-    scrollContainer: {
-        paddingBottom: 50,
-        paddingHorizontal: 20,
-    },
-    seta: {
-        margin: 35,
-        resizeMode: 'contain',
-        marginBottom: '20%'
-    },
-    body: {
-        marginHorizontal: '10%',
-        alignItems: 'center',
-        justifyContent: "center",
-        marginBottom: '10%'
-    },
-    textView: {
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: '20%',
-        width: '85%'
-    },
-    text: {
-        textAlign: 'center',
-        fontSize: 18,
-        fontFamily: 'Poppins-Regular',
-    },
-    viewBtn: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: '10%'
-    },
-    btn: {
-        width: 280,
-        height: 80,
-        borderRadius: 50,
-        overflow: 'hidden',
-    },
-    btnText: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Medium',
-        fontSize: 25,
-    },
-    btnGradient: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-    },
-})

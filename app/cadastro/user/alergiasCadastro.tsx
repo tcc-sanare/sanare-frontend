@@ -1,7 +1,7 @@
 import DropdownList from '@/components/DropdownList';
 import Fonts from '@/constants/Fonts';
 import * as Font from 'expo-font';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function alergiasCadastro() {

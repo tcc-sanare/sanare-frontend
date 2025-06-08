@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -12,6 +13,43 @@ interface Props {
 
 const DoencaItem: React.FC<Props> = ({ name, description, selected, onToggle }) => {
     const [expanded, setExpanded] = useState(false);
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+
+    const styles = StyleSheet.create({
+        selectedContainer: {
+            backgroundColor: colors.doencaItem,
+        },
+        container: {
+            borderWidth: 1.5,
+            borderColor: colors.bluePrimary,
+            borderRadius: 12,
+            padding: 12,
+            width: 350,
+            marginBottom: 12,
+            backgroundColor: colors.background,
+            minHeight: 60,
+            justifyContent: 'center',
+        },
+
+        header: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+        },
+
+        title: {
+            fontSize: 16,
+            fontFamily: 'Poppins-SemiBold',
+            color: colors.black
+        },
+        description: {
+            marginTop: 10,
+            fontFamily: 'Poppins-Regular',
+            fontSize: 14,
+            color: colors.description
+        },
+
+    });
 
     return (
         <TouchableOpacity
@@ -48,38 +86,3 @@ const DoencaItem: React.FC<Props> = ({ name, description, selected, onToggle }) 
 };
 
 export default DoencaItem;
-
-const styles = StyleSheet.create({
-    selectedContainer: {
-        backgroundColor: '#EFF4FA',
-    },
-    container: {
-        borderWidth: 1.5,
-        borderColor: Colors.light.bluePrimary,
-        borderRadius: 12,
-        padding: 12,
-        width: 350,
-        marginBottom: 12,
-        backgroundColor: Colors.light.background,
-        minHeight: 60,
-        justifyContent: 'center',
-    },
-
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-
-    title: {
-        fontSize: 16,
-        fontFamily: 'Poppins-SemiBold',
-        color: '#000',
-    },
-    description: {
-        marginTop: 10,
-        fontFamily: 'Poppins-Regular',
-        fontSize: 14,
-    },
-
-});

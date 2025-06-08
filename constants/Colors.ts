@@ -17,6 +17,7 @@ Porcentagem	Hexadecimal
 10%	1A
 */
 
+
 // const tintColorLight = '#0a7ea4';
 // const tintColorDark = '#fff';
 
@@ -24,18 +25,60 @@ const Colors = {
   light: {
     background: '#F5F5F5',
     bluePrimary: '#005EB7',
+    bluePrimaryTittles: '#005EB7',
     bluePrimaryOpacity: '#005EB7B3',
     white: '#FFF',
+    ConfigItemcolor: '#FFF',
     gray: '#D3D3D3',
     grayOpacity: '#E9E8E8',
     grayOpacityBorder: '#6D6D6D66',
     backgroundOpacity: '#0000004D',
     blueDark: '#01148A',
     blackOpacity: '#00000080',
-    black: '#000'
+    black: '#000',
+    logOut: '#005EB7',
+    input: "#FFF",
+    dropdownPlaceholder: '#D3D3D3',
+    dropdown: '#FFF',
+    doencaItem: '#EFF4FA',
+    description: '#000',
+    inputDoencas: '#FFF',
+    inputDoencasText: '#424242',
+    cards: '#FFF',
+    desvincular: '#005EB7',
+    home: '#FFF',
+    cardSubtittle: '#00000080',
+    feed: '#F5F5F5'
+
   },
   dark: {
     background: '#333333',
+    bluePrimary: '#005EB7',
+    bluePrimaryTittles: '#FFF',
+    bluePrimaryOpacity: '#1E88E5B3',
+    white: '#FFF',
+    input: "#EAEAE",
+    ConfigItemcolor: '#2c3e50',
+    gray: '#424242',
+    grayOpacity: '#333333',
+    grayOpacityBorder: '#9E9E9E66',
+    backgroundOpacity: '#FFFFFF4D',
+    blueDark: '#072c53',
+    blackOpacity: '#FFFFFF80',
+    black: '#FFFFFF',
+    logOut: '#FFF',
+    dropdownPlaceholder: '#D3D3D3',
+    dropdown: '#333333',
+    doencaItem: '#082D4F66',
+    description: '#D3D3D3',
+    inputDoencas: '#424242',
+    inputDoencasText: '#FFF',
+    cards: '#656667',
+    desvincular: '#072c53',
+    home: '#333333',
+    cardSubtittle: '#D3D3D3',
+    feed: '#6A6969'
+
   },
 };
 

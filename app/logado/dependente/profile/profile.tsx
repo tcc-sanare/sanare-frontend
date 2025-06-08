@@ -1,8 +1,9 @@
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
@@ -11,24 +12,131 @@ import CustomModal from './modal-edit-photo';
 export default function PerfilDependente() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
-
-    const [isDarkMode, setIsDarkMode] = React.useState(false);
-
-    const toggleDarkMode = () => {
-        setIsDarkMode(previousState => !previousState);
-    }
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
     const openModal = () => {
         modalRef.current?.open();
     };
 
-    const handleLogout = () => {
-        router.replace('../../../welcome')
-    }
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: colors.background
+        },
+        seta: {
+            margin: 45,
+            resizeMode: 'contain',
+            marginBottom: '15%',
+            marginTop: '20%'
+        },
+        body: {
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        profilePhotoContainer: {
+            position: 'relative',
+            width: 180,
+            height: 180,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 40,
+        },
+        profilePhoto: {
+            width: 180,
+            height: 180,
+            borderRadius: 100,
+            borderColor: colors.bluePrimary,
+            borderWidth: 5,
+            resizeMode: 'cover'
+        },
+        EditPhotoContainer: {
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            backgroundColor: colors.blueDark,
+            width: 55,
+            height: 55,
+            borderRadius: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 2,
+            borderColor: colors.white,
+        },
+        username: {
+            fontFamily: 'Poppins-Medium',
+            color: colors.black,
+            fontSize: 25,
+        },
+        email: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 20,
+            color: colors.blackOpacity,
+            marginTop: 10,
+            textAlign: 'center',
+            paddingHorizontal: 15
+        },
+        section: {
+            marginTop: 70,
+            alignItems: 'flex-start',
+            marginHorizontal: 30,
+        },
+        tittle: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 20,
+            color: colors.bluePrimaryTittles,
+            marginBottom: 20
+        },
+        scroll: {
+            flexDirection: 'row',
+        },
+        card: {
+            backgroundColor: colors.bluePrimary,
+            paddingVertical: 15,
+            paddingHorizontal: 20,
+            borderRadius: 15,
+            marginRight: 15,
+            minWidth: 120,
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        text: {
+            color: colors.white,
+            fontFamily: 'Poppins-Regular',
+            fontSize: 16
+        },
+        sectionConfig: {
+            marginTop: 80,
+            marginBottom: 80,
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 20,
+        },
+        ConfigItem: {
+            width: '90%',
+            backgroundColor: colors.ConfigItemcolor,
+            height: 70,
+            paddingHorizontal: 20,
+            borderRadius: 15,
+            elevation: 4,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        textConfig: {
+            fontFamily: 'Poppins-Medium',
+            color: colors.black,
+            fontSize: 20,
+        },
+        logOut: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 20,
+            color: colors.logOut,
+        }
+    })
 
     return (
         <View style={styles.container}>
-           
+
             <ScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 keyboardShouldPersistTaps="handled"
@@ -96,8 +204,8 @@ export default function PerfilDependente() {
                 </View>
 
                 <View style={styles.sectionConfig}>
-                    <Pressable 
-                    style={styles.ConfigItem}
+                    <Pressable
+                        style={styles.ConfigItem}
                         onPress={() => router.replace('./edit-dados')}
 
                     >
@@ -105,12 +213,13 @@ export default function PerfilDependente() {
 
                         <MaterialIcons
                             name='arrow-forward-ios'
+                            color={colors.black}
                             size={24}
                         />
                     </Pressable>
 
-                    <Pressable 
-                    style={styles.ConfigItem}
+                    <Pressable
+                        style={styles.ConfigItem}
                         onPress={() => router.replace('./configuracoes')}
 
                     >
@@ -118,16 +227,17 @@ export default function PerfilDependente() {
 
                         <MaterialIcons
                             name='arrow-forward-ios'
+                            color={colors.black}
                             size={24}
                         />
                     </Pressable>
-                    
+
                     <View style={styles.ConfigItem}>
                         <Text style={styles.textConfig}>Tema Escuro</Text>
 
                         <Switch
-                            trackColor={{ false: Colors.light.grayOpacityBorder, true: Colors.light.bluePrimaryOpacity }}
-                            thumbColor={isDarkMode ? Colors.light.bluePrimary : Colors.light.gray}
+                            trackColor={{ false: colors.grayOpacityBorder, true: colors.bluePrimaryOpacity }}
+                            thumbColor={isDarkMode ? colors.bluePrimary : colors.gray}
                             onValueChange={toggleDarkMode}
                             value={isDarkMode}
                         />
@@ -142,7 +252,7 @@ export default function PerfilDependente() {
                         <MaterialIcons
                             name='logout'
                             size={30}
-                            color={Colors.light.bluePrimary}
+                            color={colors.logOut}
                         />
                     </Pressable>
 
@@ -153,116 +263,3 @@ export default function PerfilDependente() {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.light.background
-    },
-    seta: {
-        margin: 45,
-        resizeMode: 'contain',
-        marginBottom: '15%',
-        marginTop: '20%'
-    },
-    body: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    profilePhotoContainer: {
-        position: 'relative',
-        width: 180,
-        height: 180,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 40,
-    },
-    profilePhoto: {
-        width: 180,
-        height: 180,
-        borderRadius: 100,
-        borderColor: Colors.light.bluePrimary,
-        borderWidth: 5,
-        resizeMode: 'cover'
-    },
-    EditPhotoContainer: {
-        position: 'absolute',
-        bottom: 0,
-        right: 0,
-        backgroundColor: Colors.light.blueDark,
-        width: 55,
-        height: 55,
-        borderRadius: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 2,
-        borderColor: Colors.light.white,
-    },
-    username: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 25,
-    },
-    email: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 20,
-        color: Colors.light.blackOpacity,
-        marginTop: 10,
-        textAlign: 'center',
-        paddingHorizontal: 15
-    },
-    section: {
-        marginTop: 70,
-        alignItems: 'flex-start',
-        marginHorizontal: 30,
-    },
-    tittle: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 20,
-        color: Colors.light.bluePrimary,
-        marginBottom: 20
-    },
-    scroll: {
-        flexDirection: 'row',
-    },
-    card: {
-        backgroundColor: Colors.light.bluePrimary,
-        paddingVertical: 15,
-        paddingHorizontal: 20,
-        borderRadius: 15,
-        marginRight: 15,
-        minWidth: 120,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    text: {
-        color: Colors.light.white,
-        fontFamily: 'Poppins-Regular',
-        fontSize: 16
-    },
-    sectionConfig: {
-        marginTop: 80,
-        marginBottom: 80,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 20,
-    },
-    ConfigItem: {
-        width: '90%',
-        backgroundColor: Colors.light.white,
-        height: 70,
-        paddingHorizontal: 20,
-        borderRadius: 15,
-        elevation: 4,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    textConfig: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 20,
-    },
-    logOut: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 20,
-        color: Colors.light.bluePrimary,
-    }
-})
