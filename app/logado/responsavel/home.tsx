@@ -23,7 +23,7 @@ const carouselData = [
         image: require('../../../assets/images/cardregistro.png'),
         label: 'Saúde',
         button: 'Registrar',
-        route: './registrar',
+        route: './registro/registro',
     },
     {
         id: 2,
@@ -386,7 +386,7 @@ export default function HomeResponsavel() {
                             showsHorizontalScrollIndicator={false}
                             contentContainerStyle={styles.servicosContainer}
                         >
-                            <TouchableOpacity onPress={() => router.push('./saude')}>
+                            <TouchableOpacity onPress={() => router.push('./registro/registro')}>
                                 <Image
                                     source={require('../../../assets/images/Saude.png')}
                                     style={styles.servicoCard}
