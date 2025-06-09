@@ -4,7 +4,7 @@ import Fonts from '@/constants/Fonts';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function cadastroRegistroResponsavel() {
@@ -33,7 +33,7 @@ export default function cadastroRegistroResponsavel() {
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={styles.textView}>
-                    <Text style={styles.text}>Selecione oque você deseja monitorar:</Text>
+                    <Text style={styles.text}>Selecione o que você deseja monitorar:</Text>
                 </View>
 
                 <View style={styles.viewRegistro}>

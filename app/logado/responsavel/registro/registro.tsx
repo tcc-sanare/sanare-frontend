@@ -1,158 +1,180 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
-import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useRouter } from "expo-router";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const optionsList = [
-  'Humor',
-  'Sintomas',
-  'IMC',
-  'Hidratação',
-  'Pressão Arterial',
-  'Glicemia',
-];
+export default function Registro() {
+  const { isDarkMode, toggleDarkMode, colors } = useTheme();
+  const router = useRouter();
 
-const Registro = () => {
-  const navigation = useNavigation();
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([
-    'Humor',
-    'Hidratação',
-    'Pressão Arterial',
-  ]);
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.toLocaleString('pt-BR', { month: 'long' });
+  const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
 
-  const toggleOption = (option: string) => {
-    setSelectedOptions((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
-    );
-  };
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background
+    },
+    seta: {
+      margin: 45,
+      resizeMode: 'contain',
+      marginTop: '20%'
+    },
+    TittleView: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: '10%'
+    },
+    tittle: {
+      fontFamily: 'Poppins-SemiBold',
+      fontSize: 24,
+      color: colors.black
+    },
+    dateText: {
+      fontFamily: 'Poppins-Regular',
+      fontSize: 20,
+      color: colors.blackOpacity,
+      marginTop: 4
+    },
+    text: {
+      fontFamily: 'Poppins-Medium',
+      fontSize: 24,
+      color: colors.bluePrimary
 
-  const handleSave = () => {
-    console.log('Selecionados:', selectedOptions);
-    navigation.navigate('humor' as never);
-  };
-
+    },
+    subText: {
+      color: colors.black,
+      fontFamily: 'Poppins-Regular',
+      fontSize: 16,
+    },
+    saveButton: {
+      width: 200,
+      backgroundColor: colors.bluePrimary,
+      paddingVertical: 16,
+      borderRadius: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 25
+    },
+    saveButtonText: {
+      color: colors.white,
+      fontSize: 20,
+      fontFamily: 'Poppins-Regular',
+    },
+    card: {
+      width: '80%',
+      height: 100,
+      backgroundColor: colors.dropdown,
+      marginTop: '15%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 12,
+      elevation: 4,
+      gap: 12
+    },
+    cardTittle: {
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+      paddingHorizontal: 16
+    },
+    arrowIcon: {
+      position: 'absolute',
+      right: 30
+    },
+    registroText: {
+      fontFamily: 'Poppins-SemiBold',
+      fontSize: 18,
+      color: '#072c53',
+    },
+    editText: {
+      fontFamily: 'Poppins-Medium',
+      fontSize: 14,
+      color: colors.black
+    }
+  })
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
 
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <AntDesign name="left" size={30} color={Colors.light.bluePrimary} />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('../home')}>
+          <Image
+            source={require('../../../../assets/images/seta.png')}
+            style={styles.seta}
+          />
+        </TouchableOpacity>
 
-      <Text style={styles.title}>Registro</Text>
-      <Text style={styles.subtitle}>Selecione o que você deseja monitorar:</Text>
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: '20%' }}>
+          <View style={styles.TittleView}>
+            <Text style={styles.tittle}>Hoje</Text>
+            <Text style={styles.dateText}>{day} de {capitalizedMonth}</Text>
+          </View>
 
-      <View style={styles.optionsContainer}>
-        {optionsList.map((option) => {
-          const selected = selectedOptions.includes(option);
-          return (
-            <TouchableOpacity
-              key={option}
-              style={styles.optionRow}
-              onPress={() => toggleOption(option)}
-            >
-              <View style={[styles.circle, selected && styles.circleSelected]}>
-                {selected && (
-                  <AntDesign name="check" size={16} color={Colors.light.white} />
-                )}
-              </View>
-              <Text style={styles.optionLabel}>{option}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+          <View style={styles.TittleView}>
+            <Text style={styles.text}>Como você está?</Text>
+            <Text style={styles.subText}>Faça registro dos seus sintomas!</Text>
+          </View>
 
+          <TouchableOpacity
+            onPress={() => router.replace('./edit-registro')}
+            style={styles.saveButton}>
+            <Text style={styles.saveButtonText}>Editar registros</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Salvar</Text>
-      </TouchableOpacity>
-    </ScrollView>
-  );
-};
+          <TouchableOpacity
+            onPress={() => { router.push('./humor') }}
+            style={styles.card}>
+            <View style={styles.cardTittle}>
+              <Text style={styles.registroText}>Humor</Text>
+              <MaterialIcons
+                name='arrow-forward-ios'
+                size={18}
+                color={colors.description}
+                style={styles.arrowIcon}
+              />
+            </View>
+            <Text style={styles.editText}>editado em: 09/06</Text>
+          </TouchableOpacity>
 
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    paddingHorizontal: 24,
-    paddingTop: 60,
-    backgroundColor: Colors.light.background,
-    alignItems: 'center',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-  },
-  title: {
-    fontSize: 32,
-    top: 60,
-    fontFamily: 'Poppins-Regular',
-    color: Colors.light.bluePrimary,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    top: 90,
-    fontFamily: 'Poppins-Regular',
-    textAlign: 'center',
-    marginBottom: 24,
-    color: Colors.light.black,
-  },
-  optionsContainer: {
-    left: 50,
-    top: 160,
-    width: '100%',
-    marginBottom: 40,
-  },
-  optionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  circle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.light.bluePrimary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  circleSelected: {
-    backgroundColor: Colors.light.bluePrimary,
-  },
-  optionLabel: {
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-    color: Colors.light.black,
-  },
-  saveButton: {
-    top: 200,
-    width: 150,
-    backgroundColor: Colors.light.bluePrimary,
-    paddingVertical: 16,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  saveButtonText: {
-    color: Colors.light.white,
-    fontSize: 16,
-    fontFamily: 'Poppins-Medium',
-  },
-});
+          <TouchableOpacity
+            onPress={() => { router.push('./hidratacao') }}
+            style={styles.card}>
+            <View style={styles.cardTittle}>
+              <Text style={styles.registroText}>Hidratação</Text>
+              <MaterialIcons
+                name='arrow-forward-ios'
+                size={18}
+                color={colors.description}
+                style={styles.arrowIcon}
+              />
+            </View>
+            <Text style={styles.editText}>editado em: 25/05</Text>
+          </TouchableOpacity>
 
-export default Registro;
+          <TouchableOpacity
+            onPress={() => { router.push('./pressao') }}
+            style={styles.card}>
+            <View style={styles.cardTittle}>
+              <Text style={styles.registroText}>Pressão Arterial</Text>
+              <MaterialIcons
+                name='arrow-forward-ios'
+                size={18}
+                color={colors.description}
+                style={styles.arrowIcon}
+              />
+            </View>
+            <Text style={styles.editText}>editado em: 01/06</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
+  )
+}
