@@ -1,14 +1,17 @@
 import { useTheme } from '@/hooks/useTheme';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useRouter } from "expo-router";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Dimensions,
     Image,
     Modal,
+    Platform,
     ScrollView,
     StyleSheet,
     Text,
+    TextInput,
     TouchableOpacity,
     View
 } from 'react-native';
@@ -16,10 +19,15 @@ import { Dropdown } from 'react-native-element-dropdown';
 
 const { width } = Dimensions.get('window');
 
-const lembretesTypes = [
+type LembreteType = {
+    label: string;
+    value: string;
+}
+
+const lembretesTypes: LembreteType[] = [
     { label: 'Medicamentos', value: 'Medicamentos' },
     { label: 'Exames', value: 'Exames' },
-    { label: 'Hidrataçaõ', value: 'Hidrataçaõ' },
+    { label: 'Hidratação', value: 'Hidratação' },
     { label: 'Pressão', value: 'Pressão' },
     { label: 'Glicemia', value: 'Glicemia' },
 ];
@@ -28,7 +36,49 @@ const Lembretes = () => {
     const router = useRouter();
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedLembreteType, setSelectedLembreteType] = React.useState('');
+    const [selectedLembreteType, setSelectedLembreteType] = useState('');
+    const [date, setDate] = useState(new Date());
+    const [time, setTime] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
+    const [quantidade, setQuantidade] = useState('');
+    const [intervalo, setIntervalo] = useState('');
+    const [duracao, setDuracao] = useState('');
+    const [medicamento, setMedicamento] = useState('');
+    const [nomeExame, setNomeExame] = useState('');
+
+    const handleNumberChange = (text: string, setState: React.Dispatch<React.SetStateAction<string>>) => {
+        const numericValue = text.replace(/[^0-9]/g, '');
+        setState(numericValue);
+    };
+
+    const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        const currentDate = selectedDate || date;
+        setShowDatePicker(Platform.OS === 'ios');
+        setDate(currentDate);
+    };
+
+    const onChangeTime = (event: DateTimePickerEvent, selectedTime?: Date) => {
+        const currentTime = selectedTime || time;
+        setShowTimePicker(Platform.OS === 'ios');
+        setTime(currentTime);
+    };
+
+    const showDatepicker = () => {
+        setShowDatePicker(true);
+    };
+
+    const showTimepicker = () => {
+        setShowTimePicker(true);
+    };
+
+    const formatDate = (date: Date): string => {
+        return date.toLocaleDateString('pt-BR');
+    };
+
+    const formatTime = (time: Date): string => {
+        return time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    };
 
     const styles = StyleSheet.create({
         container: {
@@ -38,17 +88,21 @@ const Lembretes = () => {
         header: {
             backgroundColor: colors.bluePrimary,
             justifyContent: 'center',
-            flexDirection: 'row',
             height: 150,
-            alignItems: 'center',
         },
         seta: {
             resizeMode: 'contain',
             width: 25
         },
+        lembretes: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 25,
+            width: '100%'
+        },
         headerText: {
             fontSize: 28,
-            marginTop: 25,
             fontFamily: 'Poppins-Medium',
             color: colors.white,
         },
@@ -93,7 +147,7 @@ const Lembretes = () => {
         },
         modalBackground: {
             flex: 1,
-            backgroundColor: '#FFFFFF4D',
+            backgroundColor: '#0000004D',
             justifyContent: 'center',
             alignItems: 'center',
         },
@@ -108,7 +162,7 @@ const Lembretes = () => {
             width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 15,
+            gap: 10,
             marginBottom: '15%'
         },
         back: {
@@ -118,12 +172,13 @@ const Lembretes = () => {
         },
         section: {
             width: '100%',
+            marginBottom: 25
         },
         label: {
             fontFamily: 'Poppins-Regular',
             fontSize: 16,
-            color: colors.black
-
+            color: colors.black,
+            textAlign: 'left'
         },
         dropdown: {
             height: 58,
@@ -133,6 +188,8 @@ const Lembretes = () => {
             borderColor: colors.grayOpacityBorder,
             backgroundColor: colors.input,
             marginTop: 10,
+            color: colors.black,
+            fontFamily: 'Poppins-Regular'
         },
         placeholderStyle: {
             color: colors.dropdownPlaceholder,
@@ -154,27 +211,51 @@ const Lembretes = () => {
             backgroundColor: colors.background,
             color: colors.black
         },
+        inputLembrete: {
+            width: '100%',
+            marginBottom: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+        },
+        dateTimeButton: {
+            borderWidth: 1,
+            borderColor: colors.grayOpacityBorder,
+            borderRadius: 15,
+            padding: 15,
+            backgroundColor: colors.input,
+            flex: 1,
+            marginHorizontal: 5,
+        },
+        dateTimeText: {
+            fontFamily: 'Poppins-Regular',
+            color: colors.black,
+        },
+        dateTimeContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+            marginBottom: 15,
+        }
     });
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => router.push('./home')}>
+                <TouchableOpacity onPress={() => router.push('./home')} style={styles.lembretes}>
                     <MaterialIcons
                         name='arrow-back-ios'
                         size={26}
                         color={colors.white}
                         style={{
                             position: 'absolute',
-                            right: 60
+                            left: 50
                         }}
                     />
+                    <Text style={styles.headerText}>Lembretes</Text>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Lembretes</Text>
             </View>
 
             <ScrollView contentContainerStyle={styles.content}>
-
                 <View style={styles.fieldAdd}>
                     <Text style={styles.textAdd}>Adicionar</Text>
                     <TouchableOpacity
@@ -200,13 +281,13 @@ const Lembretes = () => {
                 <View style={styles.modalBackground}>
                     <View style={styles.modalBox}>
                         <View style={styles.backContent}>
-                            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                            <TouchableOpacity onPress={() => setModalVisible(false)} style={{ flexDirection: 'row' }}>
                                 <Image
                                     source={require('../../../assets/images/seta.png')}
                                     style={styles.seta}
                                 />
+                                <Text style={styles.back}>Voltar</Text>
                             </TouchableOpacity>
-                            <Text style={styles.back}>Voltar</Text>
                         </View>
 
                         <View style={styles.section}>
@@ -226,6 +307,178 @@ const Lembretes = () => {
                                 activeColor={colors.background}
                             />
                         </View>
+
+                        {selectedLembreteType === 'Exames' && (
+                            <>
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Nome do exame:</Text>
+                                    <TextInput
+                                        style={styles.dropdown}
+                                        onChangeText={setNomeExame}
+                                        value={nomeExame}
+                                    />
+                                </View>
+
+                                <View style={styles.dateTimeContainer}>
+                                    <TouchableOpacity onPress={showDatepicker} style={styles.dateTimeButton}>
+                                        <Text style={styles.dateTimeText}>
+                                            {formatDate(date) || 'Selecione a data'}
+                                        </Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress={showTimepicker} style={styles.dateTimeButton}>
+                                        <Text style={styles.dateTimeText}>
+                                            {formatTime(time) || 'Selecione o horário'}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                {(showDatePicker || showTimePicker) && (
+                                    <>
+                                        {showDatePicker && (
+                                            <DateTimePicker
+                                                value={date}
+                                                mode="date"
+                                                display="default"
+                                                onChange={onChangeDate}
+                                                minimumDate={new Date()}
+                                                locale="pt-BR"
+                                            />
+                                        )}
+                                        {showTimePicker && (
+                                            <DateTimePicker
+                                                value={time}
+                                                mode="time"
+                                                display="default"
+                                                onChange={onChangeTime}
+                                                locale="pt-BR"
+                                            />
+                                        )}
+                                    </>
+                                )}
+                            </>
+                        )}
+
+                        {selectedLembreteType === 'Medicamentos' && (
+                            <>
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Medicamento:</Text>
+                                    <TextInput
+                                        style={styles.dropdown}
+                                        value={medicamento}
+                                        onChangeText={setMedicamento}
+                                    />
+                                </View>
+
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Duração (dias):</Text>
+                                    <TextInput
+                                        keyboardType="numeric"
+                                        style={styles.dropdown}
+                                        value={duracao}
+                                        onChangeText={(text) => handleNumberChange(text, setDuracao)}
+                                    />
+                                </View>
+
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Horário de início:</Text>
+                                    <TouchableOpacity onPress={showTimepicker} style={styles.dateTimeButton}>
+                                        <Text style={styles.dateTimeText}>
+                                            {formatTime(time) || 'Selecione o horário'}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Intervalo (horas):</Text>
+                                    <TextInput
+                                        keyboardType="numeric"
+                                        style={styles.dropdown}
+                                        value={intervalo}
+                                        onChangeText={(text) => handleNumberChange(text, setIntervalo)}
+                                    />
+                                </View>
+                            </>
+                        )}
+
+                        {selectedLembreteType === 'Hidratação' && (
+                            <>
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Quantidade (ml):</Text>
+                                    <TextInput
+                                        keyboardType="numeric"
+                                        style={styles.dropdown}
+                                        value={quantidade}
+                                        onChangeText={(text) => handleNumberChange(text, setQuantidade)}
+                                    />
+                                </View>
+
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Horário de início:</Text>
+                                    <TouchableOpacity onPress={showTimepicker} style={styles.dateTimeButton}>
+                                        <Text style={styles.dateTimeText}>
+                                            {formatTime(time) || 'Selecione o horário'}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Intervalo (horas):</Text>
+                                    <TextInput
+                                        keyboardType="numeric"
+                                        style={styles.dropdown}
+                                        value={intervalo}
+                                        onChangeText={(text) => handleNumberChange(text, setIntervalo)}
+                                    />
+                                </View>
+                            </>
+                        )}
+
+                        {selectedLembreteType === 'Pressão' && (
+                            <>
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Horário de início:</Text>
+                                    <TouchableOpacity onPress={showTimepicker} style={styles.dateTimeButton}>
+                                        <Text style={styles.dateTimeText}>
+                                            {formatTime(time) || 'Selecione o horário'}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Intervalo (horas):</Text>
+                                    <TextInput
+                                        keyboardType="numeric"
+                                        style={styles.dropdown}
+                                        value={intervalo}
+                                        onChangeText={(text) => handleNumberChange(text, setIntervalo)}
+                                    />
+                                </View>
+                            </>
+                        )}
+
+                        {selectedLembreteType === 'Glicemia' && (
+                            <>
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Horário de início:</Text>
+                                    <TouchableOpacity onPress={showTimepicker} style={styles.dateTimeButton}>
+                                        <Text style={styles.dateTimeText}>
+                                            {formatTime(time) || 'Selecione o horário'}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View style={styles.section}>
+                                    <Text style={styles.label}>Intervalo (horas):</Text>
+                                    <TextInput
+                                        keyboardType="numeric"
+                                        style={styles.dropdown}
+                                        value={intervalo}
+                                        onChangeText={(text) => handleNumberChange(text, setIntervalo)}
+                                    />
+                                </View>
+                            </>
+                        )}
                     </View>
                 </View>
             </Modal>
@@ -234,11 +487,3 @@ const Lembretes = () => {
 };
 
 export default Lembretes;
-
-/*
-exame:  nome, data, horário,
-medicamentos: nome, duração(dias) hInicio, intervalo
-hidratação: quantidade, hInicio, intervalo,
-pressão: hInicio, intervalo,
-glicemia: hInicio, intervalo,
- */
