@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  Image,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
+import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 const moods = [
   {
@@ -37,12 +38,123 @@ const Humor = () => {
   const navigation = useNavigation();
   const [selectedMood, setSelectedMood] = useState<'bom' | 'neutro' | 'ruim'>('bom');
   const [note, setNote] = useState('');
+  const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
   const handleSave = () => {
     console.log('Humor selecionado:', selectedMood);
     console.log('Nota:', note);
 
   };
+
+  const styles = StyleSheet.create({
+    container: {
+      flexGrow: 1,
+      backgroundColor: Colors.light.background,
+      paddingHorizontal: 24,
+      paddingTop: 60,
+      alignItems: 'center',
+    },
+    backButton: {
+      position: 'absolute',
+      top: 40,
+      left: 20,
+    },
+    title: {
+      fontSize: 32,
+      top: 60,
+      fontFamily: 'Poppins-Regular',
+      color: Colors.light.bluePrimary,
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 16,
+      top: 90,
+      fontFamily: 'Poppins-Regular',
+      textAlign: 'center',
+      marginBottom: 24,
+      color: Colors.light.black,
+    },
+    moodContainer: {
+      top: 120,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
+      paddingHorizontal: 16,
+      marginBottom: 32,
+    },
+    moodOption: {
+      alignItems: 'center',
+      height: 100,
+      width: 80,
+    },
+    circle: {
+      width: 24,
+      height: 24,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: Colors.light.bluePrimary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 8,
+    },
+    circleSelected: {
+      backgroundColor: Colors.light.bluePrimary,
+    },
+    moodCard: {
+      width: 60,
+      height: 90,
+      borderRadius: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    moodLabel: {
+      marginTop: 8,
+      fontSize: 14,
+      fontFamily: 'Poppins-Regular',
+      color: Colors.light.black,
+    },
+    noteInput: {
+      top: 180,
+      width: '80%',
+      borderBottomWidth: 1,
+      borderBottomColor: Colors.light.gray,
+      fontSize: 16,
+      fontFamily: 'Poppins-Regular',
+      paddingVertical: 8,
+      marginBottom: 32,
+      color: Colors.light.black,
+    },
+    pagination: {
+      top: 190,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginBottom: 32,
+    },
+    dot: {
+      width: 16,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: '#ccc',
+      marginHorizontal: 4,
+    },
+    activeDot: {
+      backgroundColor: Colors.light.bluePrimary,
+    },
+    saveButton: {
+      top: 200,
+      backgroundColor: Colors.light.bluePrimary,
+      paddingVertical: 16,
+      paddingHorizontal: 40,
+      borderRadius: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    saveButtonText: {
+      color: Colors.light.white,
+      fontSize: 16,
+      fontFamily: 'Poppins-SemiBold',
+    },
+  });
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -105,115 +217,5 @@ const Humor = () => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: Colors.light.background,
-    paddingHorizontal: 24,
-    paddingTop: 60,
-    alignItems: 'center',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-  },
-  title: {
-    fontSize: 32,
-    top: 60,
-    fontFamily: 'Poppins-Regular',
-    color: Colors.light.bluePrimary,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    top: 90,
-    fontFamily: 'Poppins-Regular',
-    textAlign: 'center',
-    marginBottom: 24,
-    color: Colors.light.black,
-  },
-  moodContainer: {
-    top:120,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 16,
-    marginBottom: 32,
-  },
-  moodOption: {
-    alignItems: 'center',
-    height: 100,
-    width: 80,
-  },
-  circle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.light.bluePrimary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 8,
-  },
-  circleSelected: {
-    backgroundColor: Colors.light.bluePrimary,
-  },
-  moodCard: {
-    width: 60,
-    height: 90,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  moodLabel: {
-    marginTop: 8,
-    fontSize: 14,
-    fontFamily: 'Poppins-Regular',
-    color: Colors.light.black,
-  },
-  noteInput: {
-    top: 180,
-    width: '80%',
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.light.gray,
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-    paddingVertical: 8,
-    marginBottom: 32,
-    color: Colors.light.black,
-  },
-  pagination: {
-    top: 190,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 32,
-  },
-  dot: {
-    width: 16,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: '#ccc',
-    marginHorizontal: 4,
-  },
-  activeDot: {
-    backgroundColor: Colors.light.bluePrimary,
-  },
-  saveButton: {
-    top: 200,
-    backgroundColor: Colors.light.bluePrimary,
-    paddingVertical: 16,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  saveButtonText: {
-    color: Colors.light.white,
-    fontSize: 16,
-    fontFamily: 'Poppins-SemiBold',
-  },
-});
 
 export default Humor;

@@ -88,7 +88,7 @@ export default function Registro() {
     registroText: {
       fontFamily: 'Poppins-SemiBold',
       fontSize: 18,
-      color: '#072c53',
+      color: colors.bluePrimary
     },
     editText: {
       fontFamily: 'Poppins-Medium',

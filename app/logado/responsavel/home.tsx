@@ -32,7 +32,7 @@ const carouselData = [
         image: require('../../../assets/images/carddependentes.png'),
         label: 'Dependentes',
         button: 'Ver registro',
-        route: './dependentes',
+        route: './dependentes/detalhes',
     },
     {
         id: 3,

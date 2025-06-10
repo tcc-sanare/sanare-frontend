@@ -24,7 +24,6 @@ export default function EditRegistro() {
             marginBottom: '10%'
         },
         text: {
-            width: '85%',
             fontFamily: 'Poppins-Regular',
             fontSize: 18,
             textAlign: 'center',
@@ -58,7 +57,7 @@ export default function EditRegistro() {
         <View style={styles.container}>
             <Text style={styles.tittle}>Registros</Text>
 
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', width:'85%'}}>
                 <Text style={styles.text}>Selecione o que você deseja monitorar:</Text>
             </View>
 
