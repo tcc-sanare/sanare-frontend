@@ -1,8 +1,10 @@
 import { useTheme } from '@/hooks/useTheme';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useRouter } from "expo-router";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Dimensions,
     Image,
@@ -24,6 +26,18 @@ type LembreteType = {
     value: string;
 }
 
+type LembreteSalvo = {
+    id: string;
+    tipo: string;
+    nomeExame?: string;
+    medicamento?: string;
+    quantidade?: string;
+    intervalo?: string;
+    duracao?: string;
+    data: Date;
+    horario: Date;
+};
+
 const lembretesTypes: LembreteType[] = [
     { label: 'Medicamentos', value: 'Medicamentos' },
     { label: 'Exames', value: 'Exames' },
@@ -34,7 +48,7 @@ const lembretesTypes: LembreteType[] = [
 
 const Lembretes = () => {
     const router = useRouter();
-    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const { colors } = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedLembreteType, setSelectedLembreteType] = useState('');
     const [date, setDate] = useState(new Date());
@@ -46,6 +60,27 @@ const Lembretes = () => {
     const [duracao, setDuracao] = useState('');
     const [medicamento, setMedicamento] = useState('');
     const [nomeExame, setNomeExame] = useState('');
+    const [lembretes, setLembretes] = useState<LembreteSalvo[]>([]);
+
+    useEffect(() => {
+        const carregarLembretes = async () => {
+            try {
+                const salvos = await AsyncStorage.getItem('@lembretes');
+                if (salvos) {
+                    const parsed = JSON.parse(salvos);
+                    const lembretesComDatas = parsed.map((lembrete: any) => ({
+                        ...lembrete,
+                        data: new Date(lembrete.data),
+                        horario: new Date(lembrete.horario)
+                    }));
+                    setLembretes(lembretesComDatas);
+                }
+            } catch (e) {
+                console.error('Erro ao carregar lembretes', e);
+            }
+        };
+        carregarLembretes();
+    }, []);
 
     const handleNumberChange = (text: string, setState: React.Dispatch<React.SetStateAction<string>>) => {
         const numericValue = text.replace(/[^0-9]/g, '');
@@ -78,6 +113,175 @@ const Lembretes = () => {
 
     const formatTime = (time: Date): string => {
         return time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    };
+
+    const isFormValid = () => {
+        switch (selectedLembreteType) {
+            case 'Exames':
+                return nomeExame.trim() !== '' && date && time;
+            case 'Medicamentos':
+                return medicamento.trim() !== '' && duracao.trim() !== '' && intervalo.trim() !== '' && time;
+            case 'Hidratação':
+                return quantidade.trim() !== '' && intervalo.trim() !== '' && time;
+            case 'Pressão':
+            case 'Glicemia':
+                return intervalo.trim() !== '' && time;
+            default:
+                return false;
+        }
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+        setSelectedLembreteType('');
+        setNomeExame('');
+        setMedicamento('');
+        setQuantidade('');
+        setIntervalo('');
+        setDuracao('');
+        setDate(new Date());
+        setTime(new Date());
+    };
+
+    const handleSave = async () => {
+        if (isFormValid()) {
+            const novoLembrete: LembreteSalvo = {
+                id: Math.random().toString(36).substring(7),
+                tipo: selectedLembreteType,
+                data: date,
+                horario: time,
+                ...(selectedLembreteType === 'Exames' && { nomeExame }),
+                ...(selectedLembreteType === 'Medicamentos' && { medicamento, duracao, intervalo }),
+                ...(selectedLembreteType === 'Hidratação' && { quantidade, intervalo }),
+                ...(selectedLembreteType === 'Pressão' && { intervalo }),
+                ...(selectedLembreteType === 'Glicemia' && { intervalo }),
+            };
+
+            const novosLembretes = [...lembretes, novoLembrete];
+            setLembretes(novosLembretes);
+
+            try {
+                await AsyncStorage.setItem('@lembretes', JSON.stringify(novosLembretes));
+            } catch (e) {
+                console.error('Erro ao salvar lembretes', e);
+            }
+
+            closeModal();
+        }
+    };
+
+    const calcularProximaDose = (horarioInicial: Date, intervaloHoras: string): string => {
+        const intervalo = parseInt(intervaloHoras) || 0;
+        if (intervalo <= 0) return formatTime(horarioInicial);
+
+        const agora = new Date();
+        const horarioBase = new Date(horarioInicial);
+
+        if (horarioBase > agora) return formatTime(horarioBase);
+
+        const diffHoras = (agora.getTime() - horarioBase.getTime()) / (60 * 60 * 1000);
+        const intervalosPassados = Math.floor(diffHoras / intervalo);
+        const proximaDose = new Date(
+            horarioBase.getTime() + (intervalosPassados + 1) * intervalo * 60 * 60 * 1000
+        );
+
+        return formatTime(proximaDose);
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setLembretes([...lembretes]);
+        }, 60000);
+
+        return () => clearInterval(interval);
+    }, [lembretes]);
+
+    const calcularDiasRestantes = (dataInicio: Date, duracaoDias: string): string => {
+        const duracao = parseInt(duracaoDias) || 0;
+        if (duracao <= 0) return "0 dias";
+
+        const dataFim = new Date(dataInicio);
+        dataFim.setDate(dataFim.getDate() + duracao);
+
+        const hoje = new Date();
+
+        if (hoje < dataInicio) return `${duracao} dias`;
+
+        if (hoje >= dataFim) return "Finalizado";
+
+        const diffTempo = dataFim.getTime() - hoje.getTime();
+        const diffDias = Math.ceil(diffTempo / (1000 * 60 * 60 * 24));
+
+        return `${diffDias} ${diffDias === 1 ? 'dia' : 'dias'}`;
+    };
+
+    const removerLembrete = async (id: string) => {
+        const novosLembretes = lembretes.filter(item => item.id !== id);
+        setLembretes(novosLembretes);
+
+        try {
+            await AsyncStorage.setItem('@lembretes', JSON.stringify(novosLembretes));
+        } catch (e) {
+            console.error('Erro ao remover lembrete', e);
+        }
+    };
+
+    const renderDetalhesLembrete = (lembrete: LembreteSalvo) => {
+        const proximaDose = lembrete.intervalo ?
+            calcularProximaDose(lembrete.horario, lembrete.intervalo) :
+            formatTime(lembrete.horario);
+
+        const diasRestantes = lembrete.duracao ?
+            calcularDiasRestantes(new Date(lembrete.horario), lembrete.duracao) :
+            null;
+
+        switch (lembrete.tipo) {
+            case 'Exames':
+                return (
+                    <>
+                        <Text style={styles.lembreteDetalhe}>Exame: {lembrete.nomeExame}</Text>
+                        <Text style={styles.lembreteDetalhe}>Data: {formatDate(lembrete.data)}</Text>
+                        <Text style={styles.lembreteDetalhe}>Horário: {formatTime(lembrete.horario)}</Text>
+                    </>
+                );
+            case 'Medicamentos':
+                const diasRestantesText = diasRestantes === "Finalizado" ?
+                    <Text style={[styles.lembreteDetalhe, styles.lembreteFinalizado]}>Duração: Finalizado</Text> :
+                    <Text style={styles.lembreteDetalhe}>Duração: {lembrete.duracao} dias - restam {diasRestantes}</Text>;
+
+                return (
+                    <>
+                        <Text style={styles.lembreteDetalhe}>Medicamento: {lembrete.medicamento}</Text>
+                        {diasRestantesText}
+                        <Text style={styles.lembreteDetalhe}>Intervalo: {lembrete.intervalo} horas</Text>
+                        <Text style={styles.lembreteDetalhe}>Próxima dose: {proximaDose}</Text>
+                    </>
+                );
+            case 'Hidratação':
+                return (
+                    <>
+                        <Text style={styles.lembreteDetalhe}>Quantidade: {lembrete.quantidade} ml</Text>
+                        <Text style={styles.lembreteDetalhe}>Intervalo: {lembrete.intervalo} horas</Text>
+                        <Text style={styles.lembreteDetalhe}>Próxima hidratação: {proximaDose}</Text>
+                    </>
+                );
+            case 'Pressão':
+                return (
+                    <>
+                        <Text style={styles.lembreteDetalhe}>Intervalo: {lembrete.intervalo} horas</Text>
+                        <Text style={styles.lembreteDetalhe}>Próxima medição: {proximaDose}</Text>
+                    </>
+                );
+            case 'Glicemia':
+                return (
+                    <>
+                        <Text style={styles.lembreteDetalhe}>Intervalo: {lembrete.intervalo} horas</Text>
+                        <Text style={styles.lembreteDetalhe}>Próxima medição: {proximaDose}</Text>
+                    </>
+                );
+            default:
+                return null;
+        }
     };
 
     const styles = StyleSheet.create({
@@ -235,7 +439,63 @@ const Lembretes = () => {
             justifyContent: 'space-between',
             width: '100%',
             marginBottom: 15,
-        }
+        },
+        saveBtn: {
+            borderRadius: 15,
+            paddingVertical: 15,
+            paddingHorizontal: 30,
+            marginTop: 20,
+            width: '100%',
+            alignItems: 'center',
+        },
+        saveBtnActive: {
+            backgroundColor: colors.bluePrimary,
+        },
+        saveBtnInactive: {
+            backgroundColor: colors.grayOpacity,
+        },
+        saveText: {
+            color: colors.white,
+            fontFamily: 'Poppins-Medium',
+            fontSize: 18,
+        },
+        lembreteItem: {
+            backgroundColor: colors.white,
+            padding: 15,
+            borderRadius: 10,
+            marginBottom: 15,
+            width: '100%',
+            elevation: 2,
+        },
+        lembreteTitulo: {
+            fontFamily: 'Poppins-Medium',
+            fontSize: 18,
+            color: colors.bluePrimary,
+            marginBottom: 5,
+        },
+        lembreteDetalhe: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 14,
+            color: colors.black,
+            marginBottom: 3,
+        },
+        lembreteHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 8,
+        },
+        listaLembretes: {
+            width: '100%',
+            marginTop: 20,
+        },
+        lembreteStatus: {
+            fontFamily: 'Poppins-Medium',
+            color: colors.bluePrimary,
+        },
+        lembreteFinalizado: {
+            color: 'red',
+        },
     });
 
     return (
@@ -268,7 +528,23 @@ const Lembretes = () => {
                 <View style={styles.separator} />
 
                 <View style={styles.avisoView}>
-                    <Text style={styles.aviso}>Você não tem nenhum lembrete adicionado</Text>
+                    {lembretes.length === 0 ? (
+                        <Text style={styles.aviso}>Você não tem nenhum lembrete adicionado</Text>
+                    ) : (
+                        <View style={styles.listaLembretes}>
+                            {lembretes.map(lembrete => (
+                                <View key={lembrete.id} style={styles.lembreteItem}>
+                                    <View style={styles.lembreteHeader}>
+                                        <Text style={styles.lembreteTitulo}>{lembrete.tipo}</Text>
+                                        <TouchableOpacity onPress={() => removerLembrete(lembrete.id)}>
+                                            <FontAwesome5 name="trash" size={20} color={colors.bluePrimary} />
+                                        </TouchableOpacity>
+                                    </View>
+                                    {renderDetalhesLembrete(lembrete)}
+                                </View>
+                            ))}
+                        </View>
+                    )}
                 </View>
             </ScrollView>
 
@@ -276,12 +552,12 @@ const Lembretes = () => {
                 transparent={true}
                 animationType="fade"
                 visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
+                onRequestClose={closeModal}
             >
                 <View style={styles.modalBackground}>
                     <View style={styles.modalBox}>
                         <View style={styles.backContent}>
-                            <TouchableOpacity onPress={() => setModalVisible(false)} style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity onPress={closeModal} style={{ flexDirection: 'row' }}>
                                 <Image
                                     source={require('../../../assets/images/seta.png')}
                                     style={styles.seta}
@@ -478,6 +754,19 @@ const Lembretes = () => {
                                     />
                                 </View>
                             </>
+                        )}
+
+                        {selectedLembreteType && (
+                            <TouchableOpacity
+                                style={[
+                                    styles.saveBtn,
+                                    isFormValid() ? styles.saveBtnActive : styles.saveBtnInactive
+                                ]}
+                                onPress={handleSave}
+                                disabled={!isFormValid()}
+                            >
+                                <Text style={styles.saveText}>Salvar</Text>
+                            </TouchableOpacity>
                         )}
                     </View>
                 </View>
