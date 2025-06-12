@@ -57,7 +57,8 @@ export default function dependentesCadastrados() {
         cardView: {
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 15
+            marginTop: 15,
+            elevation: 4
         },
         photo: {
             width: 60,
@@ -93,7 +94,14 @@ export default function dependentesCadastrados() {
 
                 <TouchableOpacity
                     onPress={() => {
-                        router.push('./detalhes')
+                        router.push({
+                            pathname: './detalhes',
+                            params: {
+                                nome: 'Maria Santos',
+                                foto: 'profile-photo.jpg',
+                            }
+                        })
+
                     }}
                     style={styles.containerView}>
                     <Text style={styles.textRegistro}>Fez um novo registro, venha conferir</Text>
@@ -108,7 +116,13 @@ export default function dependentesCadastrados() {
 
                 <TouchableOpacity
                     onPress={() => {
-                        router.push('./detalhes')
+                        router.push({
+                            pathname: './detalhes',
+                            params: {
+                                nome: 'Joice Soares',
+                                foto: 'photo-dependente.jpg',
+                            }
+                        })
                     }}
                     style={styles.containerView}>
                     <View style={styles.cardView}>

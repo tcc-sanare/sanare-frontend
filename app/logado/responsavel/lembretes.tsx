@@ -476,7 +476,7 @@ const Lembretes = () => {
         lembreteDetalhe: {
             fontFamily: 'Poppins-Regular',
             fontSize: 14,
-            color: colors.black,
+            color: '#000',
             marginBottom: 3,
         },
         lembreteHeader: {
