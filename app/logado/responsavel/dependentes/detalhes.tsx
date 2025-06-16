@@ -22,6 +22,7 @@ export default function detalhesDependente() {
         container: {
             flex: 1,
             backgroundColor: colors.background,
+            paddingBottom: 60
         },
         seta: {
             margin: 45,
@@ -76,7 +77,6 @@ export default function detalhesDependente() {
         },
         sectionConfig: {
             marginTop: 20,
-            // marginBottom: 80,
             justifyContent: 'center',
             alignItems: 'center',
             gap: 20,
@@ -85,10 +85,8 @@ export default function detalhesDependente() {
             width: '90%',
             backgroundColor: colors.ConfigItemcolor,
             height: 80,
-            // paddingHorizontal: 20,
             borderRadius: 15,
             elevation: 4,
-            // flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
         },
@@ -101,73 +99,79 @@ export default function detalhesDependente() {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => router.push('./dependentes')}>
-                <Image
-                    source={require('../../../../assets/images/seta.png')}
-                    style={styles.seta}
-                />
-            </TouchableOpacity>
-            <View style={styles.section}>
-                <Image source={fotoSource()} style={styles.foto} />
-                <Text style={styles.nome}>{nome}</Text>
-            </View>
 
-            <View style={styles.containerView}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+            >
+                <TouchableOpacity onPress={() => router.push('./dependentes')}>
                     <Image
-                        source={require('../../../../assets/images/decoration.png')}
-                        style={{ width: 21, height: 21, resizeMode: 'contain' }}
+                        source={require('../../../../assets/images/seta.png')}
+                        style={styles.seta}
                     />
-
-                    <Text style={styles.tittle}>Doenças</Text>
-
+                </TouchableOpacity>
+                <View style={styles.section}>
+                    <Image source={fotoSource()} style={styles.foto} />
+                    <Text style={styles.nome}>{nome}</Text>
                 </View>
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.scroll}
-                >
-                    <View style={styles.card}><Text style={styles.text}>Diabetes</Text></View>
-                    <View style={styles.card}><Text style={styles.text}>Hipertensão</Text></View>
-                    <View style={styles.card}><Text style={styles.text}>Asma</Text></View>
-                </ScrollView>
-            </View>
 
-            <View style={styles.containerView}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                    <Image
-                        source={require('../../../../assets/images/decoration.png')}
-                        style={{ width: 21, height: 21, resizeMode: 'contain' }}
-                    />
+                <View style={styles.containerView}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                        <Image
+                            source={require('../../../../assets/images/decoration.png')}
+                            style={{ width: 21, height: 21, resizeMode: 'contain' }}
+                        />
 
-                    <Text style={styles.tittle}>Alergias</Text>
+                        <Text style={styles.tittle}>Doenças</Text>
 
+                    </View>
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.scroll}
+                    >
+                        <View style={styles.card}><Text style={styles.text}>Diabetes</Text></View>
+                        <View style={styles.card}><Text style={styles.text}>Hipertensão</Text></View>
+                        <View style={styles.card}><Text style={styles.text}>Asma</Text></View>
+                    </ScrollView>
                 </View>
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.scroll}
-                >
-                    <View style={styles.card}><Text style={styles.text}>Amoxilina</Text></View>
-                    <View style={styles.card}><Text style={styles.text}>Peniclina</Text></View>
-                    <View style={styles.card}><Text style={styles.text}>Ibuprofeno</Text></View>
-                </ScrollView>
-            </View>
 
-            <View style={styles.containerView}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                    <Image
-                        source={require('../../../../assets/images/decoration.png')}
-                        style={{ width: 21, height: 21, resizeMode: 'contain' }}
-                    />
+                <View style={styles.containerView}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                        <Image
+                            source={require('../../../../assets/images/decoration.png')}
+                            style={{ width: 21, height: 21, resizeMode: 'contain' }}
+                        />
 
-                    <Text style={styles.tittle}>Acompanhamento</Text>
+                        <Text style={styles.tittle}>Alergias</Text>
 
+                    </View>
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.scroll}
+                    >
+                        <View style={styles.card}><Text style={styles.text}>Amoxilina</Text></View>
+                        <View style={styles.card}><Text style={styles.text}>Peniclina</Text></View>
+                        <View style={styles.card}><Text style={styles.text}>Ibuprofeno</Text></View>
+                    </ScrollView>
                 </View>
+
+                <View style={styles.containerView}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                        <Image
+                            source={require('../../../../assets/images/decoration.png')}
+                            style={{ width: 21, height: 21, resizeMode: 'contain' }}
+                        />
+
+                        <Text style={styles.tittle}>Acompanhamento</Text>
+
+                    </View>
                     <View style={styles.sectionConfig}>
                         <Pressable
                             style={styles.ConfigItem}
-                            onPress={() => router.replace('./edit-dados')}
+                            onPress={() => router.replace('./graficosDependente')}
 
                         >
                             <Text style={styles.textConfig}>Gráficos</Text>
@@ -175,13 +179,14 @@ export default function detalhesDependente() {
 
                         <Pressable
                             style={styles.ConfigItem}
-                            onPress={() => router.replace('./configuracoes')}
+                            onPress={() => router.replace('./relatorioDependente')}
 
                         >
                             <Text style={styles.textConfig}>Relatórios</Text>
                         </Pressable>
                     </View>
-            </View>
+                </View>
+            </ScrollView>
         </View >
     );
 }

@@ -36,6 +36,7 @@ const Colors = {
     blueDark: '#01148A',
     blackOpacity: '#00000080',
     black: '#000',
+    text: '#000',
     logOut: '#005EB7',
     input: "#FFF",
     dropdownPlaceholder: '#D3D3D3',
@@ -48,7 +49,8 @@ const Colors = {
     desvincular: '#005EB7',
     home: '#FFF',
     cardSubtittle: '#00000080',
-    feed: '#F5F5F5'
+    feed: '#F5F5F5',
+    item: '#FFF'
 
   },
   dark: {
@@ -66,6 +68,7 @@ const Colors = {
     blueDark: '#072c53',
     blackOpacity: '#FFFFFF80',
     black: '#FFFFFF',
+    text: '#FFF',
     logOut: '#FFF',
     dropdownPlaceholder: '#D3D3D3',
     dropdown: '#333333',
@@ -77,7 +80,8 @@ const Colors = {
     desvincular: '#072c53',
     home: '#333333',
     cardSubtittle: '#D3D3D3',
-    feed: '#6A6969'
+    feed: '#6A6969',
+    item: '#F5F5F5'
 
   },
 };

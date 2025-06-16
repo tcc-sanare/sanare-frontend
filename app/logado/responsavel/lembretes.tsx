@@ -460,7 +460,7 @@ const Lembretes = () => {
             fontSize: 18,
         },
         lembreteItem: {
-            backgroundColor: colors.white,
+            backgroundColor: colors.item,
             padding: 15,
             borderRadius: 10,
             marginBottom: 15,
