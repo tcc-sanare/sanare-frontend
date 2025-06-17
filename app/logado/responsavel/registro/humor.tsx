@@ -1,17 +1,7 @@
-import Colors from '@/constants/Colors';
 import { useTheme } from '@/hooks/useTheme';
-import { AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from "expo-router";
 import { useState } from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const moods = [
   { key: 'calmo', label: 'Calmo', image: require('../../../../assets/images/calmo.png') },
@@ -27,148 +17,156 @@ const moods = [
 ];
 
 const Humor = () => {
-  const navigation = useNavigation();
   const [selectedMood, setSelectedMood] = useState<string>('feliz');
-  const [note, setNote] = useState('');
   const { isDarkMode, toggleDarkMode, colors } = useTheme();
+  const router = useRouter();
+  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
 
   const handleSave = () => {
     console.log('Humor selecionado:', selectedMood);
-    console.log('Nota:', note);
   };
 
+  const toggleMoodSelection = (moodKey: string) => {
+    setSelectedMoods(prev => {
+      if (prev.includes(moodKey)) {
+        return prev.filter(key => key !== moodKey);
+      } else {
+        return [...prev, moodKey];
+      }
+    });
+  };
+
+  const styles = StyleSheet.create({
+    container: {
+      flexGrow: 1,
+      backgroundColor: colors.background,
+    },
+    seta: {
+      margin: 45,
+      resizeMode: 'contain',
+      marginTop: '20%'
+    },
+    title: {
+      fontSize: 32,
+      fontFamily: 'Poppins-Medium',
+      color: colors.bluePrimary,
+      marginBottom: 20,
+    },
+    subtitle: {
+      fontSize: 16,
+      fontFamily: 'Poppins-Regular',
+      textAlign: 'center',
+      color: colors.black,
+    },
+    moodContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      gap: 8,
+      marginBottom: '15%',
+    },
+    moodButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#F1F4FF',
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+      borderRadius: 20,
+      borderWidth: 3,
+      borderColor: '#D6E1FF',
+      margin: 4,
+    },
+    moodButtonSelected: {
+      borderColor: colors.bluePrimary,
+      backgroundColor: colors.bluePrimary,
+    },
+    moodButtonText: {
+      fontFamily: 'Poppins-Regular',
+      color: '#000',
+      fontSize: 16,
+    },
+    moodButtonTextSelected: {
+      color: '#fff',
+    },
+    saveButton: {
+      backgroundColor: colors.bluePrimary,
+      paddingVertical: 12,
+      paddingHorizontal: 40,
+      borderRadius: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '50%',
+    },
+    saveButtonText: {
+      color: colors.white,
+      fontSize: 20,
+      fontFamily: 'Poppins-SemiBold',
+    },
+    saveButtonDisabled: {
+      backgroundColor: colors.grayOpacity,
+    },
+  });
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
+    <View style={styles.container}>
+
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <AntDesign name="left" size={30} color={Colors.light.bluePrimary} />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('./registro')}>
+          <Image
+            source={require('../../../../assets/images/seta.png')}
+            style={styles.seta}
+          />
+        </TouchableOpacity>
 
-      <Text style={styles.title}>Humor</Text>
-      <Text style={styles.subtitle}>Como está o seu humor hoje?</Text>
+        <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 50 }}>
+          <Text style={styles.title}>Humor</Text>
+          <Text style={styles.subtitle}>Como está o seu humor hoje?</Text>
+        </View>
 
-      <View style={styles.moodContainer}>
-        {moods.map((mood) => {
-          const selected = selectedMood === mood.key;
-          return (
-            <TouchableOpacity
-              key={mood.key}
-              style={[styles.moodButton, selected && styles.moodButtonSelected]}
-              onPress={() => setSelectedMood(mood.key)}
-            >
-              <Image
-                source={mood.image}
-                style={{ width: 25, height: 25, marginRight: 4 }}
-              />
-              <Text style={[styles.moodButtonText, selected && styles.moodButtonTextSelected]}>
-                {mood.label}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+        <View style={styles.moodContainer}>
+          {moods.map((mood) => {
+            const selected = selectedMoods.includes(mood.key);
+            return (
+              <TouchableOpacity
+                key={mood.key}
+                style={[styles.moodButton, selected && styles.moodButtonSelected]}
+                onPress={() => toggleMoodSelection(mood.key)}
+              >
+                <Image
+                  source={mood.image}
+                  style={{ width: 25, height: 25, marginRight: 4 }}
+                />
+                <Text style={[styles.moodButtonText, selected && styles.moodButtonTextSelected]}>
+                  {mood.label}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
 
-      <TextInput
-        style={styles.noteInput}
-        placeholder="Deixar nota"
-        placeholderTextColor="#888"
-        value={note}
-        onChangeText={setNote}
-      />
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity
+            onPressIn={() => {
+              router.push('./registro');
+            }}
+            style={[
+              styles.saveButton,
+              selectedMoods.length === 0 && styles.saveButtonDisabled
+            ]}
+            onPress={handleSave}
+            disabled={selectedMoods.length === 0}
+          >
+            <Text style={styles.saveButtonText}>Salvar</Text>
+          </TouchableOpacity>
+        </View>
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Salvar</Text>
-      </TouchableOpacity>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: Colors.light.background,
-    paddingHorizontal: 24,
-    paddingTop: 60,
-    alignItems: 'center',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-  },
-  title: {
-    fontSize: 32,
-    top: 60,
-    fontFamily: 'Poppins-Regular',
-    color: Colors.light.bluePrimary,
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    top: 90,
-    fontFamily: 'Poppins-Regular',
-    textAlign: 'center',
-    marginBottom: 24,
-    color: Colors.light.black,
-  },
-  moodContainer: {
-    top: 120,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 8,
-    marginBottom: 32,
-  },
-  moodButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F1F4FF',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-    borderWidth: 3,
-    borderColor: '#D6E1FF',
-    margin: 4,
-  },
-  moodButtonSelected: {
-    borderColor: Colors.light.bluePrimary,
-    backgroundColor: Colors.light.bluePrimary,
-  },
-  moodButtonText: {
-    fontFamily: 'Poppins-Regular',
-    color: Colors.light.black,
-    fontSize: 16,
-  },
-  moodButtonTextSelected: {
-    color: '#fff',
-  },
-  noteInput: {
-    top: 180,
-    width: '80%',
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.light.gray,
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-    paddingVertical: 8,
-    marginBottom: 32,
-    color: Colors.light.black,
-  },
-  saveButton: {
-    top: 200,
-    backgroundColor: Colors.light.bluePrimary,
-    paddingVertical: 16,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  saveButtonText: {
-    color: Colors.light.white,
-    fontSize: 16,
-    fontFamily: 'Poppins-SemiBold',
-  },
-});
 
 export default Humor;

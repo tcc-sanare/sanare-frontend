@@ -66,7 +66,7 @@ export default function Registro() {
     card: {
       width: '80%',
       height: 100,
-      backgroundColor: colors.dropdown,
+      backgroundColor: colors.item,
       marginTop: '15%',
       justifyContent: 'center',
       alignItems: 'center',
@@ -93,7 +93,7 @@ export default function Registro() {
     editText: {
       fontFamily: 'Poppins-Medium',
       fontSize: 14,
-      color: colors.black
+      color: 'black'
     }
   })
 
@@ -137,7 +137,7 @@ export default function Registro() {
               <MaterialIcons
                 name='arrow-forward-ios'
                 size={18}
-                color={colors.description}
+                color={'black'}
                 style={styles.arrowIcon}
               />
             </View>
@@ -152,7 +152,7 @@ export default function Registro() {
               <MaterialIcons
                 name='arrow-forward-ios'
                 size={18}
-                color={colors.description}
+                color={'black'}
                 style={styles.arrowIcon}
               />
             </View>
@@ -167,7 +167,7 @@ export default function Registro() {
               <MaterialIcons
                 name='arrow-forward-ios'
                 size={18}
-                color={colors.description}
+                color={'black'}
                 style={styles.arrowIcon}
               />
             </View>
@@ -182,7 +182,7 @@ export default function Registro() {
               <MaterialIcons
                 name='arrow-forward-ios'
                 size={18}
-                color={colors.description}
+                color={'black'}
                 style={styles.arrowIcon}
               />
             </View>
@@ -197,7 +197,7 @@ export default function Registro() {
               <MaterialIcons
                 name='arrow-forward-ios'
                 size={18}
-                color={colors.description}
+                color={'black'}
                 style={styles.arrowIcon}
               />
             </View>

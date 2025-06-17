@@ -50,7 +50,7 @@ const Colors = {
     home: '#FFF',
     cardSubtittle: '#00000080',
     feed: '#F5F5F5',
-    item: '#FFF'
+    item: '#FFF',
 
   },
   dark: {

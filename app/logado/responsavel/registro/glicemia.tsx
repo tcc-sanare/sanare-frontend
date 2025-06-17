@@ -1,81 +1,87 @@
-import Colors from '@/constants/Colors';
-import { AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity
-} from 'react-native';
+import { useTheme } from '@/hooks/useTheme';
+import { useRouter } from 'expo-router';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Glicemia = () => {
-    const navigation = useNavigation();
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const router = useRouter();
 
     const handleSave = () => {
         console.log('Glicemia registrada!');
+        router.push('./registro');
     };
 
+    const styles = StyleSheet.create({
+        container: {
+            flexGrow: 1,
+            backgroundColor: colors.background,
+        },
+        seta: {
+            margin: 45,
+            resizeMode: 'contain',
+            marginTop: '20%'
+        },
+        title: {
+            fontSize: 32,
+            fontFamily: 'Poppins-Medium',
+            color: colors.bluePrimary,
+            marginBottom: 20,
+        },
+        subtitle: {
+            fontSize: 16,
+            fontFamily: 'Poppins-Regular',
+            textAlign: 'center',
+            color: colors.black,
+            marginBottom: 50,
+        },
+        saveButton: {
+            paddingVertical: 12,
+            paddingHorizontal: 40,
+            borderRadius: 30,
+            marginTop: 35,
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '50%',
+            backgroundColor: colors.bluePrimary,
+        },
+        saveButtonText: {
+            color: colors.white,
+            fontSize: 20,
+            fontFamily: 'Poppins-SemiBold',
+        },
+    });
+
+
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.goBack()}
+        <View style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
             >
-                <AntDesign name="left" size={30} color={Colors.light.bluePrimary} />
-            </TouchableOpacity>
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    keyboardShouldPersistTaps="handled"
+                    showsVerticalScrollIndicator={false}
+                >
+                    <TouchableOpacity onPress={() => router.push('./registro')}>
+                        <Image
+                            source={require('../../../../assets/images/seta.png')}
+                            style={styles.seta}
+                        />
+                    </TouchableOpacity>
 
-            <Text style={styles.title}>Glicemia</Text>
-            <Text style={styles.subtitle}>Registre sua glicemia!</Text>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 50 }}>
+                        <Text style={styles.title}>Glicemia</Text>
+                        <Text style={styles.subtitle}>Registre sua glicemia!</Text>
 
-            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveButtonText}>Salvar</Text>
-            </TouchableOpacity>
-        </ScrollView>
+                        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                            <Text style={styles.saveButtonText}>Salvar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        paddingHorizontal: 24,
-        paddingTop: 60,
-        backgroundColor: Colors.light.background,
-        alignItems: 'center',
-    },
-    backButton: {
-        position: 'absolute',
-        top: 40,
-        left: 20,
-    },
-    title: {
-        fontSize: 32,
-        top: 60,
-        fontFamily: 'Poppins-Regular',
-        color: Colors.light.bluePrimary,
-        marginBottom: 8,
-    },
-    subtitle: {
-        fontSize: 16,
-        top: 90,
-        fontFamily: 'Poppins-Regular',
-        textAlign: 'center',
-        marginBottom: 24,
-        color: Colors.light.black,
-    },
-    saveButton: {
-        top: 200,
-        width: 180,
-        backgroundColor: Colors.light.bluePrimary,
-        paddingVertical: 16,
-        borderRadius: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    saveButtonText: {
-        color: Colors.light.white,
-        fontSize: 16,
-        fontFamily: 'Poppins-SemiBold',
-    },
-});
 
 export default Glicemia;

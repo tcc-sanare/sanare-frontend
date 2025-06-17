@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -12,6 +13,8 @@ interface Props {
 
 const DropdownListRegistro: React.FC<Props> = ({ title, items, selected, setSelected }) => {
     const [isExpanded, setIsExpanded] = useState(true);
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+
 
     const toggleItem = (item: string) => {
         if (selected.includes(item)) {
@@ -20,6 +23,31 @@ const DropdownListRegistro: React.FC<Props> = ({ title, items, selected, setSele
             setSelected([...selected, item]);
         }
     }
+
+    const styles = StyleSheet.create({
+        container: {
+            marginBottom: 24,
+        },
+        headerText: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 16,
+            textAlign: 'center',
+            marginBottom: 12,
+        },
+        itemsContainer: {
+            paddingHorizontal: 16,
+        },
+        item: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: 10,
+        },
+        itemText: {
+            fontSize: 22,
+            fontFamily: 'Poppins-Regular',
+            color: colors.black
+        },
+    });
 
     return (
         <View style={styles.container}>
@@ -44,27 +72,3 @@ const DropdownListRegistro: React.FC<Props> = ({ title, items, selected, setSele
 };
 
 export default DropdownListRegistro;
-
-const styles = StyleSheet.create({
-    container: {
-        marginBottom: 24,
-    },
-    headerText: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: 16,
-        textAlign: 'center',
-        marginBottom: 12,
-    },
-    itemsContainer: {
-        paddingHorizontal: 16,
-    },
-    item: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-    },
-    itemText: {
-        fontSize: 22,
-        fontFamily: 'Poppins-Regular',
-    },
-});

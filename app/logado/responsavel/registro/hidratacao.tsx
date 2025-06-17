@@ -1,121 +1,136 @@
 import Colors from '@/constants/Colors';
-import { AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '@/hooks/useTheme';
+import { useRouter } from "expo-router";
 import { useState } from 'react';
-import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity
-} from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const Hidratacao = () => {
-    const navigation = useNavigation();
     const [litros, setLitros] = useState('');
+    const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const router = useRouter();
+    const isSaveDisabled = litros.trim() === '';
 
-    const handleSave = () => {
-        console.log(`Litros consumidos: ${litros}`);
-    };
+    const styles = StyleSheet.create({
+        container: {
+            flexGrow: 1,
+            backgroundColor: colors.background,
+        },
+        seta: {
+            margin: 45,
+            resizeMode: 'contain',
+            marginTop: '20%'
+        },
+        title: {
+            fontSize: 32,
+            fontFamily: 'Poppins-Medium',
+            color: colors.bluePrimary,
+            marginBottom: 20,
+        },
+        subtitle: {
+            fontSize: 16,
+            fontFamily: 'Poppins-Regular',
+            textAlign: 'center',
+            color: colors.black,
+            marginBottom: 50,
+        },
+        image: {
+            height: 120,
+            marginBottom: 50,
+        },
+        input: {
+            borderBottomWidth: 1,
+            borderBottomColor: Colors.light.gray,
+            fontSize: 22,
+            width: '40%',
+            marginBottom: '20%',
+            fontFamily: 'Poppins-Regular',
+            color: colors.black,
+            textAlign: 'center',
+        },
+        saveButton: {
+            paddingVertical: 12,
+            paddingHorizontal: 40,
+            borderRadius: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '50%',
+            backgroundColor: colors.bluePrimary,
+        },
+        saveButtonText: {
+            color: colors.white,
+            fontSize: 20,
+            fontFamily: 'Poppins-SemiBold',
+        },
+        saveButtonDisabled: {
+            backgroundColor: colors.grayOpacity,
+        },
+        saveButtonTextDisabled: {
+            opacity: 0.7,
+            textShadowColor: 'rgba(0, 0, 0, 0.5)',
+        },
+    });
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.goBack()}
+        <View style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
             >
-                <AntDesign name="left" size={30} color={Colors.light.bluePrimary} />
-            </TouchableOpacity>
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    keyboardShouldPersistTaps="handled"
+                    showsVerticalScrollIndicator={false}
+                >
+                    <TouchableOpacity onPress={() => router.push('./registro')}>
+                        <Image
+                            source={require('../../../../assets/images/seta.png')}
+                            style={styles.seta}
+                        />
+                    </TouchableOpacity>
 
-            <Text style={styles.title}>Hidratação</Text>
-            <Text style={styles.subtitle}>Como está a sua hidratação?</Text>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 50 }}>
+                        <Text style={styles.title}>Hidratação</Text>
+                        <Text style={styles.subtitle}>Registre seu consumo de água!</Text>
+
+                        <Image
+                            source={require('../../../../assets/images/agua.png')}
+                            style={styles.image}
+                            resizeMode="contain"
+                        />
+
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Litros"
+                            placeholderTextColor={Colors.light.gray}
+                            keyboardType="numeric"
+                            value={litros}
+                            onChangeText={setLitros}
+                        />
 
 
-            <Image
-                source={require('../../../../assets/images/agua.png')}
-                style={styles.image}
-                resizeMode="contain"
-            />
+                        <TouchableOpacity
 
-
-            <TextInput
-                style={styles.input}
-                placeholder="Litros"
-                placeholderTextColor={Colors.light.gray}
-                keyboardType="numeric"
-                value={litros}
-                onChangeText={setLitros}
-            />
-
-
-            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveButtonText}>Salvar</Text>
-            </TouchableOpacity>
-        </ScrollView>
+                            style={[
+                                styles.saveButton,
+                                isSaveDisabled && styles.saveButtonDisabled
+                            ]}
+                            onPressIn={() => {
+                                router.push('./registro');
+                            }}
+                            disabled={isSaveDisabled}
+                        >
+                            <Text style={[
+                                styles.saveButtonText,
+                                isSaveDisabled && styles.saveButtonTextDisabled
+                            ]}>
+                                Salvar
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </View >
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        paddingHorizontal: 24,
-        paddingTop: 60,
-        backgroundColor: Colors.light.background,
-        alignItems: 'center',
-    },
-    backButton: {
-        position: 'absolute',
-        top: 40,
-        left: 20,
-    },
-    title: {
-        fontSize: 32,
-        top: 60,
-        fontFamily: 'Poppins-Regular',
-        color: Colors.light.bluePrimary,
-        marginBottom: 8,
-    },
-    subtitle: {
-        fontSize: 16,
-        top: 90,
-        fontFamily: 'Poppins-Regular',
-        textAlign: 'center',
-        marginBottom: 24,
-        color: Colors.light.black,
-    },
-    image: {
-        top: 120,
-        width: 360,
-        height: 160,
-        marginBottom: 10,
-    },
-    input: {
-        top: 140,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.light.gray,
-        fontSize: 16,
-        width: '60%',
-        marginBottom: 40,
-        fontFamily: 'Poppins-Regular',
-        color: Colors.light.black,
-        textAlign: 'left',
-    },
-    saveButton: {
-        top: 200,
-        width: 180,
-        backgroundColor: Colors.light.bluePrimary,
-        paddingVertical: 16,
-        borderRadius: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    saveButtonText: {
-        color: Colors.light.white,
-        fontSize: 16,
-        fontFamily: 'Poppins-SemiBold',
-    },
-});
 
 export default Hidratacao;
