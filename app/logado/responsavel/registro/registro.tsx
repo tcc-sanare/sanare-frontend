@@ -173,6 +173,36 @@ export default function Registro() {
             </View>
             <Text style={styles.editText}>editado em: 01/06</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => { router.push('./glicemia') }}
+            style={styles.card}>
+            <View style={styles.cardTittle}>
+              <Text style={styles.registroText}>Glicemia</Text>
+              <MaterialIcons
+                name='arrow-forward-ios'
+                size={18}
+                color={colors.description}
+                style={styles.arrowIcon}
+              />
+            </View>
+            <Text style={styles.editText}>editado em: 01/06</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => { router.push('./imc') }}
+            style={styles.card}>
+            <View style={styles.cardTittle}>
+              <Text style={styles.registroText}>IMC</Text>
+              <MaterialIcons
+                name='arrow-forward-ios'
+                size={18}
+                color={colors.description}
+                style={styles.arrowIcon}
+              />
+            </View>
+            <Text style={styles.editText}>editado em: 01/06</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

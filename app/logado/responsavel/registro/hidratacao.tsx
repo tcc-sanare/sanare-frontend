@@ -8,8 +8,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    TouchableOpacity,
-    View,
+    TouchableOpacity
 } from 'react-native';
 
 const Hidratacao = () => {
@@ -49,12 +48,6 @@ const Hidratacao = () => {
                 value={litros}
                 onChangeText={setLitros}
             />
-
-            <View style={styles.pagination}>
-                <View style={styles.dot} />
-                <View style={[styles.dot, styles.activeDot]} />
-                <View style={styles.dot} />
-            </View>
 
 
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
@@ -108,22 +101,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Regular',
         color: Colors.light.black,
         textAlign: 'left',
-    },
-    dot: {
-        width: 16,
-        height: 4,
-        borderRadius: 2,
-        backgroundColor: '#ccc',
-        marginHorizontal: 4,
-    },
-    activeDot: {
-        backgroundColor: Colors.light.bluePrimary,
-    },
-    pagination: {
-        top: 190,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginBottom: 32,
     },
     saveButton: {
         top: 200,

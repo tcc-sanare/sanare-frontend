@@ -10,20 +10,18 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-const Pressao = () => {
+const Imc = () => {
     const navigation = useNavigation();
-    const [sistolica, setSistolica] = useState('');
-    const [diastolica, setDiastolica] = useState('');
+    const [altura, setAltura] = useState('');
+    const [peso, setPeso] = useState('');
 
     const handleSave = () => {
-        console.log(`Sistólica: ${sistolica} mmHg`);
-        console.log(`Diastólica: ${diastolica} mmHg`);
-
+        console.log(`Altura: ${altura}`);
+        console.log(`Peso: ${peso}`);
     };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-
             <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => navigation.goBack()}
@@ -31,31 +29,28 @@ const Pressao = () => {
                 <AntDesign name="left" size={30} color={Colors.light.bluePrimary} />
             </TouchableOpacity>
 
-            <Text style={styles.title}>Pressão Arterial</Text>
-            <Text style={styles.subtitle}>Como está a sua Pressão Arterial?</Text>
+            <Text style={styles.title}>IMC</Text>
+            <Text style={styles.subtitle}>Registre seu IMC</Text>
 
-
-            <Text style={styles.label}>Sistólica (maior):</Text>
+            <Text style={styles.label}>Altura:</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Ex: 123 mmHg"
+                placeholder="Ex: 1.80m"
                 placeholderTextColor={Colors.light.gray}
                 keyboardType="numeric"
-                value={sistolica}
-                onChangeText={setSistolica}
+                value={altura}
+                onChangeText={setAltura}
             />
 
-
-            <Text style={styles.label}>Diastólica (menor):</Text>
+            <Text style={styles.label}>Peso:</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Ex: 86 mmHg"
+                placeholder="Ex: 80kg"
                 placeholderTextColor={Colors.light.gray}
                 keyboardType="numeric"
-                value={diastolica}
-                onChangeText={setDiastolica}
+                value={peso}
+                onChangeText={setPeso}
             />
-
 
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                 <Text style={styles.saveButtonText}>Salvar</Text>
@@ -127,4 +122,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Pressao;
+export default Imc;

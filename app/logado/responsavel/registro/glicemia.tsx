@@ -1,29 +1,22 @@
 import Colors from '@/constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
 import {
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity
 } from 'react-native';
 
-const Pressao = () => {
+const Glicemia = () => {
     const navigation = useNavigation();
-    const [sistolica, setSistolica] = useState('');
-    const [diastolica, setDiastolica] = useState('');
 
     const handleSave = () => {
-        console.log(`Sistólica: ${sistolica} mmHg`);
-        console.log(`Diastólica: ${diastolica} mmHg`);
-
+        console.log('Glicemia registrada!');
     };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-
             <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => navigation.goBack()}
@@ -31,31 +24,8 @@ const Pressao = () => {
                 <AntDesign name="left" size={30} color={Colors.light.bluePrimary} />
             </TouchableOpacity>
 
-            <Text style={styles.title}>Pressão Arterial</Text>
-            <Text style={styles.subtitle}>Como está a sua Pressão Arterial?</Text>
-
-
-            <Text style={styles.label}>Sistólica (maior):</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Ex: 123 mmHg"
-                placeholderTextColor={Colors.light.gray}
-                keyboardType="numeric"
-                value={sistolica}
-                onChangeText={setSistolica}
-            />
-
-
-            <Text style={styles.label}>Diastólica (menor):</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Ex: 86 mmHg"
-                placeholderTextColor={Colors.light.gray}
-                keyboardType="numeric"
-                value={diastolica}
-                onChangeText={setDiastolica}
-            />
-
+            <Text style={styles.title}>Glicemia</Text>
+            <Text style={styles.subtitle}>Registre sua glicemia!</Text>
 
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                 <Text style={styles.saveButtonText}>Salvar</Text>
@@ -92,25 +62,6 @@ const styles = StyleSheet.create({
         marginBottom: 24,
         color: Colors.light.black,
     },
-    label: {
-        top: 150,
-        alignSelf: 'flex-start',
-        fontSize: 16,
-        fontFamily: 'Poppins-SemiBold',
-        color: Colors.light.bluePrimary,
-        marginBottom: 4,
-        marginTop: 12,
-    },
-    input: {
-        top: 160,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.light.gray,
-        fontSize: 16,
-        width: '100%',
-        fontFamily: 'Poppins-Regular',
-        color: Colors.light.black,
-        marginBottom: 16,
-    },
     saveButton: {
         top: 200,
         width: 180,
@@ -127,4 +78,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Pressao;
+export default Glicemia;
