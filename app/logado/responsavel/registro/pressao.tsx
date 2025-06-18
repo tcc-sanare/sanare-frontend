@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useRegistro } from '@/hooks/useRegistro';
 import { useTheme } from '@/hooks/useTheme';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -9,6 +10,7 @@ const Pressao = () => {
     const [diastolica, setDiastolica] = useState('');
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
     const router = useRouter();
+    const { updateRegistro } = useRegistro();
 
     const isFormValid = () => {
         const sis = parseInt(sistolica);
@@ -19,6 +21,21 @@ const Pressao = () => {
             sis > 0 &&
             dia > 0 &&
             sis > dia;
+    };
+
+    const handleSave = async () => {
+        try {
+            const now = new Date().toISOString();
+            const success = await updateRegistro('pressao', now);
+
+            if (success) {
+                router.push('./registro');
+            } else {
+                console.log('Falha ao salvar o registro');
+            }
+        } catch (error) {
+            console.error('Erro no handleSave:', error);
+        }
     };
 
     const styles = StyleSheet.create({
@@ -51,6 +68,13 @@ const Pressao = () => {
             color: colors.bluePrimary,
             marginBottom: 4,
             marginTop: 12,
+        },
+        unidade: {
+            position: 'absolute',
+            right: 0,
+            bottom: 65,
+            fontFamily: 'Poppins-Regular',
+            color: colors.text,
         },
         input: {
             borderBottomWidth: 1,
@@ -107,26 +131,35 @@ const Pressao = () => {
 
                         <View style={{ width: '80%' }}>
                             <Text style={styles.label}>Sistólica (maior):</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Ex: 120 mmHg"
-                                placeholderTextColor={'#9E9E9E80'}
-                                keyboardType="numeric"
-                                value={sistolica}
-                                onChangeText={setSistolica}
-                                maxLength={3}
-                            />
+                            <View style={{ position: 'relative' }}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Ex: 120"
+                                    placeholderTextColor={'#9E9E9E80'}
+                                    keyboardType="numeric"
+                                    value={sistolica}
+                                    onChangeText={setSistolica}
+                                    maxLength={3}
+                                />
+                                <Text style={styles.unidade}>mmHg</Text>
+                            </View>
+                        </View>
 
+
+                        <View style={{ width: '80%' }}>
                             <Text style={styles.label}>Diastólica (menor):</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Ex: 80 mmHg"
-                                placeholderTextColor={'#9E9E9E80'}
-                                keyboardType="numeric"
-                                value={diastolica}
-                                onChangeText={setDiastolica}
-                                maxLength={3}
-                            />
+                            <View style={{ position: 'relative' }}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Ex: 80"
+                                    placeholderTextColor={'#9E9E9E80'}
+                                    keyboardType="numeric"
+                                    value={diastolica}
+                                    onChangeText={setDiastolica}
+                                    maxLength={3}
+                                />
+                                <Text style={styles.unidade}>mmHg</Text>
+                            </View>
                         </View>
 
                         <TouchableOpacity
@@ -134,9 +167,7 @@ const Pressao = () => {
                                 styles.saveButton,
                                 !isFormValid() && styles.saveButtonDisabled
                             ]}
-                            onPressIn={() => {
-                                router.push('./registro');
-                            }}
+                            onPress={handleSave}
                             disabled={!isFormValid()}
                         >
                             <Text style={[

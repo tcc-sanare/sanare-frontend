@@ -1,5 +1,6 @@
 import Colors from '@/constants/Colors';
 import { useTheme } from '@/hooks/useTheme';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -12,7 +13,6 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-
 const { width } = Dimensions.get('window');
 
 const carouselData = [
@@ -86,7 +86,7 @@ export default function HomeResponsavel() {
 
         if (horaAtual >= 5 && horaAtual < 12) {
             return 'Bom dia!';
-        } else if (horaAtual >= 12 && horaAtual < 19) {
+        } else if (horaAtual >= 12 && horaAtual < 18) {
             return 'Boa tarde!';
         } else {
             return 'Boa noite!';
@@ -127,10 +127,6 @@ export default function HomeResponsavel() {
             color: Colors.light.white,
             fontSize: 18,
             fontFamily: 'Poppins-Medium',
-        },
-        sino: {
-            width: 40,
-            height: 40,
         },
         body: {
             flex: 1,
@@ -196,11 +192,6 @@ export default function HomeResponsavel() {
             fontSize: 18,
             fontFamily: 'Poppins-Medium',
             color: colors.black,
-        },
-        verTitle: {
-            fontSize: 14,
-            fontFamily: 'Poppins-Medium',
-            color: Colors.light.bluePrimary,
         },
         cardContainer: {
             width: width * 0.85,
@@ -284,11 +275,6 @@ export default function HomeResponsavel() {
             fontSize: 18,
             color: colors.black,
         },
-        destaquesVer: {
-            fontFamily: 'Poppins-Medium',
-            fontSize: 14,
-            color: Colors.light.bluePrimary
-        },
         destaqueItem: {
             flexDirection: 'row',
             alignItems: 'center',
@@ -363,12 +349,17 @@ export default function HomeResponsavel() {
                         <Text style={styles.nome}>Nicolas Faustino</Text>
                     </View>
 
-                    <TouchableOpacity onPress={() => console.log('Notificações')}>
-                        <Image
-                            source={require('../../../assets/images/sino.png')}
-                            style={styles.sino}
-                            resizeMode="contain"
-                        />
+                    <TouchableOpacity
+                        style={{
+                            width: 40,
+                            height: 40,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: colors.white,
+                            borderRadius: 20,
+                        }}
+                        onPress={() => router.push('./notificacoes')}>
+                        <FontAwesome name="bell" size={18} color={colors.bluePrimary} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -427,7 +418,6 @@ export default function HomeResponsavel() {
                     <View style={styles.hojeContainer}>
                         <Text style={styles.hojeTitle}>Para hoje:</Text>
                         <TouchableOpacity>
-                            <Text style={styles.verTitle}>Ver tudo</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -488,7 +478,6 @@ export default function HomeResponsavel() {
                         <View style={styles.destaquesHeader}>
                             <Text style={styles.destaquesTitle}>Destaques:</Text>
                             <TouchableOpacity>
-                                <Text style={styles.destaquesVer}>Ver tudo</Text>
                             </TouchableOpacity>
                         </View>
 

@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useRegistro } from '@/hooks/useRegistro';
 import { useTheme } from '@/hooks/useTheme';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -9,6 +10,7 @@ const Imc = () => {
     const [peso, setPeso] = useState('');
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
     const router = useRouter();
+    const { updateRegistro } = useRegistro();
 
     const isFormValid = () => {
         const alturaNum = parseFloat(altura.replace(',', '.'));
@@ -22,17 +24,30 @@ const Imc = () => {
             pesoNum < 300;
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!isFormValid()) return;
+
+        try {
+            const now = new Date().toISOString();
+            const success = await updateRegistro('imc', now);
+
+            if (success) {
+                router.push('./registro');
+            } else {
+                console.log('Falha ao salvar o registro');
+            }
+        } catch (error) {
+            console.error('Erro no handleSave:', error);
+        }
 
         const alturaNum = parseFloat(altura.replace(',', '.'));
         const pesoNum = parseFloat(peso.replace(',', '.'));
         const imc = pesoNum / (alturaNum * alturaNum);
+        const now = new Date().toISOString();
 
         console.log(`Altura: ${alturaNum}m`);
         console.log(`Peso: ${pesoNum}kg`);
         console.log(`IMC calculado: ${imc.toFixed(2)}`);
-        router.push('./registro');
     };
 
     const styles = StyleSheet.create({

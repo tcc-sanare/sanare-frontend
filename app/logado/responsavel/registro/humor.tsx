@@ -1,3 +1,4 @@
+import { useRegistro } from '@/hooks/useRegistro';
 import { useTheme } from '@/hooks/useTheme';
 import { useRouter } from "expo-router";
 import { useState } from 'react';
@@ -21,9 +22,21 @@ const Humor = () => {
   const { isDarkMode, toggleDarkMode, colors } = useTheme();
   const router = useRouter();
   const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
+  const { updateRegistro } = useRegistro();
 
-  const handleSave = () => {
-    console.log('Humor selecionado:', selectedMood);
+  const handleSave = async () => {
+    try {
+      const now = new Date().toISOString();
+      const success = await updateRegistro('humor', now);
+
+      if (success) {
+        router.push('./registro');
+      } else {
+        console.log('Falha ao salvar o registro');
+      }
+    } catch (error) {
+      console.error('Erro no handleSave:', error);
+    }
   };
 
   const toggleMoodSelection = (moodKey: string) => {
@@ -150,9 +163,7 @@ const Humor = () => {
 
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <TouchableOpacity
-            onPressIn={() => {
-              router.push('./registro');
-            }}
+            onPressIn={handleSave}
             style={[
               styles.saveButton,
               selectedMoods.length === 0 && styles.saveButtonDisabled

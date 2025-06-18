@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useRegistro } from '@/hooks/useRegistro';
 import { useTheme } from '@/hooks/useTheme';
 import { useRouter } from "expo-router";
 import { useState } from 'react';
@@ -9,6 +10,22 @@ const Hidratacao = () => {
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
     const router = useRouter();
     const isSaveDisabled = litros.trim() === '';
+    const { updateRegistro } = useRegistro();
+
+    const handleSave = async () => {
+        try {
+            const now = new Date().toISOString();
+            const success = await updateRegistro('hidratacao', now);
+
+            if (success) {
+                router.push('./registro');
+            } else {
+                console.log('Falha ao salvar o registro');
+            }
+        } catch (error) {
+            console.error('Erro no handleSave:', error);
+        }
+    };
 
     const styles = StyleSheet.create({
         container: {
@@ -114,9 +131,7 @@ const Hidratacao = () => {
                                 styles.saveButton,
                                 isSaveDisabled && styles.saveButtonDisabled
                             ]}
-                            onPressIn={() => {
-                                router.push('./registro');
-                            }}
+                            onPressIn={handleSave}
                             disabled={isSaveDisabled}
                         >
                             <Text style={[

@@ -1,16 +1,32 @@
+import { useRegistro } from '@/hooks/useRegistro';
 import { useTheme } from '@/hooks/useTheme';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useFocusEffect } from '@react-navigation/native';
 import { useRouter } from "expo-router";
+import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Registro() {
   const { isDarkMode, toggleDarkMode, colors } = useTheme();
   const router = useRouter();
-
+  const { registros, loadRegistros } = useRegistro();
   const date = new Date();
   const day = date.getDate();
   const month = date.toLocaleString('pt-BR', { month: 'long' });
   const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadRegistros();
+    }, [])
+  );
+
+  const formatEditDate = (dateString?: string) => {
+    if (!dateString) return 'nunca editado';
+
+    const date = new Date(dateString);
+    return `editado em: ${date.getDate()}/${date.getMonth() + 1}`;
+  };
 
   const styles = StyleSheet.create({
     container: {
@@ -141,7 +157,7 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>editado em: 09/06</Text>
+            <Text style={styles.editText}>{formatEditDate(registros.humor)}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -156,7 +172,7 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>editado em: 25/05</Text>
+            <Text style={styles.editText}>{formatEditDate(registros.hidratacao)}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -171,7 +187,7 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>editado em: 01/06</Text>
+            <Text style={styles.editText}>{formatEditDate(registros.pressao)}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -186,7 +202,7 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>editado em: 01/06</Text>
+            <Text style={styles.editText}>{formatEditDate(registros.glicemia)}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -201,7 +217,7 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>editado em: 01/06</Text>
+            <Text style={styles.editText}>{formatEditDate(registros.imc)}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
