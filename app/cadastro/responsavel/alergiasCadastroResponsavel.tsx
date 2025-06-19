@@ -105,6 +105,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Regular',
     },
     containerAlergias: {
-        marginBottom: '20%',
+        // marginBottom: '10%',
     },
 })

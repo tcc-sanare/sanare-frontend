@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Colors from '../../../constants/Colors';
 import Fonts from '../../../constants/Fonts';
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     input: {
-        width: 350,
+        width: 320,
         height: 58,
         borderWidth: 4,
         borderColor: Colors.light.grayOpacityBorder,

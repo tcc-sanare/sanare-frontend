@@ -2,7 +2,7 @@ import DropdownList from '@/components/DropdownList';
 import Fonts from '@/constants/Fonts';
 import * as Font from 'expo-font';
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function alergiasCadastroDependente() {
@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Regular',
     },
     containerAlergias: {
-        marginBottom: '20%',
+        // marginBottom: '20%',
     }
 })

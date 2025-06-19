@@ -33,6 +33,16 @@ export default function Notificacoes() {
             fontFamily: 'Poppins-Medium',
             color: colors.white,
         },
+        avisoView: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 25
+        },
+        aviso: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 14,
+            color: colors.description
+        },
     })
 
     return (
@@ -50,6 +60,9 @@ export default function Notificacoes() {
                     />
                     <Text style={styles.headerText}>Notificações</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={styles.avisoView}>
+                <Text style={styles.aviso}>Você não tem nenhuma notificação.</Text>
             </View>
         </View >
     )

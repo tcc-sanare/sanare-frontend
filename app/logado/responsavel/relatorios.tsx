@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
-export default function relatorioDependente() {
+export default function Relatorio() {
     const { colors } = useTheme();
     const router = useRouter();
     const [anoSelecionado, setAnoSelecionado] = useState(null);
@@ -138,7 +138,7 @@ export default function relatorioDependente() {
         setTimeout(() => {
             setCarregando(false);
 
-            if (mesSelecionado === '2' && anoSelecionado === '2025') {
+            if (mesSelecionado === '4' && anoSelecionado === '2022') {
                 setRelatorioDisponivel(true);
             }
             else {
@@ -159,9 +159,9 @@ export default function relatorioDependente() {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => router.push('./dependentes')}>
+            <TouchableOpacity onPress={() => router.push('./home')}>
                 <Image
-                    source={require('../../../../assets/images/seta.png')}
+                    source={require('../../../assets/images/seta.png')}
                     style={styles.seta}
                 />
             </TouchableOpacity>
