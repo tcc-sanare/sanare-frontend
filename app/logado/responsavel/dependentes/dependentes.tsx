@@ -42,7 +42,7 @@ export default function dependentesCadastrados() {
             width: '90%',
             height: 'auto',
             paddingVertical: 30,
-            backgroundColor: colors.cards,
+            backgroundColor: colors.saudeCard,
             elevation: 4,
             borderRadius: 25,
             gap: 15,
@@ -52,7 +52,7 @@ export default function dependentesCadastrados() {
             textAlign: 'center',
             fontFamily: 'Poppins-Medium',
             fontSize: 17,
-            color: colors.desvincular,
+            color: colors.bluePrimary,
         },
         cardView: {
             flexDirection: 'row',
@@ -72,7 +72,7 @@ export default function dependentesCadastrados() {
             fontSize: 18,
             width: '50%',
             flexWrap: 'nowrap',
-            color: colors.black
+            color: 'black'
         },
     })
 

@@ -51,6 +51,7 @@ const Colors = {
     cardSubtittle: '#00000080',
     feed: '#F5F5F5',
     item: '#FFF',
+    saudeCard:'#FFF'
 
   },
   dark: {
@@ -81,7 +82,8 @@ const Colors = {
     home: '#333333',
     cardSubtittle: '#D3D3D3',
     feed: '#6A6969',
-    item: '#F5F5F5'
+    item: '#F5F5F5',
+    saudeCard:'#D3D3D3'
 
   },
 };

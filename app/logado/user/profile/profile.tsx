@@ -210,8 +210,15 @@ export default function PerfilUser() {
                 <View style={styles.sectionConfig}>
                     <Pressable
                         style={styles.ConfigItem}
-                        onPress={() => router.replace('./edit-dados')}
-
+                        onPress={() => router.push({
+                            pathname: './edit-dados',
+                            params: {
+                                nome: 'José Silva Correa',
+                                email: 'joseCorrea12@gmail.com',
+                                senha: '123456',
+                                tipoSanguineo: 'B-'
+                            }
+                        })}
                     >
                         <Text style={styles.textConfig}>Editar Dados</Text>
 

@@ -206,8 +206,15 @@ export default function PerfilDependente() {
                 <View style={styles.sectionConfig}>
                     <Pressable
                         style={styles.ConfigItem}
-                        onPress={() => router.replace('./edit-dados')}
-
+                        onPress={() => router.push({
+                            pathname: './edit-dados',
+                            params: {
+                                nome: 'Maria Santos',
+                                email: 'mariaSantos@gmail.com',
+                                senha: '123456',
+                                tipoSanguineo: 'O-'
+                            }
+                        })}
                     >
                         <Text style={styles.textConfig}>Editar Dados</Text>
 

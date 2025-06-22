@@ -80,6 +80,7 @@ export default function detalhesDependente() {
             justifyContent: 'center',
             alignItems: 'center',
             gap: 20,
+            marginBottom: 20,
         },
         ConfigItem: {
             width: '90%',

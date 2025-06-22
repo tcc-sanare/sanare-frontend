@@ -2,22 +2,10 @@ import { useTheme } from '@/hooks/useTheme';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import {
-    Dimensions,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
-import {
-    BarChart,
-    LineChart,
-    PieChart
-} from 'react-native-chart-kit';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { BarChart, LineChart, PieChart } from 'react-native-chart-kit';
 
-export default function graficosDependente() {
+export default function Graficos() {
     const { colors } = useTheme();
     const router = useRouter();
     const [metricSelecionada, setMetricSelecionada] = useState('pressao');
@@ -305,9 +293,9 @@ export default function graficosDependente() {
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <TouchableOpacity onPress={() => router.push('./dependentes')}>
+                <TouchableOpacity onPress={() => router.push('./home')}>
                     <Image
-                        source={require('../../../../assets/images/seta.png')}
+                        source={require('../../../assets/images/seta.png')}
                         style={styles.seta}
                     />
                 </TouchableOpacity>

@@ -205,8 +205,15 @@ export default function PerfilResponsavel() {
                 <View style={styles.sectionConfig}>
                     <Pressable
                         style={styles.ConfigItem}
-                        onPress={() => router.replace('./edit-dados')}
-
+                        onPress={() => router.push({
+                            pathname: './edit-dados',
+                            params: {
+                                nome: 'Nicolas Faustino',
+                                email: 'nicolasFaustino@gmail.com',
+                                senha: '123456',
+                                tipoSanguineo: 'A+'
+                            }
+                        })}
                     >
                         <Text style={styles.textConfig}>Editar Dados</Text>
 

@@ -82,7 +82,7 @@ export default function Registro() {
     card: {
       width: '80%',
       height: 100,
-      backgroundColor: colors.saudeCard,
+      backgroundColor: colors.item,
       marginTop: '15%',
       justifyContent: 'center',
       alignItems: 'center',

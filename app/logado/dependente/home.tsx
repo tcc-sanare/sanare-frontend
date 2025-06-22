@@ -3,16 +3,7 @@ import { useTheme } from '@/hooks/useTheme';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import {
-    Animated,
-    Dimensions,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Animated, Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 const { width } = Dimensions.get('window');
 
 const carouselData = [
@@ -23,7 +14,7 @@ const carouselData = [
         image: require('../../../assets/images/cardregistro.png'),
         label: 'Saúde',
         button: 'Registrar',
-        route: './registrar',
+        route: './registro/registro',
     },
     {
         id: 2,
@@ -368,7 +359,7 @@ export default function HomeDependente() {
                             showsHorizontalScrollIndicator={false}
                             contentContainerStyle={styles.servicosContainer}
                         >
-                            <TouchableOpacity onPress={() => router.push('./saude')}>
+                            <TouchableOpacity onPress={() => router.push('./registro/registro')}>
                                 <Image
                                     source={require('../../../assets/images/Saude.png')}
                                     style={styles.servicoCard}
@@ -381,6 +372,13 @@ export default function HomeDependente() {
                                     style={styles.servicoCard}
                                 />
                                 <Text style={styles.cardTextj}>Relatórios</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => router.push('./graficos')}>
+                                <Image
+                                    source={require('../../../assets/images/Graficos.png')}
+                                    style={styles.servicoCard}
+                                />
+                                <Text style={styles.cardTextj}>Gráficos</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => router.push('./lembretes')}>
                                 <Image
@@ -431,7 +429,9 @@ export default function HomeDependente() {
                                         </View>
                                     </View>
                                     <Text style={styles.cardSubtitle}>{item.subtitle}</Text>
-                                    <TouchableOpacity style={styles.cardButton}>
+                                    <TouchableOpacity
+                                        onPress={() => router.push(item.route as any)}
+                                        style={styles.cardButton}>
                                         <Text style={styles.cardButtonText}>{item.button}</Text>
                                     </TouchableOpacity>
                                 </View>

@@ -2,8 +2,8 @@ import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from "expo-router";
-import React, { useState } from 'react';
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useState } from 'react';
 import { Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -20,7 +20,7 @@ const bloodTypes = [
 
 export default function editDadosResponsavel() {
     const router = useRouter();
-    const [selectedBloodType, setSelectedBloodType] = React.useState('');
+    const params = useLocalSearchParams();
     const [isFocused, setIsFocused] = useState(false);
     const [isFocusedName, setIsFocusedName] = useState(false);
     const [isFocusedPassword, setIsFocusedPassword] = useState(false);
@@ -29,6 +29,11 @@ export default function editDadosResponsavel() {
     const [senhaVisivel, setSenhaVisivel] = useState(false);
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
     const [isFocusedDropdown, setIsFocusedDropdown] = useState(false);
+
+    const [nome, setNome] = useState(typeof params.nome === 'string' ? params.nome : '');
+    const [senha, setSenha] = useState(typeof params.senha === 'string' ? params.senha : '');
+    const [email, setEmail] = useState(typeof params.email === 'string' ? params.email : '');
+    const [selectedBloodType, setSelectedBloodType] = useState(typeof params.tipoSanguineo === 'string' ? params.tipoSanguineo : '');
 
     const styles = StyleSheet.create({
         container: {
@@ -174,8 +179,11 @@ export default function editDadosResponsavel() {
                         <View>
                             <Text style={styles.text}>Nome</Text>
                             <View style={[styles.input, isFocusedName && styles.inputFocused]}>
+
                                 <TextInput
                                     style={styles.textInput}
+                                    value={nome}
+                                    onChangeText={setNome}
                                     onFocus={() => setIsFocusedName(true)}
                                     onBlur={() => setIsFocusedName(false)}
                                 />
@@ -187,6 +195,8 @@ export default function editDadosResponsavel() {
                             <View style={[styles.input, isFocused && styles.inputFocused]}>
                                 <TextInput
                                     style={styles.textInput}
+                                    value={email}
+                                    onChangeText={setEmail}
                                     onFocus={() => setIsFocused(true)}
                                     onBlur={() => setIsFocused(false)}
                                 />
@@ -205,6 +215,8 @@ export default function editDadosResponsavel() {
                             <View style={[styles.input, isFocusedPassword && styles.inputFocused]}>
                                 <TextInput
                                     style={styles.textInput}
+                                    value={senha}
+                                    onChangeText={setSenha}
                                     secureTextEntry={!senhaVisivel}
                                     onFocus={() => setIsFocusedPassword(true)}
                                     onBlur={() => setIsFocusedPassword(false)}
@@ -225,6 +237,8 @@ export default function editDadosResponsavel() {
                             <View style={[styles.input, isFocusedPasswordConfirm && styles.inputFocused]}>
                                 <TextInput
                                     style={styles.textInput}
+                                    value={senha}
+                                    onChangeText={setSenha}
                                     secureTextEntry={!ConfirmsenhaVisivel}
                                     onFocus={() => setIsFocusedPasswordConfirm(true)}
                                     onBlur={() => setIsFocusedPasswordConfirm(false)}

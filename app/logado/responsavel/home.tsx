@@ -3,16 +3,7 @@ import { useTheme } from '@/hooks/useTheme';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import {
-    Animated,
-    Dimensions,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Animated, Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 const { width } = Dimensions.get('window');
 
 const carouselData = [
@@ -32,7 +23,7 @@ const carouselData = [
         image: require('../../../assets/images/carddependentes.png'),
         label: 'Dependentes',
         button: 'Ver registro',
-        route: './dependentes/detalhes',
+        route: './dependentes/dependentes',
     },
     {
         id: 3,
@@ -398,6 +389,15 @@ export default function HomeResponsavel() {
                                 />
                                 <Text style={styles.cardTextj}>Relatórios</Text>
                             </TouchableOpacity>
+
+                            <TouchableOpacity onPress={() => router.push('./graficos')}>
+                                <Image
+                                    source={require('../../../assets/images/Graficos.png')}
+                                    style={styles.servicoCard}
+                                />
+                                <Text style={styles.cardTextj}>Gráficos</Text>
+                            </TouchableOpacity>
+
                             <TouchableOpacity onPress={() => router.push('./lembretes')}>
                                 <Image
                                     source={require('../../../assets/images/Lembretes.png')}
@@ -449,7 +449,9 @@ export default function HomeResponsavel() {
                                         </View>
                                     </View>
                                     <Text style={styles.cardSubtitle}>{item.subtitle}</Text>
-                                    <TouchableOpacity style={styles.cardButton}>
+                                    <TouchableOpacity 
+                                    onPress={() => router.push(item.route as any)}
+                                    style={styles.cardButton}>
                                         <Text style={styles.cardButtonText}>{item.button}</Text>
                                     </TouchableOpacity>
                                 </View>
