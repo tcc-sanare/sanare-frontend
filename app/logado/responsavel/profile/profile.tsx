@@ -2,7 +2,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
@@ -13,8 +13,22 @@ export default function PerfilResponsavel() {
     const router = useRouter();
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
+    const [profilePhoto, setProfilePhoto] = useState(
+        require('../../../../assets/images/responsavel-photo.jpg')
+    );
+
     const openModal = () => {
         modalRef.current?.open();
+    };
+
+    const handlePhotoSelected = (uri: string) => {
+        setProfilePhoto({ uri });
+        // salvar a foto no backend
+    };
+
+    const handlePhotoRemoved = () => {
+        setProfilePhoto(require('../../../../assets/images/default-photo.png'));
+        // remover a foto no backend
     };
 
     const styles = StyleSheet.create({
@@ -151,22 +165,18 @@ export default function PerfilResponsavel() {
 
                     <View style={styles.profilePhotoContainer}>
                         <Image
-                            source={require('../../../../assets/images/responsavel-photo.jpg')}
+                            source={profilePhoto}
                             style={styles.profilePhoto}
                         />
-
                         <TouchableOpacity
                             style={styles.EditPhotoContainer}
-                            onPress={() => {
-                                openModal();
-                            }}
+                            onPress={openModal}
                         >
                             <Ionicons
                                 name='pencil'
                                 color={colors.white}
                                 size={30}
                             />
-
                         </TouchableOpacity>
                     </View>
 
@@ -264,7 +274,11 @@ export default function PerfilResponsavel() {
 
                 </View>
             </ScrollView>
-            <CustomModal ref={modalRef} />
+            <CustomModal
+                ref={modalRef}
+                onPhotoSelected={handlePhotoSelected}
+                onPhotoRemoved={handlePhotoRemoved}
+            />
         </View>
     );
 }

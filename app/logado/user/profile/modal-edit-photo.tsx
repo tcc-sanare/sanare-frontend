@@ -1,16 +1,84 @@
-import Colors from '@/constants/Colors';
 import { useTheme } from '@/hooks/useTheme';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import * as ImagePicker from 'expo-image-picker';
 import { forwardRef } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Alert, Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
 const screenHeight = Dimensions.get("window").height;
 
-const ModalEditPhoto = forwardRef<Modalize>((props, ref) => {
+interface ModalEditPhotoProps {
+    onPhotoSelected: (uri: string) => void;
+    onPhotoRemoved: () => void;
+}
+
+const ModalEditPhoto = forwardRef<Modalize, ModalEditPhotoProps>(({ onPhotoSelected, onPhotoRemoved }, ref) => {
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
+
+    const pickImageFromGallery = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert('Permissão necessária', 'Precisamos da permissão para acessar sua galeria.');
+            return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
+
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            onPhotoSelected(result.assets[0].uri);
+            // @ts-ignore 
+            ref.current?.close();
+        }
+    };
+
+    const takePhoto = async () => {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert('Permissão necessária', 'Precisamos da permissão para acessar sua câmera.');
+            return;
+        }
+
+        const result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
+
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            onPhotoSelected(result.assets[0].uri);
+            // @ts-ignore
+            ref.current?.close();
+        }
+    };
+
+    const handleRemovePhoto = () => {
+        Alert.alert(
+            'Remover foto',
+            'Tem certeza que deseja remover sua foto de perfil?',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Remover',
+                    onPress: () => {
+                        onPhotoRemoved();
+                        // @ts-ignore
+                        ref.current?.close();
+                    },
+                    style: 'destructive',
+                },
+            ]
+        );
+    };
 
     const styles = StyleSheet.create({
         overlay: {
@@ -57,8 +125,6 @@ const ModalEditPhoto = forwardRef<Modalize>((props, ref) => {
             color: colors.black
         }
     });
-
-
     return (
         <Modalize
             ref={ref}
@@ -71,23 +137,22 @@ const ModalEditPhoto = forwardRef<Modalize>((props, ref) => {
                 <Text style={styles.text}>Foto de Perfil</Text>
 
                 <View style={styles.section}>
-                    <View style={styles.card}>
-                        <View style={styles.icon}><Entypo name="camera" size={30} color={Colors.light.bluePrimary} /></View>
+                    <TouchableOpacity style={styles.card} onPress={takePhoto}>
+                        <View style={styles.icon}><Entypo name="camera" size={30} color={colors.bluePrimary} /></View>
                         <Text style={styles.textCard}>Câmera</Text>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.card}>
+                    <TouchableOpacity style={styles.card} onPress={pickImageFromGallery}>
                         <View style={styles.icon}>
-                            <FontAwesome6 name="image" size={30} color={Colors.light.bluePrimary} />
+                            <FontAwesome6 name="image" size={30} color={colors.bluePrimary} />
                         </View>
                         <Text style={styles.textCard}>Galeria</Text>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={styles.card}>
-                        <View style={styles.icon}><FontAwesome5 name="trash" size={30} color={Colors.light.bluePrimary} /></View>
+                    <TouchableOpacity style={styles.card} onPress={handleRemovePhoto}>
+                        <View style={styles.icon}><FontAwesome5 name="trash" size={30} color={colors.bluePrimary} /></View>
                         <Text style={styles.textCard}>Excluir</Text>
-                    </View>
-
+                    </TouchableOpacity>
                 </View>
             </View>
         </Modalize>
