@@ -32,19 +32,19 @@ export default function Welcome() {
 
         <View style={styles.container}>
             <Image
-                source={require('../assets/images/bgWelcome.png')}
+                source={require('../assets/images/vector1.png')}
                 style={styles.logoFooter}
             />
 
             <View style={styles.logoContainer}>
                 <Image
-                    source={require('../assets/images/logo.png')}
+                    source={require('../assets/images/welcomelogo.png')}
                     style={styles.logo}
                 />
-                <Image
+                {/* <Image
                     source={require('../assets/images/sanare.png')}
                     style={styles.sanare}
-                />
+                /> */}
             </View>
 
             <View style={styles.viewText}>
@@ -65,7 +65,7 @@ export default function Welcome() {
 
             <View style={styles.containerBtns}>
 
-                <TouchableOpacity style={styles.btn} onPress={() => router.push('./logado/responsavel/home')}>
+                <TouchableOpacity style={styles.btn} onPress={() => router.push('./login/login')}>
                     <LinearGradient
                         colors={['#005EB7', '#CEECF5']}
                         start={{ x: 0, y: 0 }}
@@ -150,12 +150,12 @@ const styles = StyleSheet.create({
     logoFooter: {
         position: 'absolute',
         bottom: 0,
-        top: '20%',
-        resizeMode: 'contain',
+        top: 340,
+        resizeMode: 'cover',
         left: 0,
         right: 0,
         opacity: 0.7,
-        height: '100%',
-        width: '100%'
+        height: 484,
+        width: 429
     }
 });

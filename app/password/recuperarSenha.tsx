@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import Colors from '../../constants/Colors';
@@ -106,7 +106,6 @@ export default function recuperarSenha() {
                         </View>
 
                         <View style={styles.viewBtn}>
-
                             <TouchableOpacity
                                 style={styles.btn}
                                 onPress={() => {
@@ -174,7 +173,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: '65%',
         gap: 10,
-        marginBottom: '25%'
+        marginBottom: '10%'
     },
     titulo: {
         color: Colors.light.bluePrimary,
@@ -194,11 +193,11 @@ const styles = StyleSheet.create({
         color: Colors.light.bluePrimary,
     },
     view: {
-        marginBottom: 100,
+        marginBottom: 80,
         justifyContent: "center",
     },
     input: {
-        width: 350,
+        width: 320,
         height: 58,
         borderWidth: 4,
         borderColor: Colors.light.grayOpacityBorder,
@@ -233,7 +232,6 @@ const styles = StyleSheet.create({
     viewBtn: {
         justifyContent: 'center',
         alignItems: 'center',
-
     },
     btn: {
         width: 280,

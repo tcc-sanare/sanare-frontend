@@ -8,6 +8,7 @@ import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleShe
 export default function credentialsResponsavel() {
     const [isFocused, setIsFocused] = useState(false);
     const [ConfirmsenhaVisivel, setConfirmSenhaVisivel] = useState(false);
+    const [isFocusedName, setIsFocusedName] = useState(false);
     const [isFocusedPassword, setIsFocusedPassword] = useState(false);
     const [isFocusedPasswordConfirm, setIsFocusedPasswordConfirm] = useState(false);
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -16,6 +17,7 @@ export default function credentialsResponsavel() {
     const [confirmarSenha, setConfirmarSenha] = useState('');
     const [error, setError] = useState('');
     const [email, setEmail] = useState('');
+    const [nome, setNome] = useState('');
 
     useEffect(() => {
         async function loadFonts() {
@@ -53,6 +55,22 @@ export default function credentialsResponsavel() {
                 <View style={styles.container}>
                     <View style={styles.body}>
                         <View style={styles.viewCadastro}>
+                            <View style={styles.view}>
+                                <Text style={styles.label}>Nome</Text>
+
+                                <View style={[styles.input, isFocusedName && styles.inputFocused]}>
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholder='Digite seu nome'
+                                        placeholderTextColor={Colors.light.grayOpacityBorder}
+                                        onFocus={() => setIsFocusedName(true)}
+                                        onBlur={() => setIsFocusedName(false)}
+                                        value={nome}
+                                        onChangeText={setNome}
+                                    />
+                                </View>
+                            </View>
+
                             <View style={styles.view}>
                                 <Text style={styles.label}>Email</Text>
 

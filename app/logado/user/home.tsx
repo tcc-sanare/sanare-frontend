@@ -51,12 +51,12 @@ export default function HomeUser() {
             Animated.sequence([
                 Animated.timing(floatAnim, {
                     toValue: -10,
-                    duration: 1500,
+                    duration: 1900,
                     useNativeDriver: true,
                 }),
                 Animated.timing(floatAnim, {
                     toValue: 0,
-                    duration: 1500,
+                    duration: 1900,
                     useNativeDriver: true,
                 }),
             ])
@@ -89,9 +89,9 @@ export default function HomeUser() {
         },
         detalhe: {
             position: 'absolute',
-            width: 417,
-            height: 155,
-            top: 0,
+            width: 430,
+            height: 200,
+            top: -30,
             left: 0,
         },
         headerContent: {

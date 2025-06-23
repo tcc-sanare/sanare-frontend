@@ -5,7 +5,7 @@ import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function newPassword() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -45,10 +45,10 @@ export default function newPassword() {
                 keyboardShouldPersistTaps="handled"
             >
                 <View style={styles.container}>
-                    <Image
+                    {/* <Image
                         source={require('../../assets/images/bgSanare.png')}
                         style={styles.logoFooter}
-                    />
+                    /> */}
 
                     <View style={styles.textView}>
                         <Text style={styles.titulo}>Nova Senha</Text>
@@ -147,16 +147,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    logoFooter: {
-        position: 'absolute',
-        bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
-        left: 0,
-        right: 0,
-        height: '100%',
-        width: '100%'
-    },
+    // logoFooter: {
+    //     position: 'absolute',
+    //     bottom: 0,
+    //     top: '31%',
+    //     resizeMode: 'contain',
+    //     left: 0,
+    //     right: 0,
+    //     height: '100%',
+    //     width: '100%'
+    // },
     textView: {
         alignItems: 'center',
         marginBottom: '20%'
@@ -174,13 +174,14 @@ const styles = StyleSheet.create({
         gap: 20,
         marginBottom: '20%'
 
-    }, label: {
+    }, 
+    label: {
         fontFamily: 'Poppins-SemiBold',
         fontSize: 25,
         color: Colors.light.bluePrimary,
     },
     input: {
-        width: 350,
+        width: 320,
         height: 58,
         borderWidth: 4,
         borderColor: Colors.light.grayOpacityBorder,

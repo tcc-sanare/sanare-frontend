@@ -1,7 +1,7 @@
 import { useTheme } from '@/hooks/useTheme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Notificacoes() {
     const router = useRouter();
@@ -15,7 +15,14 @@ export default function Notificacoes() {
         header: {
             backgroundColor: colors.bluePrimary,
             justifyContent: 'center',
-            height: 150,
+            height: 130,
+        },
+        detalhe: {
+            position: 'absolute',
+            width: 417,
+            height: 190,
+            top: -90,
+            left: 0,
         },
         seta: {
             resizeMode: 'contain',
@@ -48,6 +55,11 @@ export default function Notificacoes() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
+                <Image
+                    source={require('../../../assets/images/detalhe.png')}
+                    style={styles.detalhe}
+                    resizeMode="cover"
+                />
                 <TouchableOpacity onPress={() => router.push('./home')} style={styles.notificacoes}>
                     <MaterialIcons
                         name='arrow-back-ios'

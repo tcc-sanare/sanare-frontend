@@ -304,7 +304,14 @@ const Lembretes = () => {
         header: {
             backgroundColor: colors.bluePrimary,
             justifyContent: 'center',
-            height: 150,
+            height: 130,
+        },
+        detalhe: {
+            position: 'absolute',
+            width: 417,
+            height: 190,
+            top: -90,
+            left: 0,
         },
         seta: {
             resizeMode: 'contain',
@@ -513,6 +520,11 @@ const Lembretes = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
+                <Image
+                    source={require('../../../assets/images/detalhe.png')}
+                    style={styles.detalhe}
+                    resizeMode="cover"
+                />
                 <TouchableOpacity onPress={() => router.push('./home')} style={styles.lembretes}>
                     <MaterialIcons
                         name='arrow-back-ios'

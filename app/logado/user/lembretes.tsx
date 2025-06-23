@@ -5,7 +5,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useRouter } from "expo-router";
 import { useEffect, useState } from 'react';
-import { Dimensions, Image, Modal, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+    Dimensions,
+    Image,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 
 const { width } = Dimensions.get('window');
@@ -293,7 +304,14 @@ const Lembretes = () => {
         header: {
             backgroundColor: colors.bluePrimary,
             justifyContent: 'center',
-            height: 150,
+            height: 130,
+        },
+        detalhe: {
+            position: 'absolute',
+            width: 417,
+            height: 190,
+            top: -90,
+            left: 0,
         },
         seta: {
             resizeMode: 'contain',
@@ -502,6 +520,11 @@ const Lembretes = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
+                <Image
+                    source={require('../../../assets/images/detalhe.png')}
+                    style={styles.detalhe}
+                    resizeMode="cover"
+                />
                 <TouchableOpacity onPress={() => router.push('./home')} style={styles.lembretes}>
                     <MaterialIcons
                         name='arrow-back-ios'

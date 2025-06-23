@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function login() {
@@ -18,6 +18,7 @@ export default function login() {
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
     const [senha, setSenha] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         async function loadFonts() {
@@ -41,23 +42,68 @@ export default function login() {
         return regex.test(email);
     };
 
+    const handleLogin = async () => {
+        Keyboard.dismiss();
+
+        if (!senha || !email) {
+            setError('Preencha todos os campos.');
+            return;
+        } else if (!isValidEmail(email)) {
+            setError('Digite um e-mail válido.');
+            return;
+        }
+
+        setError('');
+        setIsLoading(true);
+
+        try {
+            const response = await fetch('https://sanare-api.vercel.app/auth/sign-in', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: senha
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Login bem-sucedido
+                // armazenar token de autenticação aqui
+                // await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+                // await AsyncStorage.setItem('authToken', data.token);
+                router.push('../../logado/responsavel/home');
+            } else {
+                // Login falhou
+                setError(data.message || 'Erro ao fazer login. Verifique suas credenciais.');
+            }
+        } catch (error) {
+            console.error('Erro ao fazer login:', error);
+            setError('Erro de conexão. Tente novamente mais tarde.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
+        <View style={styles.container}>
+            <Image
+                source={require('../../assets/images/Vector2.png')}
+                style={styles.logoFooter}
+            />
 
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1 }}
-        >
-            <ScrollView
-                contentContainerStyle={{ flexGrow: 1 }}
-                keyboardShouldPersistTaps="handled"
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
             >
-
-                <View style={styles.container}>
-                    <Image
-                        source={require('../../assets/images/bgSanare.png')}
-                        style={styles.logoFooter}
-                    />
-
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    keyboardShouldPersistTaps="handled"
+                >
                     <TouchableOpacity onPress={() => router.push('../welcome')}>
                         <Image
                             source={require('../../assets/images/seta.png')}
@@ -67,15 +113,18 @@ export default function login() {
 
                     <View style={styles.viewText}>
                         <Text style={styles.textlogin}>Login</Text>
-
                         <Text style={styles.text}>Preencha as credenciais abaixo para logar em sua conta.</Text>
+
+                        {error !== '' && (
+                            <Text style={styles.errorText}>
+                                {error}
+                            </Text>
+                        )}
                     </View>
 
                     <View style={styles.viewLogin}>
-
                         <View style={styles.view}>
                             <Text style={styles.label}>Email</Text>
-
                             <View style={[styles.input, isFocused && styles.inputFocused]}>
                                 <TextInput
                                     style={styles.textInput}
@@ -85,6 +134,8 @@ export default function login() {
                                     onBlur={() => setIsFocused(false)}
                                     value={email}
                                     onChangeText={setEmail}
+                                    keyboardType="email-address"
+                                    autoCapitalize="none"
                                 />
                                 <Ionicons
                                     style={styles.icon}
@@ -97,7 +148,6 @@ export default function login() {
 
                         <View style={styles.view}>
                             <Text style={styles.label}>Senha</Text>
-
                             <View style={[styles.input, isFocusedPassword && styles.inputFocused]}>
                                 <TextInput
                                     style={styles.textInput}
@@ -109,7 +159,6 @@ export default function login() {
                                     value={senha}
                                     onChangeText={setSenha}
                                 />
-
                                 <TouchableOpacity style={styles.icon} onPress={() => setSenhaVisivel(!senhaVisivel)}>
                                     <Ionicons
                                         name={senhaVisivel ? 'eye' : 'eye-off'}
@@ -128,38 +177,28 @@ export default function login() {
                     </View>
 
                     <View style={styles.viewBtn}>
-                        <TouchableOpacity style={styles.btn} onPress={() => {
-                            Keyboard.dismiss();
-                            if (!senha || !email) {
-                                setError('Preencha todos os campos.');
-                            } else if (!isValidEmail(email)) {
-                                setError('Digite um e-mail válido.');
-                                return;
-                            } else {
-                                setError('');
-                                router.push('../../logado/dependente/home')
-                            }
-                        }}>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={handleLogin}
+                            disabled={isLoading}
+                        >
                             <LinearGradient
                                 colors={['#005EB7', '#CEECF5']}
                                 start={{ x: 0, y: 0 }}
                                 end={{ x: 1, y: 3.8 }}
                                 style={styles.btnGradient}
                             >
-                                <Text style={styles.btnText}>Continuar</Text>
+                                {isLoading ? (
+                                    <ActivityIndicator size="small" color={Colors.light.white} />
+                                ) : (
+                                    <Text style={styles.btnText}>Continuar</Text>
+                                )}
                             </LinearGradient>
                         </TouchableOpacity>
-
-                        {error !== '' && (
-                            <Text style={styles.errorText}>
-                                {error}
-                            </Text>
-                        )}
                     </View>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
-
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </View>
     );
 }
 
@@ -171,12 +210,13 @@ const styles = StyleSheet.create({
     logoFooter: {
         position: 'absolute',
         bottom: 0,
-        top: '31%',
-        resizeMode: 'contain',
+        top: 90,
+        resizeMode: 'cover',
         left: 0,
         right: 0,
-        height: '100%',
-        width: '100%'
+        opacity: 0.7,
+        height: 250,
+        width: 429,
     },
     seta: {
         margin: 45,
@@ -187,7 +227,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         gap: 25,
-        marginBottom: '20%'
+        marginBottom: '10%'
     },
     textlogin: {
         color: Colors.light.bluePrimary,
@@ -214,7 +254,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     input: {
-        width: 350,
+        width: 320,
         height: 58,
         borderWidth: 4,
         borderColor: Colors.light.grayOpacityBorder,

@@ -60,12 +60,12 @@ export default function HomeResponsavel() {
             Animated.sequence([
                 Animated.timing(floatAnim, {
                     toValue: -10,
-                    duration: 1500,
+                    duration: 1900,
                     useNativeDriver: true,
                 }),
                 Animated.timing(floatAnim, {
                     toValue: 0,
-                    duration: 1500,
+                    duration: 1900,
                     useNativeDriver: true,
                 }),
             ])
@@ -98,9 +98,9 @@ export default function HomeResponsavel() {
         },
         detalhe: {
             position: 'absolute',
-            width: 417,
-            height: 155,
-            top: 0,
+            width: 430,
+            height: 200,
+            top: -30,
             left: 0,
         },
         headerContent: {
@@ -538,7 +538,7 @@ export default function HomeResponsavel() {
 
             {/* NAV */}
             <View style={styles.navBar}>
-                <TouchableOpacity style={styles.navItem} onPress={() => router.push('./homeResponsavel')}>
+                <TouchableOpacity style={styles.navItem} onPress={() => router.push('./home')}>
                     <Image
                         source={require('../../../assets/images/inicio.png')}
                         style={[styles.navIcon, styles.navIconActive]}
