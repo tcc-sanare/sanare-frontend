@@ -1,6 +1,9 @@
 import Colors from '@/constants/Colors';
 import Fonts from '@/constants/Fonts';
+import { useUser } from '@/contexts/UserContext';
+import { getAccount } from '@/http/get-account';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,6 +22,7 @@ export default function login() {
     const [error, setError] = useState('');
     const [senha, setSenha] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const { user, setUser } = useUser();
 
     useEffect(() => {
         async function loadFonts() {
@@ -73,9 +77,12 @@ export default function login() {
             if (response.ok) {
                 // Login bem-sucedido
                 // armazenar token de autenticação aqui
-                // await AsyncStorage.setItem('userData', JSON.stringify(data.user));
-                // await AsyncStorage.setItem('authToken', data.token);
-                router.push('../../logado/responsavel/home');
+                await AsyncStorage.setItem('token', data.access_token);
+
+                const { account, selfMonitor } = await getAccount(data.access_token);
+
+                setUser(account);
+                router.push(selfMonitor ? '../../logado/user/home' : '../../logado/responsavel/home');
             } else {
                 // Login falhou
                 setError(data.message || 'Erro ao fazer login. Verifique suas credenciais.');

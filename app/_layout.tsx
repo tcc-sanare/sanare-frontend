@@ -1,10 +1,12 @@
+import { UserProvider } from '@/contexts/UserContext';
 import { ThemeProvider } from '@/hooks/useTheme';
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function RootLayout() {
   return (
-    <ThemeProvider>
+    <UserProvider>
+      <ThemeProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Stack
           screenOptions={{
@@ -13,6 +15,7 @@ export default function RootLayout() {
         />
       </GestureHandlerRootView>
     </ThemeProvider>
+    </UserProvider>
   );
 }
 

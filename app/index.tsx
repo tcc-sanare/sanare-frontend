@@ -1,3 +1,4 @@
+import { useUser } from "@/contexts/UserContext";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Image, StyleSheet, View } from "react-native";
@@ -6,14 +7,16 @@ import Colors from '../constants/Colors';
 export default function Index() {
 
   const router = useRouter();
+  const { user, selfMonitor } = useUser();
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      router.replace('/welcome');
-    }, 2000);
-
-    return () => clearTimeout(timeout);
-  }, []);
+    if (user === null) {
+      router.replace("/login/login");
+      return;
+    } else if (user) {
+      router.replace(selfMonitor ? "/logado/user/home" : "/logado/responsavel/home");
+    }
+  }, [user]);
 
 
   return (

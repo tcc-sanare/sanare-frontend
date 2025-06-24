@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useUser } from '@/contexts/UserContext';
 import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -13,6 +14,7 @@ export default function PerfilUser() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const { user } = useUser();
     const [profilePhoto, setProfilePhoto] = useState(
         require('../../../../assets/images/user-photo.jpg')
     );
@@ -165,7 +167,7 @@ export default function PerfilUser() {
 
                     <View style={styles.profilePhotoContainer}>
                         <Image
-                            source={profilePhoto}
+                            source={user?.profilePhotoUrl ? { uri: user.profilePhotoUrl } : profilePhoto}
                             style={styles.profilePhoto}
                         />
                         <TouchableOpacity
@@ -180,8 +182,8 @@ export default function PerfilUser() {
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.username}>José Silva Correa</Text>
-                    <Text style={styles.email}>joseCorrea12@gmail.com</Text>
+                    <Text style={styles.username}>{user?.name}</Text>
+                    <Text style={styles.email}>{user?.email}</Text>
                 </View>
 
                 <View style={styles.section}>
