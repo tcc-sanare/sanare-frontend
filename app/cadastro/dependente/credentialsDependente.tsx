@@ -1,5 +1,6 @@
 import Colors from '@/constants/Colors';
 import Fonts from '@/constants/Fonts';
+import { useCadastro } from '@/contexts/cadastroContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
@@ -18,6 +19,15 @@ export default function credentialsDependente() {
     const [error, setError] = useState('');
     const [email, setEmail] = useState('');
     const [nome, setNome] = useState('');
+
+    const { dependenteData, setDependenteData } = useCadastro();
+
+    const handleChange = (field: keyof typeof dependenteData, value: string) => {
+    setDependenteData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
     useEffect(() => {
         async function loadFonts() {
@@ -65,8 +75,8 @@ export default function credentialsDependente() {
                                         placeholderTextColor={Colors.light.grayOpacityBorder}
                                         onFocus={() => setIsFocusedName(true)}
                                         onBlur={() => setIsFocusedName(false)}
-                                        value={nome}
-                                        onChangeText={setNome}
+                                        value={dependenteData.nome}
+                                        onChangeText={(text) => handleChange('nome', text)}
                                     />
                                 </View>
                             </View>
@@ -81,8 +91,9 @@ export default function credentialsDependente() {
                                         placeholderTextColor={Colors.light.grayOpacityBorder}
                                         onFocus={() => setIsFocused(true)}
                                         onBlur={() => setIsFocused(false)}
-                                        value={email}
-                                        onChangeText={setEmail}
+                                        value={dependenteData.email}
+                                        onChangeText={(text) => handleChange('email', text)}
+                                        keyboardType='email-address'
                                     />
                                     <Ionicons
                                         style={styles.icon}
@@ -104,8 +115,8 @@ export default function credentialsDependente() {
                                         secureTextEntry={!senhaVisivel}
                                         onFocus={() => setIsFocusedPassword(true)}
                                         onBlur={() => setIsFocusedPassword(false)}
-                                        value={senha}
-                                        onChangeText={setSenha}
+                                        value={dependenteData.senha}
+                                        onChangeText={(text) => handleChange('senha', text)}
                                     />
                                     <TouchableOpacity style={styles.icon} onPress={() => setSenhaVisivel(!senhaVisivel)}>
                                         <Ionicons
@@ -128,8 +139,8 @@ export default function credentialsDependente() {
                                         secureTextEntry={!ConfirmsenhaVisivel}
                                         onFocus={() => setIsFocusedPasswordConfirm(true)}
                                         onBlur={() => setIsFocusedPasswordConfirm(false)}
-                                        value={confirmarSenha}
-                                        onChangeText={setConfirmarSenha}
+                                        value={dependenteData.confirmarSenha}
+                                        onChangeText={(text) => handleChange('confirmarSenha', text)}
                                     />
 
                                     <TouchableOpacity style={styles.icon} onPress={() => setConfirmSenhaVisivel(!ConfirmsenhaVisivel)}>

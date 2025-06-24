@@ -4,7 +4,6 @@ import { useUser } from '@/contexts/UserContext';
 import { getAccount } from '@/http/get-account';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
@@ -15,7 +14,6 @@ export default function login() {
     const router = useRouter();
     const [isFocused, setIsFocused] = useState(false);
     const [isFocusedPassword, setIsFocusedPassword] = useState(false);
-    const navigation = useNavigation();
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
     const [email, setEmail] = useState('');
@@ -75,16 +73,12 @@ export default function login() {
             const data = await response.json();
 
             if (response.ok) {
-                // Login bem-sucedido
-                // armazenar token de autenticação aqui
                 await AsyncStorage.setItem('token', data.access_token);
 
                 const { account, selfMonitor } = await getAccount(data.access_token);
-
                 setUser(account);
                 router.push(selfMonitor ? '../../logado/user/home' : '../../logado/responsavel/home');
             } else {
-                // Login falhou
                 setError(data.message || 'Erro ao fazer login. Verifique suas credenciais.');
             }
         } catch (error) {

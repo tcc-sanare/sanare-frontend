@@ -1,9 +1,10 @@
+import Fonts from '@/constants/Fonts';
+import { useCadastro } from '@/contexts/cadastroContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Colors from '../../../constants/Colors';
-import Fonts from '../../../constants/Fonts';
 
 export default function credentialsUser() {
     const [isFocused, setIsFocused] = useState(false);
@@ -19,12 +20,20 @@ export default function credentialsUser() {
     const [email, setEmail] = useState('');
     const [nome, setNome] = useState('');
 
+    const { userData, setUserData } = useCadastro();
+
+    const handleChange = (field: keyof typeof userData, value: string) => {
+        setUserData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync(Fonts);
             setFontsLoaded(true);
         }
-
         loadFonts();
     }, []);
 
@@ -64,8 +73,8 @@ export default function credentialsUser() {
                                         placeholderTextColor={Colors.light.grayOpacityBorder}
                                         onFocus={() => setIsFocusedName(true)}
                                         onBlur={() => setIsFocusedName(false)}
-                                        value={nome}
-                                        onChangeText={setNome}
+                                        value={userData.nome}
+                                        onChangeText={(text) => handleChange('nome', text)}
                                     />
                                 </View>
                             </View>
@@ -80,8 +89,9 @@ export default function credentialsUser() {
                                         placeholderTextColor={Colors.light.grayOpacityBorder}
                                         onFocus={() => setIsFocused(true)}
                                         onBlur={() => setIsFocused(false)}
-                                        value={email}
-                                        onChangeText={setEmail}
+                                        value={userData.email}
+                                        onChangeText={(text) => handleChange('email', text)}
+                                        keyboardType='email-address'
                                     />
 
                                     <Ionicons
@@ -104,8 +114,8 @@ export default function credentialsUser() {
                                         secureTextEntry={!senhaVisivel}
                                         onFocus={() => setIsFocusedPassword(true)}
                                         onBlur={() => setIsFocusedPassword(false)}
-                                        value={senha}
-                                        onChangeText={setSenha}
+                                        value={userData.senha}
+                                        onChangeText={(text) => handleChange('senha', text)}
                                     />
 
                                     <TouchableOpacity style={styles.icon} onPress={() => setSenhaVisivel(!senhaVisivel)}>
@@ -129,8 +139,8 @@ export default function credentialsUser() {
                                         secureTextEntry={!ConfirmsenhaVisivel}
                                         onFocus={() => setIsFocusedPasswordConfirm(true)}
                                         onBlur={() => setIsFocusedPasswordConfirm(false)}
-                                        value={confirmarSenha}
-                                        onChangeText={setConfirmarSenha}
+                                        value={userData.confirmarSenha}
+                                        onChangeText={(text) => handleChange('confirmarSenha', text)}
                                     />
 
                                     <TouchableOpacity style={styles.icon} onPress={() => setConfirmSenhaVisivel(!ConfirmsenhaVisivel)}>

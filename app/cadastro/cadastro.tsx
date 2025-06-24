@@ -1,7 +1,8 @@
+import { useCadastro } from '@/contexts/cadastroContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import { JSX, useEffect, useRef, useState } from 'react';
-import { Animated, Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as Progress from 'react-native-progress';
 import Colors from '../../constants/Colors';
 import TipoUser from './tipoUser';
@@ -21,6 +22,7 @@ import CadastroDependente from './dependente/credentialsDependente';
 import DoencasCadastroDependente from './dependente/doencasCadastroDependente';
 
 // COMUM
+import { User } from '@/contexts/UserContext';
 import AlergiasCadastroUser from './user/alergiasCadastro';
 import RegistroCadastroUser from './user/cadastroRegistro';
 import CadastroUser from './user/credentialsUser';
@@ -34,6 +36,31 @@ export default function Cadastro() {
     const currentStepKey = steps[stepIndex]?.key;
     const [stepsReady, setStepsReady] = useState(true);
     const stepsRef = useRef<JSX.Element[]>([]);
+
+    const {
+        userData,
+        responsavelData,
+        dependenteData,
+        resetAll
+    } = useCadastro();
+
+
+    const handleSubmit = async () => {
+        // ver qual tipo de cadastro está ativo
+        if (steps[stepIndex]?.key === 'u1') {
+            console.log('Dados do usuário comum:', userData);
+        } else if (steps[stepIndex]?.key === 'r1') {
+            console.log('Dados do responsável:', responsavelData);
+        } else if (steps[stepIndex]?.key === 'd1') {
+            console.log('Dados do dependente:', dependenteData);
+        }
+
+        nextStep();
+    };
+
+    useEffect(() => {
+        return () => resetAll();
+    }, []);
 
     useEffect(() => {
         setSteps([
@@ -176,7 +203,9 @@ export default function Cadastro() {
                             currentStepKey !== "d2" &&
                             currentStepKey !== "r2" &&
                             currentStepKey !== "r5" && (
-                                <TouchableOpacity style={styles.btn} onPress={() => { nextStep(); Keyboard.dismiss(); }}>
+                                <TouchableOpacity
+                                    style={styles.btn}
+                                    onPress={handleSubmit}>
                                     <LinearGradient
                                         colors={['#005EB7', '#CEECF5']}
                                         start={{ x: 0, y: 0 }}
@@ -248,3 +277,11 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
 });
+function setIsLoading(arg0: boolean) {
+    throw new Error('Function not implemented.');
+}
+
+function setUser(account: User) {
+    throw new Error('Function not implemented.');
+}
+
