@@ -1,8 +1,15 @@
+import { useUser } from '@/contexts/UserContext';
 import { useTheme } from '@/hooks/useTheme';
+import { getAllergies } from '@/http/get-allergies';
+import { getChronicDiseases } from '@/http/get-chronic-diseases';
+import { getMedicalRecord } from '@/http/get-medical-record';
+import { Allergy } from '@/interfaces/allergy';
+import { ChronicDisease } from '@/interfaces/chronic-disease';
+import { MedicalRecord } from '@/interfaces/medical-record';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
@@ -12,10 +19,33 @@ export default function PerfilResponsavel() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const [medicalRecord, setMedicalRecord] = useState<MedicalRecord | null>(null);
+    const [allergies, setAllergies] = useState<Allergy[] | null>(null);
+    const [chronicalDiseases, setChronicDiseases] = useState<ChronicDisease[] | null>(null);
+    const { user, token } = useUser();
 
     const [profilePhoto, setProfilePhoto] = useState(
         require('../../../../assets/images/responsavel-photo.jpg')
     );
+
+    useEffect(() => {
+        getMedicalRecord({ token: token || '' })
+            .then((record) => {
+                setMedicalRecord(record.medicalRecord);
+            });
+
+        getAllergies()
+            .then((response) => {
+                setAllergies(response.allergies);
+            })
+        
+        getChronicDiseases()
+            .then((response) => {
+                setChronicDiseases(response.chronicDiseases);
+            })
+    }, []);
+
+    console.log('Medical Record:', medicalRecord);
 
     const openModal = () => {
         modalRef.current?.open();
@@ -157,7 +187,7 @@ export default function PerfilResponsavel() {
             >
                 <TouchableOpacity onPress={() => router.push('../home')}>
                     <Image
-                        source={require('../../../../assets/images/seta.png')}
+                        source={user?.profilePhotoUrl ? { uri: user.profilePhotoUrl } : require('../../../../assets/images/seta.png')}
                         style={styles.seta}
                     />
                 </TouchableOpacity>
@@ -180,8 +210,8 @@ export default function PerfilResponsavel() {
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.username}>Nicolas Faustino</Text>
-                    <Text style={styles.email}>nicolasFaustino@gmail.com</Text>
+                    <Text style={styles.username}>{user?.name}</Text>
+                    <Text style={styles.email}>{user?.email}</Text>
                 </View>
 
                 <View style={styles.section}>
@@ -192,9 +222,14 @@ export default function PerfilResponsavel() {
                         showsHorizontalScrollIndicator={false}
                         style={styles.scroll}
                     >
-                        <View style={styles.card}><Text style={styles.text}>Diabetes</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Hipertensão</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Asma</Text></View>
+                        {medicalRecord?.chronicDiseases.map((disease) => {
+                            const chronicDisease = chronicalDiseases?.find(d => d.id === disease);
+                            return (
+                                <View key={chronicDisease?.id} style={styles.card}>
+                                    <Text style={styles.text}>{chronicDisease?.name}</Text>
+                                </View>
+                            );
+                        })}
                     </ScrollView>
                 </View>
 
@@ -206,9 +241,14 @@ export default function PerfilResponsavel() {
                         showsHorizontalScrollIndicator={false}
                         style={styles.scroll}
                     >
-                        <View style={styles.card}><Text style={styles.text}>Amoxilina</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Peniclina</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Ibuprofeno</Text></View>
+                        {medicalRecord?.allergies.map((allergy) => {
+                            const allergyItem = allergies?.find(a => a.id === allergy.allergyId);
+                            return (
+                                <View key={allergyItem?.id} style={styles.card}>
+                                    <Text style={styles.text}>{allergyItem?.name}</Text>
+                                </View>
+                            );
+                        })}
                     </ScrollView>
                 </View>
 

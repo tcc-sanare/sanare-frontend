@@ -1,6 +1,7 @@
 import DropdownListRegistro from '@/components/DropdownListRegistro';
 import Colors from '@/constants/Colors';
 import Fonts from '@/constants/Fonts';
+import { useCadastro } from '@/contexts/cadastroContext';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
@@ -11,6 +12,25 @@ export default function cadastroRegistroResponsavel() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const router = useRouter();
     const [monitoramentosSelecionados, setMonitoramentosSelecionados] = useState<string[]>([]);
+    const { setResponsavelData } = useCadastro();
+
+    useEffect(() => {
+        setResponsavelData(prev => ({
+            ...prev,
+            saude: {
+                doencas: prev.saude?.doencas ?? [],
+                alergias: prev.saude?.alergias ?? [],
+                campos: {
+                    glicemia: monitoramentosSelecionados.includes('Glicemia'),
+                    hidratacao: monitoramentosSelecionados.includes('Hidratação'),
+                    humor: monitoramentosSelecionados.includes('Humor'),
+                    imc: monitoramentosSelecionados.includes('IMC'),
+                    sintomas: monitoramentosSelecionados.includes('Sintomas'),
+                    pressaoArterial: monitoramentosSelecionados.includes('Pressão Arterial'),
+                }
+            }
+        }));
+    }, [monitoramentosSelecionados]);
 
     useEffect(() => {
         async function loadFonts() {

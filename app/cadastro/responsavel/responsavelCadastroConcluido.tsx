@@ -1,5 +1,13 @@
 import Colors from '@/constants/Colors';
 import Fonts from '@/constants/Fonts';
+import { useCadastro } from '@/contexts/cadastroContext';
+import { Caregiver, useUser } from '@/contexts/UserContext';
+import { createAccount } from '@/http/create-account';
+import { createCaregiver } from '@/http/create-caregiver';
+import { createMedicalRecord } from '@/http/create-medical-record';
+import { createSelfMonitor } from '@/http/create-self-monitor';
+import { updateSelfMonitor } from '@/http/update-self-monitor';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
@@ -10,6 +18,66 @@ import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } fr
 export default function responsavelCadastroConcluido() {
     const router = useRouter();
     const [fontsLoaded, setFontsLoaded] = useState(false);
+    const [caregiver, setCaregiver] = useState<Caregiver | undefined>(undefined);
+    const { reloadUser } = useUser();
+    const { responsavelData } = useCadastro();
+
+    console.log('Dados do Responsável:', JSON.stringify(responsavelData, null, 2));
+
+    useEffect(() => {
+        createAccount({
+            name: responsavelData.nome,
+            email: responsavelData.email,
+            password: responsavelData.senha,
+            confirmPassword: responsavelData.confirmarSenha,
+        }).then(async (response) => {
+            const token = response.access_token;
+
+            await AsyncStorage.setItem('token', token);
+
+            console.log('Account created with token:', token);
+            
+            const { caregiver } = await createCaregiver({
+                token
+            });
+
+            console.log('Caregiver created:', caregiver);
+            
+            setCaregiver(caregiver);
+            
+            if (responsavelData.saude) {
+                console.log('Creating self monitor with data:', responsavelData.saude.campos);
+                await createSelfMonitor({ token }).then((selfMonitor) => {
+                    console.log('Self Monitor created:', selfMonitor);
+                });
+
+                const { selfMonitor } = await updateSelfMonitor({
+                    token,
+                    logInputs: {
+                        mood: responsavelData.saude.campos.humor,
+                        symptoms: responsavelData.saude.campos.sintomas,
+                        hydration: responsavelData.saude.campos.hidratacao,
+                        bloodSugar: responsavelData.saude.campos.glicemia,
+                        bloodPressure: responsavelData.saude.campos.pressaoArterial,
+                        imc: responsavelData.saude.campos.imc,
+                    }
+                });
+
+                const medicalRecord = await createMedicalRecord({
+                    token,
+                    chronicDiseases: responsavelData.saude.doencas,
+                    allergies: responsavelData.saude.alergias.map(a => ({
+                        allergyId: a.id,
+                        description: a.description
+                    })),
+                    bloodType: 'o-'
+                })
+            }
+
+    
+            await reloadUser(token);
+        });
+    }, []);
 
     useEffect(() => {
         async function loadFonts() {
@@ -28,7 +96,7 @@ export default function responsavelCadastroConcluido() {
         );
     }
 
-    return (
+    return !caregiver ? <Text>Loading...</Text> : (
         <View style={styles.container}>
             <Image
                 source={require('../../../assets/images/bgSanare.png')}
@@ -46,7 +114,7 @@ export default function responsavelCadastroConcluido() {
 
                 <View style={styles.CadastrotextView}>
                     <Text style={styles.textCod}>Seu código de responsável é:</Text>
-                    <Text style={styles.codigo}>SANARE-123</Text>
+                    <Text style={styles.codigo}>{caregiver.code}</Text>
                 </View>
 
                 <TouchableOpacity style={styles.btn} onPress={() => router.push('../../logado/responsavel/home')}>

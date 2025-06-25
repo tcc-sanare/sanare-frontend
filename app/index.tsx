@@ -7,14 +7,14 @@ import Colors from '../constants/Colors';
 export default function Index() {
 
   const router = useRouter();
-  const { user, selfMonitor } = useUser();
+  const { user, selfMonitor, caregiver } = useUser();
 
   useEffect(() => {
     if (user === null) {
-      router.replace("/login/login");
+      router.replace("/welcome");
       return;
     } else if (user) {
-      router.replace(selfMonitor ? "/logado/user/home" : "/logado/responsavel/home");
+      router.replace(!caregiver ? "/logado/user/home" : "/logado/responsavel/home");
     }
   }, [user]);
 

@@ -71,6 +71,7 @@ export default function Cadastro() {
     const handleRespostaCadastroResponsavel = (resposta: "sim" | "nao") => {
         if (resposta === "sim") {
             setStepIndex((prev) => prev + 1);
+            
         } else {
             router.push("./responsavel/responsavelCadastroConcluido");
         }

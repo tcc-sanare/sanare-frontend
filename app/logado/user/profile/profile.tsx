@@ -14,7 +14,7 @@ export default function PerfilUser() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
-    const { user } = useUser();
+    const { user, signOut } = useUser();
     const [profilePhoto, setProfilePhoto] = useState(
         require('../../../../assets/images/user-photo.jpg')
     );
@@ -264,7 +264,10 @@ export default function PerfilUser() {
 
                     <Pressable
                         style={styles.ConfigItem}
-                        onPress={() => router.replace('/welcome')}
+                        onPress={async () => {
+                            signOut();
+                            router.replace('/welcome');
+                        }}
                     >
                         <Text style={styles.logOut}>Sair</Text>
                         <MaterialIcons

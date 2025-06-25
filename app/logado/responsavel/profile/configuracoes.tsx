@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useUser } from '@/contexts/UserContext';
 import { useTheme } from '@/hooks/useTheme';
 import { useRouter } from "expo-router";
 import { useState } from 'react';
@@ -9,6 +10,7 @@ export default function ConfigDependente() {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedDependente, setSelectedDependente] = useState<string | null>(null);
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const { caregiver } = useUser();
 
     const styles = StyleSheet.create({
         container: {
@@ -215,7 +217,7 @@ export default function ConfigDependente() {
                         <Text style={styles.text}>Código de responsável:</Text>
 
                         <View style={styles.codView}>
-                            <Text style={styles.cod}>SANARE-123</Text>
+                            <Text style={styles.cod}>{caregiver?.code}</Text>
                         </View>
                     </View>
                 </View>

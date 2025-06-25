@@ -39,8 +39,12 @@ export interface Caregiver {
 export type UserContextType = {
   isAuthenticated: boolean;
   user: User | null | undefined;
-  selfMonitor: any;
+  selfMonitor: SelfMonitor | null;
+  token?: string | null;
+  caregiver: Caregiver | null;
+  reloadUser: (token: string) => Promise<void>;
   setUser: (user: User) => void;
+  signOut: () => Promise<void>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -50,17 +54,25 @@ export const UserProvider = ({
 }: React.PropsWithChildren) => {
   const [user, setUser] = useState<User | null | undefined>(undefined);
   const [selfMonitor, setSelfMonitor] = useState<SelfMonitor | null>(null);
+  const [caregiver, setCaregiver] = useState<Caregiver | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+
+  console.log({ user: { ...user, profilePhotoUrl: undefined}, selfMonitor, caregiver });
 
   useEffect(() => {
     AsyncStorage.getItem("token").then((token) => {
+      console.log("Token loaded from AsyncStorage:", token);
       if (!token) {
         setUser(null);
         return;
       }
+      setToken(token);
 
-      getAccount(token).then(({ account, selfMonitor }) => {
+      getAccount(token).then(({ account, selfMonitor, caregiver }) => {
+        console.log("User account loaded:", account);
         setUser(account);
         setSelfMonitor(selfMonitor);
+        setCaregiver(caregiver);
       })
     })
   }, []);
@@ -71,7 +83,21 @@ export const UserProvider = ({
         isAuthenticated: !!user,
         user,
         setUser,
-        selfMonitor
+        token,
+        selfMonitor,
+        reloadUser: async (token: string) => {
+
+          const { account, selfMonitor, caregiver } = await getAccount(token);
+          setUser(account);
+          setSelfMonitor(selfMonitor);
+          setCaregiver(caregiver);
+        },
+        caregiver,
+        signOut: async () => {
+          await AsyncStorage.removeItem("token");
+          setUser(null);
+          setSelfMonitor(null);
+        },
       }}
     >
       {children}

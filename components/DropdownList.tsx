@@ -1,14 +1,20 @@
 import Colors from '@/constants/Colors';
 import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface Props {
     title: string;
-    items: string[];
-    selected: string[];
-    setSelected: (value: string[]) => void;
+    items: {
+        id: string;
+        name: string;
+    }[];
+    selected: {
+        id: string;
+        description: string;
+    }[];
+    setSelected: (value: { id: string; description: string }[]) => void;
 }
 
 const DropdownList: React.FC<Props> = ({ title, items, selected, setSelected }) => {
@@ -17,18 +23,26 @@ const DropdownList: React.FC<Props> = ({ title, items, selected, setSelected }) 
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
 
-    const toggleItem = (item: string) => {
-        if (selected.includes(item)) {
-            setSelected(selected.filter(i => i !== item));
+    const toggleItem = (item: { id: string; description: string }) => {
+        if (selected.find(i => i.id === item.id)) {
+            setSelected(selected.filter(i => i.id !== item.id));
             setReactions(prev => {
                 const newReactions = { ...prev };
-                delete newReactions[item];
                 return newReactions;
             });
         } else {
             setSelected([...selected, item]);
         }
     };
+
+    useEffect(() => {
+        setSelected(
+            selected.map(item => ({
+                ...item,
+                description: reactions[item.id] || item.description
+            }))
+        );
+    }, [reactions]);
 
     const handleReactionChange = (item: string, text: string) => {
         setReactions(prev => ({ ...prev, [item]: text }));
@@ -90,25 +104,28 @@ const DropdownList: React.FC<Props> = ({ title, items, selected, setSelected }) 
             {isExpanded && (
                 <View>
                     {items.map((item) => (
-                        <View key={item}>
+                        <View key={item.id}>
                             <TouchableOpacity
-                                onPress={() => toggleItem(item)}
+                                onPress={() => toggleItem({
+                                    id: item.id,
+                                    description: reactions[item.id] || ''
+                                })}
                                 style={styles.item}
                             >
                                 <Ionicons
-                                    name={selected.includes(item) ? 'checkmark-circle' : 'ellipse-outline'}
+                                    name={selected.find(i => i.id === item.id) ? 'checkmark-circle' : 'ellipse-outline'}
                                     size={30}
                                     color={Colors.light.bluePrimary}
                                     style={{ marginRight: 10 }}
                                 />
-                                <Text style={styles.itemText}>{item}</Text>
+                                <Text style={styles.itemText}>{item.name}</Text>
                             </TouchableOpacity>
 
-                            {selected.includes(item) && (
+                            {selected.find(i => i.id === item.id) && (
                                 <TextInput
                                     placeholder="Descreva a reação alérgica..."
-                                    value={reactions[item] || ''}
-                                    onChangeText={(text) => handleReactionChange(item, text)}
+                                    value={reactions[item.id] || ''}
+                                    onChangeText={(text) => handleReactionChange(item.id, text)}
                                     style={styles.input}
                                     multiline
                                     placeholderTextColor={colors.dropdownPlaceholder}

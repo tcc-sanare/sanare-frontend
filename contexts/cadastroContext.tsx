@@ -10,10 +10,21 @@ interface UserData {
 
 // dados do responsável
 interface ResponsavelData extends UserData {
-    nome: string;
-    email: string;
-    senha: string;
-    confirmarSenha: string;
+    saude: {
+        doencas: string[]; // lista de doenças
+        alergias: {
+            id: string;
+            description: string;
+        }[];
+        campos: {
+            humor: boolean;
+            sintomas: boolean;
+            hidratacao: boolean;
+            glicemia: boolean;
+            pressaoArterial: boolean;
+            imc: boolean;
+        }
+    } | null;
 }
 
 // dados do dependente
@@ -54,7 +65,8 @@ export const CadastroProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         nome: '',
         email: '',
         senha: '',
-        confirmarSenha: ''
+        confirmarSenha: '',
+        saude: null
     });
 
     // dados do dependente
@@ -77,7 +89,8 @@ export const CadastroProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             nome: '',
             email: '',
             senha: '',
-            confirmarSenha: ''
+            confirmarSenha: '',
+            saude: null
         });
         setDependenteData({
             nome: '',

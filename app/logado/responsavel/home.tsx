@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useUser } from '@/contexts/UserContext';
 import { useTheme } from '@/hooks/useTheme';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
@@ -42,6 +43,7 @@ export default function HomeResponsavel() {
     const scrollRef = useRef<ScrollView | null>(null);
     const [index, setIndex] = useState(0);
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const { user } = useUser();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -337,7 +339,7 @@ export default function HomeResponsavel() {
                 <View style={styles.headerContent}>
                     <View>
                         <Text style={styles.bomDia}>{getSaudacao()}</Text>
-                        <Text style={styles.nome}>Nicolas Faustino</Text>
+                        <Text style={styles.nome}>{user?.name}</Text>
                     </View>
 
                     <TouchableOpacity

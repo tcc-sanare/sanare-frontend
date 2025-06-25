@@ -1,7 +1,10 @@
 import DoencaItem from '@/components/doencaItem';
 import Fonts from '@/constants/Fonts';
+import { useCadastro } from '@/contexts/cadastroContext';
+import { getChronicDiseases } from '@/http/get-chronic-diseases';
+import { ChronicDisease } from '@/interfaces/chronic-disease';
 import * as Font from 'expo-font';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const doencasData = [
@@ -58,6 +61,34 @@ const doencasData = [
 export default function doencasCadastroResponsavel() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [selectedDoencas, setSelectedDoencas] = useState<string[]>([]);
+    const [doencas, setDoencas] = useState<ChronicDisease[] | undefined>(undefined);
+    const { setResponsavelData } = useCadastro();
+    
+
+    useEffect(() => {
+        setResponsavelData(prev => ({
+            ...prev,
+            saude: prev.saude ?? {
+                doencas: [],
+                alergias: [],
+                campos: {
+                    humor: false,
+                    sintomas: false,
+                    hidratacao: false,
+                    glicemia: false,
+                    pressaoArterial: false,
+                    imc: false
+                }
+            }
+        }));
+
+        getChronicDiseases().then(response => {
+            setDoencas(response.chronicDiseases);
+        })
+            .catch(error => {
+                console.error('Erro ao carregar doenças crônicas:', error);
+            });
+        }, []);
 
     const toggleDoenca = (name: string) => {
         setSelectedDoencas(prev =>
@@ -66,6 +97,25 @@ export default function doencasCadastroResponsavel() {
                 : [...prev, name]
         );
     };
+
+    useEffect(() => {
+        setResponsavelData(prev => ({
+            ...prev,
+            saude: {
+                ...prev.saude,
+                doencas: selectedDoencas,
+                alergias: prev.saude?.alergias ?? [],
+                campos: prev.saude?.campos ?? {
+                    humor: false,
+                    sintomas: false,
+                    hidratacao: false,
+                    glicemia: false,
+                    pressaoArterial: false,
+                    imc: false
+                }
+            }
+        }));
+    }, [selectedDoencas]);
 
     useEffect(() => {
         async function loadFonts() {
@@ -92,17 +142,18 @@ export default function doencasCadastroResponsavel() {
                         <Text style={styles.text}>Selecione as doenças crônicas que possui.</Text>
                     </View>
 
-                    <View style={styles.containerDoencas}>
-                        {doencasData.map(doenca => (
-                            <DoencaItem
-                                key={doenca.name}
-                                name={doenca.name}
-                                description={doenca.description}
-                                selected={selectedDoencas.includes(doenca.name)}
-                                onToggle={() => toggleDoenca(doenca.name)}
-                            />
-                        ))}
-                    </View>
+                    {doencas && <View style={styles.containerDoencas}>
+                            {doencas.map(doenca => (
+                                <DoencaItem
+                                    key={doenca.id}
+                                    name={doenca.name}
+                                    description={doenca.description}
+                                    selected={selectedDoencas.includes(doenca.id)}
+                                    onToggle={() => toggleDoenca(doenca.id)}
+                                />
+                            ))}
+                        </View>
+                    }
                 </View>
             </ScrollView>
         </View>
