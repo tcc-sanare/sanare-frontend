@@ -6,10 +6,29 @@ interface UserData {
     email: string;
     senha: string;
     confirmarSenha: string;
+    saude: {
+        doencas: string[]; // lista de doenças
+        alergias: {
+            id: string;
+            description: string;
+        }[];
+        campos: {
+            humor: boolean;
+            sintomas: boolean;
+            hidratacao: boolean;
+            glicemia: boolean;
+            pressaoArterial: boolean;
+            imc: boolean;
+        }
+    } | null;
 }
 
 // dados do responsável
-interface ResponsavelData extends UserData {
+interface ResponsavelData {
+    nome: string;
+    email: string;
+    senha: string;
+    confirmarSenha: string;
     saude: {
         doencas: string[]; // lista de doenças
         alergias: {
@@ -33,6 +52,21 @@ interface DependenteData {
     email: string;
     senha: string;
     confirmarSenha: string;
+    saude: {
+        doencas: string[]; // lista de doenças
+        alergias: {
+            id: string;
+            description: string;
+        }[];
+        campos: {
+            humor: boolean;
+            sintomas: boolean;
+            hidratacao: boolean;
+            glicemia: boolean;
+            pressaoArterial: boolean;
+            imc: boolean;
+        }
+    } | null;
 }
 
 // Interface do contexto que define quais dados e funções estarão disponíveis
@@ -41,10 +75,10 @@ interface CadastroContextType {
     responsavelData: ResponsavelData;        // dados do responsável
     dependenteData: DependenteData;          // dados do dependente
     // atualiza dados de cada usuario
-    setUserData: React.Dispatch<React.SetStateAction<UserData>>;             
-    setResponsavelData: React.Dispatch<React.SetStateAction<ResponsavelData>>; 
-    setDependenteData: React.Dispatch<React.SetStateAction<DependenteData>>;  
-    resetAll: () => void;                  
+    setUserData: React.Dispatch<React.SetStateAction<UserData>>;
+    setResponsavelData: React.Dispatch<React.SetStateAction<ResponsavelData>>;
+    setDependenteData: React.Dispatch<React.SetStateAction<DependenteData>>;
+    resetAll: () => void;
 }
 
 // contexto com valor padrão undefined
@@ -57,8 +91,10 @@ export const CadastroProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         nome: '',
         email: '',
         senha: '',
-        confirmarSenha: ''
+        confirmarSenha: '',
+        saude: null
     });
+
 
     // dados do responsável
     const [responsavelData, setResponsavelData] = useState<ResponsavelData>({
@@ -74,7 +110,8 @@ export const CadastroProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         nome: '',
         email: '',
         senha: '',
-        confirmarSenha: ''
+        confirmarSenha: '',
+        saude: null
     });
 
     // resetar todos os dados do formulário
@@ -83,7 +120,8 @@ export const CadastroProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             nome: '',
             email: '',
             senha: '',
-            confirmarSenha: ''
+            confirmarSenha: '',
+            saude: null
         });
         setResponsavelData({
             nome: '',
@@ -96,7 +134,8 @@ export const CadastroProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             nome: '',
             email: '',
             senha: '',
-            confirmarSenha: ''
+            confirmarSenha: '',
+            saude: null
         });
     };
 
@@ -117,10 +156,10 @@ export const CadastroProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
 export const useCadastro = () => {
     const context = useContext(CadastroContext);
-    
+
     if (!context) {
         throw new Error('useCadastro must be used within a CadastroProvider');
     }
-    
+
     return context;
 };

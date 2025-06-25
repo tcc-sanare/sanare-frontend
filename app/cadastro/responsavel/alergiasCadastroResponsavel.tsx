@@ -75,7 +75,7 @@ export default function alergiasCadastroResponsavel() {
                             <Text style={styles.text}>Selecione as alergias que possui.</Text>
                         </View>
 
-                        <View style={styles.containerAlergias}>
+                        <View>
                             {alergias && (
                                 <>
                                     <DropdownList
@@ -150,8 +150,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         fontFamily: 'Poppins-Regular',
-    },
-    containerAlergias: {
-        // marginBottom: '10%',
-    },
+    }
 })

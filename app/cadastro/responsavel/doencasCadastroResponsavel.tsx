@@ -63,7 +63,6 @@ export default function doencasCadastroResponsavel() {
     const [selectedDoencas, setSelectedDoencas] = useState<string[]>([]);
     const [doencas, setDoencas] = useState<ChronicDisease[] | undefined>(undefined);
     const { setResponsavelData } = useCadastro();
-    
 
     useEffect(() => {
         setResponsavelData(prev => ({
@@ -88,8 +87,7 @@ export default function doencasCadastroResponsavel() {
             .catch(error => {
                 console.error('Erro ao carregar doenças crônicas:', error);
             });
-        }, []);
-
+    }, []);
     const toggleDoenca = (name: string) => {
         setSelectedDoencas(prev =>
             prev.includes(name)
@@ -143,16 +141,16 @@ export default function doencasCadastroResponsavel() {
                     </View>
 
                     {doencas && <View style={styles.containerDoencas}>
-                            {doencas.map(doenca => (
-                                <DoencaItem
-                                    key={doenca.id}
-                                    name={doenca.name}
-                                    description={doenca.description}
-                                    selected={selectedDoencas.includes(doenca.id)}
-                                    onToggle={() => toggleDoenca(doenca.id)}
-                                />
-                            ))}
-                        </View>
+                        {doencas.map(doenca => (
+                            <DoencaItem
+                                key={doenca.id}
+                                name={doenca.name}
+                                description={doenca.description}
+                                selected={selectedDoencas.includes(doenca.id)}
+                                onToggle={() => toggleDoenca(doenca.id)}
+                            />
+                        ))}
+                    </View>
                     }
                 </View>
             </ScrollView>

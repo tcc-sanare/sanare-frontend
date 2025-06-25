@@ -45,9 +45,29 @@ export type UserContextType = {
   reloadUser: (token: string) => Promise<void>;
   setUser: (user: User) => void;
   signOut: () => Promise<void>;
+  //-------
+  login: (user: User, token: string) => void;
+  logout: () => void;
 };
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType>({
+  user: null,
+  token: null,
+  login: () => { },
+  logout: () => { },
+  isAuthenticated: false,
+  selfMonitor: null,
+  caregiver: null,
+  reloadUser: function (token: string): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
+  setUser: function (user: User): void {
+    throw new Error("Function not implemented.");
+  },
+  signOut: function (): Promise<void> {
+    throw new Error("Function not implemented.");
+  }
+});
 
 export const UserProvider = ({
   children,
@@ -97,6 +117,18 @@ export const UserProvider = ({
           await AsyncStorage.removeItem("token");
           setUser(null);
           setSelfMonitor(null);
+        },
+        login: (user: User, token: string) => {
+          setUser(user);
+          setToken(token);
+          AsyncStorage.setItem("token", token);
+        },
+        logout: () => {
+          setUser(null);
+          setToken(null);
+          setSelfMonitor(null);
+          setCaregiver(null);
+          AsyncStorage.removeItem("token");
         },
       }}
     >

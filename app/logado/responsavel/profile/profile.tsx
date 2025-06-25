@@ -22,7 +22,7 @@ export default function PerfilResponsavel() {
     const [medicalRecord, setMedicalRecord] = useState<MedicalRecord | null>(null);
     const [allergies, setAllergies] = useState<Allergy[] | null>(null);
     const [chronicalDiseases, setChronicDiseases] = useState<ChronicDisease[] | null>(null);
-    const { user, token } = useUser();
+    const { user, token, logout } = useUser();
 
     const [profilePhoto, setProfilePhoto] = useState(
         require('../../../../assets/images/responsavel-photo.jpg')
@@ -38,14 +38,18 @@ export default function PerfilResponsavel() {
             .then((response) => {
                 setAllergies(response.allergies);
             })
-        
+
         getChronicDiseases()
             .then((response) => {
                 setChronicDiseases(response.chronicDiseases);
             })
     }, []);
-
     console.log('Medical Record:', medicalRecord);
+
+    const handleLogout = () => {
+        logout()
+        router.replace('/welcome')
+    }
 
     const openModal = () => {
         modalRef.current?.open();
@@ -177,7 +181,9 @@ export default function PerfilResponsavel() {
         }
     })
 
-    return (
+    return !(allergies && chronicalDiseases) ? (
+        <Text></Text>
+    ) : (
         <View style={styles.container}>
 
             <ScrollView
@@ -187,7 +193,7 @@ export default function PerfilResponsavel() {
             >
                 <TouchableOpacity onPress={() => router.push('../home')}>
                     <Image
-                        source={user?.profilePhotoUrl ? { uri: user.profilePhotoUrl } : require('../../../../assets/images/seta.png')}
+                        source={require('../../../../assets/images/seta.png')}
                         style={styles.seta}
                     />
                 </TouchableOpacity>
@@ -222,10 +228,10 @@ export default function PerfilResponsavel() {
                         showsHorizontalScrollIndicator={false}
                         style={styles.scroll}
                     >
-                        {medicalRecord?.chronicDiseases.map((disease) => {
+                        {medicalRecord && medicalRecord?.chronicDiseases.map((disease, i) => {
                             const chronicDisease = chronicalDiseases?.find(d => d.id === disease);
                             return (
-                                <View key={chronicDisease?.id} style={styles.card}>
+                                <View key={i} style={styles.card}>
                                     <Text style={styles.text}>{chronicDisease?.name}</Text>
                                 </View>
                             );
@@ -241,10 +247,10 @@ export default function PerfilResponsavel() {
                         showsHorizontalScrollIndicator={false}
                         style={styles.scroll}
                     >
-                        {medicalRecord?.allergies.map((allergy) => {
+                        {medicalRecord && medicalRecord?.allergies.map((allergy, i) => {
                             const allergyItem = allergies?.find(a => a.id === allergy.allergyId);
                             return (
-                                <View key={allergyItem?.id} style={styles.card}>
+                                <View key={i} style={styles.card}>
                                     <Text style={styles.text}>{allergyItem?.name}</Text>
                                 </View>
                             );
@@ -260,7 +266,7 @@ export default function PerfilResponsavel() {
                             params: {
                                 nome: 'Nicolas Faustino',
                                 email: 'nicolasFaustino@gmail.com',
-                                senha: '123456',
+                                senha: '12345678',
                                 tipoSanguineo: 'A+'
                             }
                         })}
@@ -302,7 +308,7 @@ export default function PerfilResponsavel() {
 
                     <Pressable
                         style={styles.ConfigItem}
-                        onPress={() => router.replace('/welcome')}
+                        onPress={handleLogout}
                     >
                         <Text style={styles.logOut}>Sair</Text>
                         <MaterialIcons

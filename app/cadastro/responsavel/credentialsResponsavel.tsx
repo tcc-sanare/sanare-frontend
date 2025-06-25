@@ -52,7 +52,6 @@ export default function credentialsResponsavel() {
     };
 
     return (
-
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
@@ -163,7 +162,6 @@ export default function credentialsResponsavel() {
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
-
     );
 }
 

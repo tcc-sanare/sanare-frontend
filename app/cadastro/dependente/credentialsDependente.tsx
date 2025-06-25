@@ -23,11 +23,11 @@ export default function credentialsDependente() {
     const { dependenteData, setDependenteData } = useCadastro();
 
     const handleChange = (field: keyof typeof dependenteData, value: string) => {
-    setDependenteData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+        setDependenteData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
 
     useEffect(() => {
         async function loadFonts() {
@@ -162,7 +162,6 @@ export default function credentialsDependente() {
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
-
     );
 }
 

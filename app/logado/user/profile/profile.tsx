@@ -1,23 +1,56 @@
-import Colors from '@/constants/Colors';
 import { useUser } from '@/contexts/UserContext';
 import { useTheme } from '@/hooks/useTheme';
+import { getAllergies } from '@/http/get-allergies';
+import { getChronicDiseases } from '@/http/get-chronic-diseases';
+import { getMedicalRecord } from '@/http/get-medical-record';
+import { Allergy } from '@/interfaces/allergy';
+import { ChronicDisease } from '@/interfaces/chronic-disease';
+import { MedicalRecord } from '@/interfaces/medical-record';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
-import { useRef, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView, Switch } from 'react-native-gesture-handler';
+import { useEffect, useRef, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 import CustomModal from './modal-edit-photo';
 
-export default function PerfilUser() {
+export default function PerfilResponsavel() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
-    const { user, signOut } = useUser();
+    const [medicalRecord, setMedicalRecord] = useState<MedicalRecord | null>(null);
+    const [allergies, setAllergies] = useState<Allergy[] | null>(null);
+    const [chronicalDiseases, setChronicDiseases] = useState<ChronicDisease[] | null>(null);
+    const { user, token, logout } = useUser();
+
     const [profilePhoto, setProfilePhoto] = useState(
         require('../../../../assets/images/user-photo.jpg')
     );
+
+    useEffect(() => {
+        getMedicalRecord({ token: token || '' })
+            .then((record) => {
+                setMedicalRecord(record.medicalRecord);
+            });
+
+        getAllergies()
+            .then((response) => {
+                setAllergies(response.allergies);
+            })
+
+        getChronicDiseases()
+            .then((response) => {
+                setChronicDiseases(response.chronicDiseases);
+            })
+    }, []);
+
+    console.log('Medical Record:', medicalRecord);
+
+    const handleLogout = () => {
+        logout()
+        router.replace('/welcome')
+    }
 
     const openModal = () => {
         modalRef.current?.open();
@@ -149,7 +182,9 @@ export default function PerfilUser() {
         }
     })
 
-    return (
+    return !(allergies && chronicalDiseases) ? (
+        <Text></Text>
+    ) : (
         <View style={styles.container}>
 
             <ScrollView
@@ -167,7 +202,7 @@ export default function PerfilUser() {
 
                     <View style={styles.profilePhotoContainer}>
                         <Image
-                            source={user?.profilePhotoUrl ? { uri: user.profilePhotoUrl } : profilePhoto}
+                            source={profilePhoto}
                             style={styles.profilePhoto}
                         />
                         <TouchableOpacity
@@ -194,9 +229,14 @@ export default function PerfilUser() {
                         showsHorizontalScrollIndicator={false}
                         style={styles.scroll}
                     >
-                        <View style={styles.card}><Text style={styles.text}>Diabetes</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Hipertensão</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Asma</Text></View>
+                        {medicalRecord && medicalRecord?.chronicDiseases.map((disease, i) => {
+                            const chronicDisease = chronicalDiseases?.find(d => d.id === disease);
+                            return (
+                                <View key={i} style={styles.card}>
+                                    <Text style={styles.text}>{chronicDisease?.name}</Text>
+                                </View>
+                            );
+                        })}
                     </ScrollView>
                 </View>
 
@@ -208,9 +248,14 @@ export default function PerfilUser() {
                         showsHorizontalScrollIndicator={false}
                         style={styles.scroll}
                     >
-                        <View style={styles.card}><Text style={styles.text}>Amoxilina</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Peniclina</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Ibuprofeno</Text></View>
+                        {medicalRecord && medicalRecord?.allergies.map((allergy, i) => {
+                            const allergyItem = allergies?.find(a => a.id === allergy.allergyId);
+                            return (
+                                <View key={i} style={styles.card}>
+                                    <Text style={styles.text}>{allergyItem?.name}</Text>
+                                </View>
+                            );
+                        })}
                     </ScrollView>
                 </View>
 
@@ -220,10 +265,10 @@ export default function PerfilUser() {
                         onPress={() => router.push({
                             pathname: './edit-dados',
                             params: {
-                                nome: 'José Silva Correa',
-                                email: 'joseCorrea12@gmail.com',
-                                senha: '123456',
-                                tipoSanguineo: 'B-'
+                                nome: 'Nicolas Faustino',
+                                email: 'nicolasFaustino@gmail.com',
+                                senha: '12345678',
+                                tipoSanguineo: 'A+'
                             }
                         })}
                     >
@@ -245,8 +290,8 @@ export default function PerfilUser() {
 
                         <MaterialIcons
                             name='arrow-forward-ios'
-                            color={colors.black}
                             size={24}
+                            color={colors.black}
                         />
                     </Pressable>
 
@@ -254,8 +299,8 @@ export default function PerfilUser() {
                         <Text style={styles.textConfig}>Tema Escuro</Text>
 
                         <Switch
-                            trackColor={{ false: Colors.light.grayOpacityBorder, true: Colors.light.bluePrimaryOpacity }}
-                            thumbColor={isDarkMode ? Colors.light.bluePrimary : Colors.light.gray}
+                            trackColor={{ false: colors.grayOpacityBorder, true: colors.bluePrimaryOpacity }}
+                            thumbColor={isDarkMode ? colors.bluePrimary : colors.gray}
                             onValueChange={toggleDarkMode}
                             value={isDarkMode}
                         />
@@ -264,10 +309,7 @@ export default function PerfilUser() {
 
                     <Pressable
                         style={styles.ConfigItem}
-                        onPress={async () => {
-                            signOut();
-                            router.replace('/welcome');
-                        }}
+                        onPress={handleLogout}
                     >
                         <Text style={styles.logOut}>Sair</Text>
                         <MaterialIcons
@@ -287,3 +329,4 @@ export default function PerfilUser() {
         </View>
     );
 }
+

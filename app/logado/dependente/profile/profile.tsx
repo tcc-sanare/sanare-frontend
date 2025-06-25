@@ -1,8 +1,15 @@
+import { useUser } from '@/contexts/UserContext';
 import { useTheme } from '@/hooks/useTheme';
+import { getAllergies } from '@/http/get-allergies';
+import { getChronicDiseases } from '@/http/get-chronic-diseases';
+import { getMedicalRecord } from '@/http/get-medical-record';
+import { Allergy } from '@/interfaces/allergy';
+import { ChronicDisease } from '@/interfaces/chronic-disease';
+import { MedicalRecord } from '@/interfaces/medical-record';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from "expo-router";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
@@ -12,9 +19,38 @@ export default function PerfilDependente() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
+    const [medicalRecord, setMedicalRecord] = useState<MedicalRecord | null>(null);
+    const [allergies, setAllergies] = useState<Allergy[] | null>(null);
+    const [chronicalDiseases, setChronicDiseases] = useState<ChronicDisease[] | null>(null);
+    const { user, token, logout } = useUser();
+
     const [profilePhoto, setProfilePhoto] = useState(
         require('../../../../assets/images/profile-photo.jpg')
     );
+
+    useEffect(() => {
+        getMedicalRecord({ token: token || '' })
+            .then((record) => {
+                setMedicalRecord(record.medicalRecord);
+            });
+
+        getAllergies()
+            .then((response) => {
+                setAllergies(response.allergies);
+            })
+
+        getChronicDiseases()
+            .then((response) => {
+                setChronicDiseases(response.chronicDiseases);
+            })
+    }, []);
+
+    console.log('Medical Record:', medicalRecord);
+
+    const handleLogout = () => {
+        logout()
+        router.replace('/welcome')
+    }
 
     const openModal = () => {
         modalRef.current?.open();
@@ -76,8 +112,8 @@ export default function PerfilDependente() {
         },
         username: {
             fontFamily: 'Poppins-Medium',
-            color: colors.black,
             fontSize: 25,
+            color: colors.black
         },
         email: {
             fontFamily: 'Poppins-Regular',
@@ -136,8 +172,8 @@ export default function PerfilDependente() {
         },
         textConfig: {
             fontFamily: 'Poppins-Medium',
-            color: colors.black,
             fontSize: 20,
+            color: colors.black
         },
         logOut: {
             fontFamily: 'Poppins-Medium',
@@ -146,7 +182,9 @@ export default function PerfilDependente() {
         }
     })
 
-    return (
+    return !(allergies && chronicalDiseases) ? (
+        <Text></Text>
+    ) : (
         <View style={styles.container}>
 
             <ScrollView
@@ -179,8 +217,8 @@ export default function PerfilDependente() {
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.username}>Maria Santos</Text>
-                    <Text style={styles.email}>mariaSantos@gmail.com</Text>
+                    <Text style={styles.username}>{user?.name}</Text>
+                    <Text style={styles.email}>{user?.email}</Text>
                 </View>
 
                 <View style={styles.section}>
@@ -191,9 +229,14 @@ export default function PerfilDependente() {
                         showsHorizontalScrollIndicator={false}
                         style={styles.scroll}
                     >
-                        <View style={styles.card}><Text style={styles.text}>Diabetes</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Hipertensão</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Asma</Text></View>
+                        {medicalRecord && medicalRecord?.chronicDiseases.map((disease, i) => {
+                            const chronicDisease = chronicalDiseases?.find(d => d.id === disease);
+                            return (
+                                <View key={i} style={styles.card}>
+                                    <Text style={styles.text}>{chronicDisease?.name}</Text>
+                                </View>
+                            );
+                        })}
                     </ScrollView>
                 </View>
 
@@ -205,9 +248,14 @@ export default function PerfilDependente() {
                         showsHorizontalScrollIndicator={false}
                         style={styles.scroll}
                     >
-                        <View style={styles.card}><Text style={styles.text}>Amoxilina</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Peniclina</Text></View>
-                        <View style={styles.card}><Text style={styles.text}>Ibuprofeno</Text></View>
+                        {medicalRecord && medicalRecord?.allergies.map((allergy, i) => {
+                            const allergyItem = allergies?.find(a => a.id === allergy.allergyId);
+                            return (
+                                <View key={i} style={styles.card}>
+                                    <Text style={styles.text}>{allergyItem?.name}</Text>
+                                </View>
+                            );
+                        })}
                     </ScrollView>
                 </View>
 
@@ -217,10 +265,10 @@ export default function PerfilDependente() {
                         onPress={() => router.push({
                             pathname: './edit-dados',
                             params: {
-                                nome: 'Maria Santos',
-                                email: 'mariaSantos@gmail.com',
-                                senha: '123456',
-                                tipoSanguineo: 'O-'
+                                nome: 'Nicolas Faustino',
+                                email: 'nicolasFaustino@gmail.com',
+                                senha: '12345678',
+                                tipoSanguineo: 'A+'
                             }
                         })}
                     >
@@ -228,8 +276,8 @@ export default function PerfilDependente() {
 
                         <MaterialIcons
                             name='arrow-forward-ios'
-                            color={colors.black}
                             size={24}
+                            color={colors.black}
                         />
                     </Pressable>
 
@@ -242,8 +290,8 @@ export default function PerfilDependente() {
 
                         <MaterialIcons
                             name='arrow-forward-ios'
-                            color={colors.black}
                             size={24}
+                            color={colors.black}
                         />
                     </Pressable>
 
@@ -261,7 +309,7 @@ export default function PerfilDependente() {
 
                     <Pressable
                         style={styles.ConfigItem}
-                        onPress={() => router.replace('/welcome')}
+                        onPress={handleLogout}
                     >
                         <Text style={styles.logOut}>Sair</Text>
                         <MaterialIcons

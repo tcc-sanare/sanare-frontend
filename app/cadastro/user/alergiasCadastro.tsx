@@ -1,16 +1,47 @@
 import DropdownList from '@/components/DropdownList';
 import Fonts from '@/constants/Fonts';
+import { useCadastro } from '@/contexts/cadastroContext';
+import { getAllergies } from '@/http/get-allergies';
+import { Allergy } from '@/interfaces/allergy';
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function alergiasCadastro() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
+    const [antiInflamatorios, setAntiInflamatorios] = useState<{ id: string; description: string }[]>([]);
+    const [analgesicos, setAnalgesicos] = useState<{ id: string; description: string }[]>([]);
+    const [antibioticos, setAntibioticos] = useState<{ id: string; description: string }[]>([]);
+    const [anticonvulsivantes, setAnticonvulsivantes] = useState<{ id: string; description: string }[]>([]);
+    const [alergias, setAlergias] = useState<Allergy[] | undefined>(undefined);
+    const { setUserData } = useCadastro();
 
-    const [antiInflamatorios, setAntiInflamatorios] = useState<string[]>([]);
-    const [analgesicos, setAnalgesicos] = useState<string[]>([]);
-    const [antibioticos, setAntibioticos] = useState<string[]>([]);
-    const [anticonvulsivantes, setAnticonvulsivantes] = useState<string[]>([]);
+    useEffect(() => {
+        getAllergies()
+            .then(response => {
+                setAlergias(response.allergies);
+            })
+            .catch(error => {
+                console.error('Erro ao carregar alergias:', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        setUserData(prev => ({
+            ...prev,
+            saude: {
+                ...prev.saude,
+                alergias: [
+                    ...analgesicos,
+                    ...antiInflamatorios,
+                    ...antibioticos,
+                    ...anticonvulsivantes
+                ],
+                doencas: prev.saude!.doencas ?? [],
+                campos: prev.saude!.campos
+            }
+        }))
+    }, [analgesicos, antiInflamatorios, antibioticos, anticonvulsivantes]);
 
     useEffect(() => {
         async function loadFonts() {
@@ -31,7 +62,6 @@ export default function alergiasCadastro() {
 
     return (
         <View style={styles.container}>
-
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={{ flex: 1 }}
@@ -41,40 +71,54 @@ export default function alergiasCadastro() {
                     showsVerticalScrollIndicator={false}
                 >
                     <View style={styles.body}>
-
                         <View style={styles.textView}>
                             <Text style={styles.text}>Selecione as alergias que possui.</Text>
                         </View>
 
                         <View>
-                            <DropdownList
-                                title="Antibióticos"
-                                items={['Penicilina', 'Amoxilina', 'Ampicilina', 'Cefalexina', 'Ceftriaxona', 'Eritromicina', 'Azitromicina', 'Sulfonamida']}
-                                selected={antibioticos}
-                                setSelected={setAntibioticos}
-                            />
+                            {alergias && (
+                                <>
+                                    <DropdownList
+                                        title="Antibióticos"
+                                        items={alergias.filter(a => a.type === "antibiotic").map(a => ({
+                                            id: a.id,
+                                            name: a.name
+                                        }))}
+                                        selected={antibioticos}
+                                        setSelected={setAntibioticos}
+                                    />
 
-                            <DropdownList
-                                title="Anti-inflamatórios"
-                                items={['Ibuprofeno', 'Dipirona', 'Nimesulida', 'Naproxeno', 'Diclofenaco',
-                                    'Aspirina (AAS)', 'Indometacina', 'Piroxicam', 'Meloxicam', 'Etodolaco', 'Ketoprofeno']}
-                                selected={antiInflamatorios}
-                                setSelected={setAntiInflamatorios}
-                            />
+                                    <DropdownList
+                                        title="Anti-inflamatórios"
+                                        items={alergias.filter(a => a.type === "anti-inflammatory").map(a => ({
+                                            id: a.id,
+                                            name: a.name
+                                        }))}
+                                        selected={antiInflamatorios}
+                                        setSelected={setAntiInflamatorios}
+                                    />
 
-                            <DropdownList
-                                title="Analgésicos"
-                                items={['Paracetamol', 'Codeína', 'Tramadol', 'Morfina']}
-                                selected={analgesicos}
-                                setSelected={setAnalgesicos}
-                            />
+                                    <DropdownList
+                                        title="Analgésicos"
+                                        items={alergias.filter(a => a.type === "analgesic").map(a => ({
+                                            id: a.id,
+                                            name: a.name
+                                        }))}
+                                        selected={analgesicos}
+                                        setSelected={setAnalgesicos}
+                                    />
 
-                            <DropdownList
-                                title="Anticonvulsivantes"
-                                items={['Fenitoína', 'Carbamazepina', 'Lamotrigina', 'Ácido Valproico', 'Fenobarbital']}
-                                selected={anticonvulsivantes}
-                                setSelected={setAnticonvulsivantes}
-                            />
+                                    <DropdownList
+                                        title="Anticonvulsivantes"
+                                        items={alergias.filter(a => a.type === "anticonvulsant").map(a => ({
+                                            id: a.id,
+                                            name: a.name
+                                        }))}
+                                        selected={anticonvulsivantes}
+                                        setSelected={setAnticonvulsivantes}
+                                    />
+                                </>
+                            )}
                         </View>
                     </View>
                 </ScrollView>
