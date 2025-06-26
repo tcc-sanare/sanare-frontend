@@ -8,6 +8,7 @@ import { ChronicDisease } from '@/interfaces/chronic-disease';
 import { MedicalRecord } from '@/interfaces/medical-record';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -29,10 +30,12 @@ export default function PerfilDependente() {
     );
 
     useEffect(() => {
-        getMedicalRecord({ token: token || '' })
-            .then((record) => {
-                setMedicalRecord(record.medicalRecord);
-            });
+        AsyncStorage.getItem('token').then(token => {
+            getMedicalRecord({ token: token || '' })
+                .then((record) => {
+                    setMedicalRecord(record.medicalRecord);
+                });
+        })
 
         getAllergies()
             .then((response) => {
@@ -202,7 +205,7 @@ export default function PerfilDependente() {
 
                     <View style={styles.profilePhotoContainer}>
                         <Image
-                            source={profilePhoto}
+                            source={user?.profilePhotoUrl ? { uri: user.profilePhotoUrl } : profilePhoto}
                             style={styles.profilePhoto}
                         />
                         <TouchableOpacity

@@ -8,6 +8,7 @@ import { ChronicDisease } from '@/interfaces/chronic-disease';
 import { MedicalRecord } from '@/interfaces/medical-record';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -15,25 +16,26 @@ import { Pressable, ScrollView, Switch } from 'react-native-gesture-handler';
 import { Modalize } from 'react-native-modalize';
 import CustomModal from './modal-edit-photo';
 
-export default function PerfilResponsavel() {
+export default function PerfilUser() {
     const modalRef = useRef<Modalize>(null);
     const router = useRouter();
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
     const [medicalRecord, setMedicalRecord] = useState<MedicalRecord | null>(null);
     const [allergies, setAllergies] = useState<Allergy[] | null>(null);
     const [chronicalDiseases, setChronicDiseases] = useState<ChronicDisease[] | null>(null);
-    const { user, token, logout } = useUser();
+    const { user, logout } = useUser();
 
     const [profilePhoto, setProfilePhoto] = useState(
         require('../../../../assets/images/user-photo.jpg')
     );
 
     useEffect(() => {
-        getMedicalRecord({ token: token || '' })
-            .then((record) => {
-                setMedicalRecord(record.medicalRecord);
-            });
-
+        AsyncStorage.getItem('token').then(token => {
+            getMedicalRecord({ token: token || '' })
+                .then((record) => {
+                    setMedicalRecord(record.medicalRecord);
+                });
+        })
         getAllergies()
             .then((response) => {
                 setAllergies(response.allergies);
@@ -44,7 +46,6 @@ export default function PerfilResponsavel() {
                 setChronicDiseases(response.chronicDiseases);
             })
     }, []);
-
     console.log('Medical Record:', medicalRecord);
 
     const handleLogout = () => {
@@ -202,7 +203,7 @@ export default function PerfilResponsavel() {
 
                     <View style={styles.profilePhotoContainer}>
                         <Image
-                            source={profilePhoto}
+                            source={user?.profilePhotoUrl ? { uri: user.profilePhotoUrl } : profilePhoto}
                             style={styles.profilePhoto}
                         />
                         <TouchableOpacity
