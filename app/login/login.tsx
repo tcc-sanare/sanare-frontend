@@ -20,7 +20,7 @@ export default function login() {
     const [error, setError] = useState('');
     const [senha, setSenha] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { user, setUser } = useUser();
+    const { user, reloadUser } = useUser();
 
     useEffect(() => {
         async function loadFonts() {
@@ -75,9 +75,21 @@ export default function login() {
             if (response.ok) {
                 await AsyncStorage.setItem('token', data.access_token);
 
-                const { account, selfMonitor } = await getAccount(data.access_token);
-                setUser(account);
-                router.push(selfMonitor ? '../../logado/user/home' : '../../logado/responsavel/home');
+                const { account, selfMonitor, caregiver } = await getAccount(data.access_token);
+                reloadUser(data.access_token)
+                // if (caregiver) {
+                //     router.push('/logado/responsavel/home')
+                //     return
+                // }
+            
+                // if (selfMonitor) {
+                //     if (selfMonitor.caregiverId) {
+                //         router.push('/logado/dependente/home')
+                //         return
+                //     }
+                //     router.push('/logado/user/home')
+                //     return
+                // }
             } else {
                 setError(data.message || 'Erro ao fazer login. Verifique suas credenciais.');
             }

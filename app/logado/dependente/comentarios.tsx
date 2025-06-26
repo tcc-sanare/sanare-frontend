@@ -33,7 +33,7 @@ const Comentarios = () => {
             ...comentarios,
             {
                 id: Date.now(),
-                nome: 'Nicolas Faustino',
+                nome: 'Wagner Gusmão',
                 texto: novoComentario,
                 denunciado: false,
             },
@@ -263,7 +263,7 @@ const Comentarios = () => {
                                 </TouchableOpacity>
                             </View>
 
-                            {comentario.nome === 'Nicolas Faustino' ? (
+                            {comentario.nome === 'Wagner Gusmão' ? (
                                 <TouchableOpacity onPress={() => removerComentario(comentario.id)}>
                                     <Image
                                         source={require('../../../assets/images/x.png')}

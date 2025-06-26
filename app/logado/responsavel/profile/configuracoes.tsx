@@ -11,6 +11,7 @@ export default function ConfigDependente() {
     const [selectedDependente, setSelectedDependente] = useState<string | null>(null);
     const { isDarkMode, toggleDarkMode, colors } = useTheme();
     const { caregiver } = useUser();
+    console.log('Caregiver: ', caregiver)
 
     const styles = StyleSheet.create({
         container: {
