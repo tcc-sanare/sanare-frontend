@@ -15,6 +15,7 @@ export interface User {
 
 export interface SelfMonitor {
   id: string;
+  caregiverId?: string;
   accountId: string;
   createdAt: Date;
   updatedAt?: Date;

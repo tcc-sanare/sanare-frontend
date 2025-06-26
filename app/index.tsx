@@ -14,7 +14,20 @@ export default function Index() {
       router.replace("/welcome");
       return;
     } else if (user) {
-      router.replace(!caregiver ? "/logado/user/home" : "/logado/responsavel/home");
+      // router.replace(!caregiver ? "/logado/user/home" : "/logado/responsavel/home");
+      if (caregiver) {
+        router.push('/logado/responsavel/home')
+        return
+      }
+
+      if (selfMonitor) {
+        if (selfMonitor.caregiverId) {
+          router.push('/logado/dependente/home')
+          return
+        }
+        router.push('/logado/user/home')
+        return
+      }
     }
   }, [user]);
 

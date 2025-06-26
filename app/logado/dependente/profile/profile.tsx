@@ -25,7 +25,7 @@ export default function PerfilDependente() {
     const { user, token, logout } = useUser();
 
     const [profilePhoto, setProfilePhoto] = useState(
-        require('../../../../assets/images/profile-photo.jpg')
+        require('../../../../assets/images/default-photo.png')
     );
 
     useEffect(() => {

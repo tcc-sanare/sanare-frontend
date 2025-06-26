@@ -171,7 +171,7 @@ export default function ConfigUser() {
                 showsVerticalScrollIndicator={false}
             >
 
-                <TouchableOpacity onPress={() => router.push('./configuracoes')}>
+                <TouchableOpacity onPress={() => router.push('./profile')}>
                     <Image
                         source={require('../../../../assets/images/seta.png')}
                         style={styles.seta}

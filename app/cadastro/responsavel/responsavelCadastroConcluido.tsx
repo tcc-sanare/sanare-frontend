@@ -73,8 +73,6 @@ export default function responsavelCadastroConcluido() {
                     bloodType: 'o-'
                 })
             }
-
-    
             await reloadUser(token);
         });
     }, []);
@@ -96,7 +94,7 @@ export default function responsavelCadastroConcluido() {
         );
     }
 
-    return !caregiver ? <Text>Loading...</Text> : (
+    return !caregiver ? <Text></Text> : (
         <View style={styles.container}>
             <Image
                 source={require('../../../assets/images/bgSanare.png')}
