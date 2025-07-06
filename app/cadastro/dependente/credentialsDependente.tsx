@@ -14,12 +14,7 @@ export default function credentialsDependente() {
     const [isFocusedName, setIsFocusedName] = useState(false);
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
-    const [senha, setSenha] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
     const [error, setError] = useState('');
-    const [email, setEmail] = useState('');
-    const [nome, setNome] = useState('');
-
     const { dependenteData, setDependenteData } = useCadastro();
 
     const handleChange = (field: keyof typeof dependenteData, value: string) => {

@@ -1,13 +1,12 @@
 import Colors from '@/constants/Colors';
 import { useTheme } from '@/hooks/useTheme';
-import { useNavigation, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const TABS = ['Para você', 'Salvos'];
 
-const Dicas = () => {
-    const navigation = useNavigation();
+const Comunidade = () => {
     const router = useRouter();
     const [tabSelecionada, setTabSelecionada] = useState('Para você');
     const [salvos, setSalvos] = useState<string[]>([]);
@@ -27,7 +26,6 @@ const Dicas = () => {
             data: '16/05/25',
         },
     ];
-
 
     const toggleSalvar = (id: string) => {
         setSalvos((prev) =>
@@ -285,4 +283,4 @@ const Dicas = () => {
     );
 };
 
-export default Dicas;
+export default Comunidade;

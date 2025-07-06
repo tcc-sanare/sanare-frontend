@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 import { useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function ConfigDependente() {
+export default function ConfigResponsavel() {
     const router = useRouter();
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedDependente, setSelectedDependente] = useState<string | null>(null);

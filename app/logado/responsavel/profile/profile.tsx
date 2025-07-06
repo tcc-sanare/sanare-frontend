@@ -26,7 +26,7 @@ export default function PerfilResponsavel() {
     const { user, token, logout } = useUser();
 
     const [profilePhoto, setProfilePhoto] = useState(
-        require('../../../../assets/images/user-photo.jpg')
+        require('../../../../assets/images/default-photo.png')
     );
 
     useEffect(() => {

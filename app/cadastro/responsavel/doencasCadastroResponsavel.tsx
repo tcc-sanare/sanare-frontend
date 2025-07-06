@@ -7,57 +7,6 @@ import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-const doencasData = [
-    {
-        name: 'Anemia Falciforme',
-        description: 'Doença hereditária caracterizada por glóbulos vermelhos em forma de foice, que se rompem facilmente, causando anemia e obstruções nos vasos sanguíneos. ',
-    },
-    {
-        name: 'Ansiedade',
-        description: 'Transtorno mental caracterizado por preocupação excessiva, nervosismo e sintomas físicos como taquicardia e sudorese.',
-    },
-    {
-        name: 'Asma',
-        description: 'Doença respiratória crônica que causa inflamação das vias aéreas, resultando em dificuldade para respirar, chiado e aperto no peito.',
-    },
-    {
-        name: 'Artrite Reumatóide',
-        description: 'Doença autoimune crônica que inflama as articulações, levando à dor, inchaço e possível deformidade, afetando a qualidade de vida. ',
-    },
-    {
-        name: 'Depressão',
-        description: 'Transtorno mental caracterizado por tristeza profunda, perda de interesse e alterações no sono e apetite.',
-    },
-    {
-        name: 'Diabetes',
-        description: 'Condição crônica em que o corpo não produz ou utiliza adequadamente a insulina, levando a níveis elevados de glicose no sangue.',
-    },
-    {
-        name: 'Doença de Crohn',
-        description: 'Doença inflamatória intestinal crônica que pode afetar qualquer parte do trato gastrointestinal, causando diarreia, dor abdominal e perda de peso.',
-    },
-    {
-        name: 'Doença Renal Crônica',
-        description: 'Perda gradual e irreversível da função dos rins ao longo do tempo, podendo levar à insuficiência renal se não tratada adequadamente.',
-    },
-    {
-        name: 'Fibromialgia',
-        description: 'Síndrome crônica caracterizada por dor muscular generalizada, fadiga, distúrbios do sono e problemas de memória e humor. ',
-    },
-    {
-        name: 'Hipertensão',
-        description: 'Pressão arterial persistentemente elevada, aumentando o risco de doenças cardíacas, derrames e problemas renais. ',
-    },
-    {
-        name: 'Obesidade',
-        description: 'Acúmulo excessivo de gordura corporal, resultante de desequilíbrio entre ingestão e gasto de energia.',
-    },
-    {
-        name: 'Osteoporose',
-        description: 'Doença óssea caracterizada pela diminuição da densidade óssea, aumentando o risco de fraturas e lesões.',
-    },
-];
-
 export default function doencasCadastroResponsavel() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [selectedDoencas, setSelectedDoencas] = useState<string[]>([]);

@@ -37,7 +37,6 @@ export default function editDadosResponsavel() {
     const [selectedBloodType, setSelectedBloodType] = useState(typeof params.tipoSanguineo === 'string' ? params.tipoSanguineo : '');
     const { user, token } = useUser();
 
-
     const styles = StyleSheet.create({
         container: {
             flex: 1,

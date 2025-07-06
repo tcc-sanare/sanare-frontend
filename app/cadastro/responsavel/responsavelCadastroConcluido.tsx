@@ -14,7 +14,6 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-
 export default function responsavelCadastroConcluido() {
     const router = useRouter();
     const [fontsLoaded, setFontsLoaded] = useState(false);

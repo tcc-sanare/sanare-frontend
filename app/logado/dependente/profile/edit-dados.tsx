@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { useUser } from '@/contexts/UserContext';
 import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -36,6 +37,7 @@ export default function editDadosDependente() {
     const [senha, setSenha] = useState(typeof params.senha === 'string' ? params.senha : '');
     const [email, setEmail] = useState(typeof params.email === 'string' ? params.email : '');
     const [selectedBloodType, setSelectedBloodType] = useState(typeof params.tipoSanguineo === 'string' ? params.tipoSanguineo : '');
+    const { user, token } = useUser();
 
     const styles = StyleSheet.create({
         container: {
@@ -183,7 +185,7 @@ export default function editDadosDependente() {
                             <View style={[styles.input, isFocusedName && styles.inputFocused]}>
                                 <TextInput
                                     style={styles.textInput}
-                                    value={nome}
+                                    value={user?.name}
                                     onChangeText={setNome}
                                     onFocus={() => setIsFocusedName(true)}
                                     onBlur={() => setIsFocusedName(false)}
@@ -196,7 +198,7 @@ export default function editDadosDependente() {
                             <View style={[styles.input, isFocused && styles.inputFocused]}>
                                 <TextInput
                                     style={styles.textInput}
-                                    value={email}
+                                    value={user?.email}
                                     onChangeText={setEmail}
                                     onFocus={() => setIsFocused(true)}
                                     onBlur={() => setIsFocused(false)}

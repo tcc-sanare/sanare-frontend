@@ -14,12 +14,7 @@ export default function credentialsUser() {
     const [isFocusedPasswordConfirm, setIsFocusedPasswordConfirm] = useState(false);
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const [senhaVisivel, setSenhaVisivel] = useState(false);
-    const [senha, setSenha] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
     const [error, setError] = useState('');
-    const [email, setEmail] = useState('');
-    const [nome, setNome] = useState('');
-
     const { userData, setUserData } = useCadastro();
 
     const handleChange = (field: keyof typeof userData, value: string) => {
