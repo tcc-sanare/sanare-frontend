@@ -180,6 +180,14 @@ export default function PerfilUser() {
             fontFamily: 'Poppins-Medium',
             fontSize: 20,
             color: colors.logOut,
+        },
+        emptyMessage: {
+            fontFamily: 'Poppins-Regular',
+            fontSize: 16,
+            color: colors.blackOpacity,
+            textAlign: 'center',
+            width: '100%',
+            marginTop: 10,
         }
     })
 
@@ -225,39 +233,47 @@ export default function PerfilUser() {
                 <View style={styles.section}>
                     <Text style={styles.tittle}>Doenças</Text>
 
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.scroll}
-                    >
-                        {medicalRecord && medicalRecord?.chronicDiseases.map((disease, i) => {
-                            const chronicDisease = chronicalDiseases?.find(d => d.id === disease);
-                            return (
-                                <View key={i} style={styles.card}>
-                                    <Text style={styles.text}>{chronicDisease?.name}</Text>
-                                </View>
-                            );
-                        })}
-                    </ScrollView>
+                    {medicalRecord && medicalRecord?.chronicDiseases?.length > 0 ? (
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            style={styles.scroll}
+                        >
+                            {medicalRecord && medicalRecord?.chronicDiseases.map((disease, i) => {
+                                const chronicDisease = chronicalDiseases?.find(d => d.id === disease);
+                                return (
+                                    <View key={i} style={styles.card}>
+                                        <Text style={styles.text}>{chronicDisease?.name}</Text>
+                                    </View>
+                                );
+                            })}
+                        </ScrollView>
+                    ) : (
+                        <Text style={styles.emptyMessage}>Nenhuma doença cadastrada</Text>
+                    )}
                 </View>
 
                 <View style={styles.section}>
                     <Text style={styles.tittle}>Alergias</Text>
 
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.scroll}
-                    >
-                        {medicalRecord && medicalRecord?.allergies.map((allergy, i) => {
-                            const allergyItem = allergies?.find(a => a.id === allergy.allergyId);
-                            return (
-                                <View key={i} style={styles.card}>
-                                    <Text style={styles.text}>{allergyItem?.name}</Text>
-                                </View>
-                            );
-                        })}
-                    </ScrollView>
+                    {medicalRecord && medicalRecord?.allergies?.length > 0 ? (
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            style={styles.scroll}
+                        >
+                            {medicalRecord && medicalRecord?.allergies.map((allergy, i) => {
+                                const allergyItem = allergies?.find(a => a.id === allergy.allergyId);
+                                return (
+                                    <View key={i} style={styles.card}>
+                                        <Text style={styles.text}>{allergyItem?.name}</Text>
+                                    </View>
+                                );
+                            })}
+                        </ScrollView>
+                    ) : (
+                        <Text style={styles.emptyMessage}>Nenhuma alergia cadastrada</Text>
+                    )}
                 </View>
 
                 <View style={styles.sectionConfig}>
