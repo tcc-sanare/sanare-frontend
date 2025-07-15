@@ -12,21 +12,31 @@ import {
 } from 'react-native';
 
 const symptoms = [
-    { key: 'dor-de-cabeca', label: 'Dor de cabeça' },
-    { key: 'fadiga', label: 'Cansaço / Fadiga' },
+    { key: 'calafrio', label: 'Calafrio' },
+    { key: 'febre', label: 'Febre' },
+    { key: 'palpitacao', label: 'Palpitação' },
+    { key: 'visao-turva', label: 'Visão Turva' },
+    { key: 'sangramento-nasal', label: 'Sangramento Nasal' },
+    { key: 'tosse', label: 'Tosse' },
+    { key: 'perda-apetite', label: 'Perda de Apetite' },
+    { key: 'sono-alterado', label: 'Alterações no sono' },
     { key: 'nausea', label: 'Náusea ou enjoo' },
     { key: 'tontura', label: 'Tontura' },
-    { key: 'febre', label: 'Febre' },
-    { key: 'sem-apetite', label: 'Falta de apetite' },
-    { key: 'dor-no-peito', label: 'Dor no peito' },
+    { key: 'sangramento-retal', label: 'Sangramento Retal' },
+    { key: 'palidez', label: 'Palidez' },
+    { key: 'colica-abdominal', label: 'Cólica Abdominal' },
     { key: 'falta-de-ar', label: 'Falta de ar' },
-    { key: 'ansiedade', label: 'Ansiedade / Nervosismo' },
-    { key: 'sono-alterado', label: 'Alterações no sono' },
+    { key: 'dor-no-peito', label: 'Dor no peito' },
+    { key: 'inchaco', label: 'Inchaço no corpo' },
+    { key: 'diarreia', label: 'Diarreia' },
+    { key: 'fadiga', label: 'Cansaço / Fadiga' },
+    { key: 'dor-muscular', label: 'Dor Muscular' },
+    { key: 'dor-de-cabeca', label: 'Dor de cabeça' },
+    { key: 'dor-articulacoes', label: 'Dor nas articulações' },
 ];
 
 const Sintomas = () => {
     const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
-    const [note, setNote] = useState('');
     const { colors } = useTheme();
     const router = useRouter();
     const { updateRegistro } = useRegistro();
@@ -84,6 +94,7 @@ const Sintomas = () => {
             justifyContent: 'center',
             gap: 8,
             marginBottom: '15%',
+            paddingHorizontal: 10,
         },
         symptomButton: {
             flexDirection: 'row',
@@ -163,7 +174,7 @@ const Sintomas = () => {
                     })}
                 </View>
 
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: '15%' }}>
                     <TouchableOpacity
                         onPressIn={handleSave}
                         style={[

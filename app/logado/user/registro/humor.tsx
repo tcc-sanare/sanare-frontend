@@ -77,6 +77,7 @@ const Humor = () => {
       justifyContent: 'center',
       gap: 8,
       marginBottom: '15%',
+      paddingHorizontal: 6,
     },
     moodButton: {
       flexDirection: 'row',

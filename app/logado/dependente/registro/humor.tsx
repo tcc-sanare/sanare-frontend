@@ -75,6 +75,7 @@ const Humor = () => {
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'center',
+      paddingHorizontal: 6,
       gap: 8,
       marginBottom: '15%',
     },

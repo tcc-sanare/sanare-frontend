@@ -4,7 +4,7 @@ import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from "expo-router";
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
 const screenHeight = Dimensions.get("window").height;
@@ -44,6 +44,10 @@ const CustomModal = forwardRef<Modalize, CustomModalProps>(({ email }, ref) => {
 
         if (text && index < 3) {
             inputsRef.current[index + 1]?.focus(); //vai pro próximo input
+        }
+
+        if( index === 3 && text) {
+            Keyboard.dismiss(); // fecha o teclado quando o último input é preenchido
         }
     }
 

@@ -153,7 +153,7 @@ export default function Registro() {
               <MaterialIcons
                 name='arrow-forward-ios'
                 size={18}
-                color={colors.description}
+                color={'black'}
                 style={styles.arrowIcon}
               />
             </View>
