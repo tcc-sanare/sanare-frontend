@@ -3,7 +3,7 @@ import { useTheme } from '@/hooks/useTheme';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const Glicemia = () => {
     const { colors } = useTheme();
@@ -33,32 +33,17 @@ const Glicemia = () => {
     };
 
     const handleSave = async () => {
-        const glicemiaNum = parseInt(glicemia);
-        if (isNaN(glicemiaNum) || glicemiaNum < 20 || glicemiaNum > 600) {
-            Alert.alert('Valor inválido', 'Por favor, insira um valor de glicemia entre 20 e 600 mg/dL');
-            return;
-        }
-
         try {
-            const registro = {
-                valor: glicemiaNum,
-                tipo: tipoMedicao,
-                hora: horaMedicao.toISOString(),
-                observacoes: observacoes,
-                data: new Date().toISOString()
-            };
-
-            const success = await updateRegistro('glicemia', JSON.stringify(registro));
+            const now = new Date().toISOString();
+            const success = await updateRegistro('glicemia', now);
 
             if (success) {
-                Alert.alert('Sucesso', 'Registro de glicemia salvo!');
                 router.push('./registro');
             } else {
-                Alert.alert('Erro', 'Falha ao salvar o registro');
+                console.log('Falha ao salvar o registro');
             }
         } catch (error) {
             console.error('Erro no handleSave:', error);
-            Alert.alert('Erro', 'Ocorreu um erro ao salvar');
         }
     };
 

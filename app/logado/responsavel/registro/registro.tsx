@@ -146,6 +146,21 @@ export default function Registro() {
           </TouchableOpacity>
 
           <TouchableOpacity
+            onPress={() => { router.push('./sintomas') }}
+            style={styles.card}>
+            <View style={styles.cardTittle}>
+              <Text style={styles.registroText}>Sintomas</Text>
+              <MaterialIcons
+                name='arrow-forward-ios'
+                size={18}
+                color={colors.description}
+                style={styles.arrowIcon}
+              />
+            </View>
+            <Text style={styles.editText}>{formatEditDate(registros.sintomas)}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             onPress={() => { router.push('./humor') }}
             style={styles.card}>
             <View style={styles.cardTittle}>

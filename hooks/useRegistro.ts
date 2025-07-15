@@ -7,6 +7,7 @@ type RegistroType = {
     pressao?: string;
     glicemia?: string;
     imc?: string;
+    sintomas?: string;
 };
 
 export const useRegistro = () => {
