@@ -27,7 +27,10 @@ const Humor = () => {
   const handleSave = async () => {
     try {
       const now = new Date().toISOString();
-      const success = await updateRegistro('humor', now);
+      const success = await updateRegistro('humor', {
+        date: now,
+        moods: selectedMoods
+      });
 
       if (success) {
         router.push('./registro');
@@ -75,9 +78,9 @@ const Humor = () => {
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'center',
-      paddingHorizontal: 6,
       gap: 8,
       marginBottom: '15%',
+      paddingHorizontal: 6,
     },
     moodButton: {
       flexDirection: 'row',

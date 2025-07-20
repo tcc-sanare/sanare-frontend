@@ -27,7 +27,10 @@ const Humor = () => {
   const handleSave = async () => {
     try {
       const now = new Date().toISOString();
-      const success = await updateRegistro('humor', now);
+      const success = await updateRegistro('humor', {
+        date: now,
+        moods: selectedMoods
+      });
 
       if (success) {
         router.push('./registro');

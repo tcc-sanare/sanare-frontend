@@ -15,7 +15,10 @@ const Hidratacao = () => {
     const handleSave = async () => {
         try {
             const now = new Date().toISOString();
-            const success = await updateRegistro('hidratacao', now);
+            const success = await updateRegistro('hidratacao', {
+                date: now,
+                litros: litros
+            });
 
             if (success) {
                 router.push('./registro');

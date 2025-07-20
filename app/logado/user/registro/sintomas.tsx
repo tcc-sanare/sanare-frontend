@@ -44,7 +44,10 @@ const Sintomas = () => {
     const handleSave = async () => {
         try {
             const now = new Date().toISOString();
-            const success = await updateRegistro('sintomas', now);
+            const success = await updateRegistro('sintomas', {
+                date: now,
+                symptoms: selectedSymptoms
+            });
 
             if (success) {
                 router.push('./registro');

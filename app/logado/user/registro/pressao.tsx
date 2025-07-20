@@ -26,7 +26,11 @@ const Pressao = () => {
     const handleSave = async () => {
         try {
             const now = new Date().toISOString();
-            const success = await updateRegistro('pressao', now);
+            const success = await updateRegistro('pressao', {
+                date: now,
+                sistolica: sistolica,
+                diastolica: diastolica
+            });
 
             if (success) {
                 router.push('./registro');

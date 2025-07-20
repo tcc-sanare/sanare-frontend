@@ -6,6 +6,43 @@ import { useRouter } from "expo-router";
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+const symptoms = [
+  { key: 'calafrio', label: 'Calafrio' },
+  { key: 'febre', label: 'Febre' },
+  { key: 'palpitacao', label: 'Palpitação' },
+  { key: 'visao-turva', label: 'Visão Turva' },
+  { key: 'sangramento-nasal', label: 'Sangramento Nasal' },
+  { key: 'tosse', label: 'Tosse' },
+  { key: 'perda-apetite', label: 'Perda de Apetite' },
+  { key: 'sono-alterado', label: 'Alterações no sono' },
+  { key: 'nausea', label: 'Náusea ou enjoo' },
+  { key: 'tontura', label: 'Tontura' },
+  { key: 'sangramento-retal', label: 'Sangramento Retal' },
+  { key: 'palidez', label: 'Palidez' },
+  { key: 'colica-abdominal', label: 'Cólica Abdominal' },
+  { key: 'falta-de-ar', label: 'Falta de ar' },
+  { key: 'dor-no-peito', label: 'Dor no peito' },
+  { key: 'inchaco', label: 'Inchaço no corpo' },
+  { key: 'diarreia', label: 'Diarreia' },
+  { key: 'fadiga', label: 'Cansaço / Fadiga' },
+  { key: 'dor-muscular', label: 'Dor Muscular' },
+  { key: 'dor-de-cabeca', label: 'Dor de cabeça' },
+  { key: 'dor-articulacoes', label: 'Dor nas articulações' },
+];
+
+const moods = [
+  { key: 'calmo', label: 'Calmo', image: require('../../../../assets/images/calmo.png') },
+  { key: 'feliz', label: 'Feliz', image: require('../../../../assets/images/feliz.png') },
+  { key: 'energetico', label: 'Energético', image: require('../../../../assets/images/energetico.png') },
+  { key: 'irritado', label: 'Irritado', image: require('../../../../assets/images/irritado.png') },
+  { key: 'pouca-energia', label: 'Pouca energia', image: require('../../../../assets/images/pouca-energia.png') },
+  { key: 'triste', label: 'Triste', image: require('../../../../assets/images/triste.png') },
+  { key: 'confuso', label: 'Desnorteado / Confuso', image: require('../../../../assets/images/confuso.png') },
+  { key: 'desanimado', label: 'Desanimado', image: require('../../../../assets/images/desanimado.png') },
+  { key: 'ansioso', label: 'Ansioso', image: require('../../../../assets/images/ansioso.png') },
+  { key: 'mudanca', label: 'Mudanças de humor', image: require('../../../../assets/images/mudanca.png') },
+];
+
 export default function Registro() {
   const { isDarkMode, toggleDarkMode, colors } = useTheme();
   const router = useRouter();
@@ -25,7 +62,14 @@ export default function Registro() {
     if (!dateString) return 'nunca editado';
 
     const date = new Date(dateString);
-    return `editado em: ${date.getDate()}/${date.getMonth() + 1}`;
+    return `Editado em: ${date.getDate()}/${date.getMonth() + 1}`;
+  };
+
+  const getImcColor = (imc: number) => {
+    if (imc < 18.5) return '#fbd115'; // Abaixo do peso
+    if (imc < 25) return 'green';    // Normal
+    if (imc < 30) return 'orange';   // Sobrepeso
+    return '#fc3d0d';                    // Obesidade
   };
 
   const styles = StyleSheet.create({
@@ -58,7 +102,6 @@ export default function Registro() {
       fontFamily: 'Poppins-Medium',
       fontSize: 24,
       color: colors.bluePrimary
-
     },
     subText: {
       color: colors.black,
@@ -81,14 +124,13 @@ export default function Registro() {
     },
     card: {
       width: '80%',
-      height: 100,
-      backgroundColor: colors.item,
+      height: 'auto',
+      padding: 16,
+      backgroundColor: colors.saudeCard,
       marginTop: '15%',
-      justifyContent: 'center',
-      alignItems: 'center',
       borderRadius: 12,
       elevation: 4,
-      gap: 12
+      gap: 12,
     },
     cardTittle: {
       width: '100%',
@@ -107,10 +149,59 @@ export default function Registro() {
       color: colors.bluePrimary
     },
     editText: {
-      fontFamily: 'Poppins-Medium',
+      fontFamily: 'Poppins-Regular',
       fontSize: 14,
       color: 'black'
-    }
+    },
+    editTextIMC: {
+      fontFamily: 'Poppins-Regular',
+      fontSize: 16,
+      paddingHorizontal: 18,
+      paddingVertical: 6,
+      borderRadius: 16,
+      color: 'white',
+      marginTop: 8,
+    },
+    lastSymptomsContainer: {
+      width: '100%',
+      paddingHorizontal: 16,
+      gap: 8,
+      marginTop: 8,
+    },
+    lastSymptomsTitle: {
+      fontFamily: 'Poppins-Medium',
+      fontSize: 14,
+      color: 'black',
+    },
+    symptomsList: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 8,
+      marginTop: 8,
+      justifyContent: 'center',
+    },
+    symptomItem: {
+      backgroundColor: '#005EB7CC',
+      borderRadius: 16,
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+    },
+    symptomText: {
+      fontFamily: 'Poppins-Medium',
+      fontSize: 14,
+      color: '#fff',
+    },
+    lastRecordContainer: {
+      width: '100%',
+      paddingHorizontal: 16,
+      gap: 10,
+      marginTop: 8,
+    },
+    recordRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8
+    },
   })
 
   return (
@@ -157,7 +248,23 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>{formatEditDate(registros.sintomas)}</Text>
+
+            {registros.sintomas?.symptoms && (
+              <View style={styles.lastSymptomsContainer}>
+                <Text style={styles.editText}>{formatEditDate(registros.sintomas?.date)}</Text>
+                <Text style={styles.lastSymptomsTitle}>Último registro:</Text>
+                <View style={styles.symptomsList}>
+                  {registros.sintomas.symptoms.map((symptom, index) => {
+                    const symptomLabel = symptoms.find(s => s.key === symptom)?.label || symptom;
+                    return (
+                      <View key={index} style={styles.symptomItem}>
+                        <Text style={styles.symptomText}>{symptomLabel}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -172,7 +279,23 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>{formatEditDate(registros.humor)}</Text>
+
+            {registros.humor?.moods && (
+              <View style={styles.lastSymptomsContainer}>
+                <Text style={styles.editText}>{formatEditDate(registros.humor?.date)}</Text>
+                <Text style={styles.lastSymptomsTitle}>Último registro:</Text>
+                <View style={styles.symptomsList}>
+                  {registros.humor.moods.map((symptom, index) => {
+                    const symptomLabel = moods.find(s => s.key === symptom)?.label || symptom;
+                    return (
+                      <View key={index} style={styles.symptomItem}>
+                        <Text style={styles.symptomText}>{symptomLabel}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -187,7 +310,16 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>{formatEditDate(registros.hidratacao)}</Text>
+
+            {registros.hidratacao?.litros && (
+              <View style={{ paddingHorizontal: 16 }}>
+                <Text style={styles.editText}>{formatEditDate(registros.hidratacao?.date)}</Text>
+                <View style={{ flexDirection: 'row', gap: 4, paddingVertical: 8 }}>
+                  <Text style={styles.lastSymptomsTitle}>Último registro:</Text>
+                  <Text style={styles.lastSymptomsTitle}>{registros.hidratacao.litros} litros</Text>
+                </View>
+              </View>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -202,7 +334,18 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>{formatEditDate(registros.pressao)}</Text>
+
+            {registros.pressao && (
+              <View style={{ paddingHorizontal: 16 }}>
+                <Text style={styles.editText}>{formatEditDate(registros.pressao?.date)}</Text>
+                <View style={{ flexDirection: 'row', gap: 4, paddingVertical: 8 }}>
+                  <Text style={styles.lastSymptomsTitle}>Último registro:</Text>
+                  <Text style={styles.lastSymptomsTitle}>
+                    {registros.pressao.sistolica}/{registros.pressao.diastolica} mmHg
+                  </Text>
+                </View>
+              </View>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -217,7 +360,32 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>{formatEditDate(registros.glicemia)}</Text>
+
+            {registros.glicemia && (
+              <View style={styles.lastRecordContainer}>
+                <Text style={styles.editText}>{formatEditDate(registros.glicemia?.date)}</Text>
+                <View>
+                  <Text style={styles.lastSymptomsTitle}>Último registro:</Text>
+
+                  <View style={styles.recordRow}>
+                    <Text style={styles.editText}>Medição:</Text>
+                    <Text style={styles.editText}>{registros.glicemia.valor} mg/dL</Text>
+                  </View>
+
+                  <View style={styles.recordRow}>
+                    <Text style={styles.editText}>Horário:</Text>
+                    <Text style={styles.editText}>{registros.glicemia.horario}</Text>
+                  </View>
+                </View>
+
+                {/* <View style={styles.recordRow}>
+                  <Text style={styles.editText}>Situação:</Text>
+                  <Text style={styles.editText}>
+                    {tiposMedicao.find(t => t.value === registros.glicemia?.situacao)?.label || 'Desconhecido'}
+                  </Text>
+                </View> */}
+              </View>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -232,7 +400,34 @@ export default function Registro() {
                 style={styles.arrowIcon}
               />
             </View>
-            <Text style={styles.editText}>{formatEditDate(registros.imc)}</Text>
+
+            {registros.imc && (
+              <View style={styles.lastRecordContainer}>
+                <Text style={styles.editText}>{formatEditDate(registros.imc.date)}</Text>
+                <View>
+                  <Text style={styles.lastSymptomsTitle}>Último registro:</Text>
+
+                  <View style={styles.recordRow}>
+                    <Text style={styles.editText}>Altura:</Text>
+                    <Text style={styles.editText}>{registros.imc.altura} m</Text>
+                  </View>
+
+                  <View style={styles.recordRow}>
+                    <Text style={styles.editText}>Peso:</Text>
+                    <Text style={styles.editText}>{registros.imc.peso} kg</Text>
+                  </View>
+
+                  <View style={styles.symptomsList}>
+                    <Text style={[
+                      styles.editTextIMC,
+                      { backgroundColor: getImcColor(parseFloat(registros.imc.valor)) }
+                    ]}>
+                      {registros.imc.valor}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>

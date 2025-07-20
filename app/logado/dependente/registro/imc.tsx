@@ -28,8 +28,17 @@ const Imc = () => {
         if (!isFormValid()) return;
 
         try {
+            const alturaNum = parseFloat(altura.replace(',', '.'));
+            const pesoNum = parseFloat(peso.replace(',', '.'));
+            const imcValor = (pesoNum / (alturaNum * alturaNum)).toFixed(2);
+
             const now = new Date().toISOString();
-            const success = await updateRegistro('imc', now);
+            const success = await updateRegistro('imc', {
+                date: now,
+                altura: alturaNum.toString(),
+                peso: pesoNum.toString(),
+                valor: imcValor
+            });
 
             if (success) {
                 router.push('./registro');
@@ -39,15 +48,6 @@ const Imc = () => {
         } catch (error) {
             console.error('Erro no handleSave:', error);
         }
-
-        const alturaNum = parseFloat(altura.replace(',', '.'));
-        const pesoNum = parseFloat(peso.replace(',', '.'));
-        const imc = pesoNum / (alturaNum * alturaNum);
-        const now = new Date().toISOString();
-
-        console.log(`Altura: ${alturaNum}m`);
-        console.log(`Peso: ${pesoNum}kg`);
-        console.log(`IMC calculado: ${imc.toFixed(2)}`);
     };
 
     const styles = StyleSheet.create({

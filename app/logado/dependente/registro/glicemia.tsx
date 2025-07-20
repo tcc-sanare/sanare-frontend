@@ -5,6 +5,13 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+export const tiposMedicao = [
+    { label: 'Em jejum', value: 'jejum' },
+    { label: 'Antes da refeição', value: 'pre' },
+    { label: 'Após refeição', value: 'pos' },
+    { label: 'Ao dormir', value: 'dormir' },
+];
+
 const Glicemia = () => {
     const { colors } = useTheme();
     const router = useRouter();
@@ -12,16 +19,9 @@ const Glicemia = () => {
 
     const [glicemia, setGlicemia] = useState('');
     const [horaMedicao, setHoraMedicao] = useState(new Date());
-    const [tipoMedicao, setTipoMedicao] = useState('jejum');
-    const [observacoes, setObservacoes] = useState('');
+    const [tipoMedicao, setTipoMedicao] = useState('Jejum');
     const [showTimePicker, setShowTimePicker] = useState(false);
 
-    const tiposMedicao = [
-        { label: 'Em jejum', value: 'jejum' },
-        { label: 'Antes da refeição', value: 'pre' },
-        { label: 'Após refeição', value: 'pos' },
-        { label: 'Ao dormir', value: 'dormir' },
-    ];
 
     const formatTime = (date: Date) => {
         return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -35,7 +35,12 @@ const Glicemia = () => {
     const handleSave = async () => {
         try {
             const now = new Date().toISOString();
-            const success = await updateRegistro('glicemia', now);
+            const success = await updateRegistro('glicemia', {
+                date: now,
+                valor: glicemia,
+                horario: formatTime(horaMedicao),
+                situacao: tiposMedicao
+            });
 
             if (success) {
                 router.push('./registro');
